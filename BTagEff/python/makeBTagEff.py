@@ -15,7 +15,6 @@ flavour, TTLL and the cross-check).
 """
 import argparse
 import glob
-import importlib.util
 import json
 import os
 import sys
@@ -32,10 +31,11 @@ FLAV = {0: "light", 4: "c", 5: "b"}
 
 
 def load_converter():
-    spec = importlib.util.spec_from_file_location("mkeff", SKNANO / "scripts" / "makeTaggingEffJson.py")
-    mod = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(mod)
-    return mod
+    # import by its own name from its directory: the converter's process pool (forkserver in Python 3.14)
+    # re-imports the module of the pickled functions in the workers
+    sys.path.insert(0, str(SKNANO / "scripts"))
+    import makeTaggingEffJson
+    return makeTaggingEffJson
 
 
 def keys(f, kind):
@@ -86,12 +86,14 @@ def plot(effs, tag):
         for ix in range(1, d.GetNbinsX() + 1):
             pn = n.ProjectionY(f"pn{fl}{ix}{tag}", ix, ix)
             pd = d.ProjectionY(f"pd{fl}{ix}{tag}", ix, ix)
-            g = ROOT.TGraphAsymmErrors(pn, pd, "cp")
+            g = pn.Clone(f"eff{fl}{ix}{tag}")
+            g.Divide(pn, pd, 1., 1., "B")  # weighted histograms: binomial errors
+            g.SetStats(0)
             g.SetLineColor(ix)
             g.SetMarkerColor(ix)
             g.SetMarkerStyle(20)
             g.SetTitle(f"{FLAV[fl]} jets ({tag});p_{{T}} [GeV];tagging efficiency (UParT M)")
-            g.Draw("APE" if ix == 1 else "PE")
+            g.Draw("PE" if ix == 1 else "PE SAME")
             g.GetYaxis().SetRangeUser(0., 1.05 if fl == 5 else (0.4 if fl == 4 else 0.06))
             leg.AddEntry(g, f"|#eta| {d.GetXaxis().GetBinLowEdge(ix):.1f}-{d.GetXaxis().GetBinUpEdge(ix):.1f}", "pe")
             keep.append(g)
