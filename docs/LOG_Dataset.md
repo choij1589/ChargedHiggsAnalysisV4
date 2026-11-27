@@ -2,6 +2,10 @@
 
 Decisions and findings for the Dataset section of AN-26-267: samples, cross sections, normalization, luminosity, data periods. Newest entry first.
 
+## 2026-11-27 (AN: WZ normalization and DYGto2LG use updated, an-writer)
+
+- `docs/AN-26-267/Sections/Dataset.tex`: the WZ paragraph (old l.290) no longer says WZ is corrected by N_jet SFs. It now states POWHEG WZ with the MATRIX NNLO normalization, no jet-multiplicity correction, a 10% normalization uncertainty shared by both channels, and a reference to `ssec:WZCR` (LOG_BkgEst 2026-11-27, decided by the user). The DYGto2LG user-decision TODO (old l.170) is replaced by C1 (c): DY 2J + TTG nominal, DYGto2LG as a cross-check deferred to the next iteration (src line, plus a visible sentence in the conversion-modelling paragraph referring to `ssec:ZGCR`). Dataset.tex builds alone (rc 0, only cross-file references undefined).
+
 
 ## 2026-11-27 (AN: Sections 1-2 and the Dataset appendix finalized)
 

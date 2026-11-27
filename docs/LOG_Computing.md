@@ -2,6 +2,11 @@
 
 Decisions and findings about the computing setup (KNU, SKNano, storage). Newest entry first. Each entry: date, what was decided or found, why, and where it is implemented.
 
+## 2026-11-27 (TriLepton V2 production; test cleanup)
+
+- **Test** `hcto_prod/trilep_test2.sh` (20:06): WZ, DYto2Mu 2J MLL50, MuonEG C-I_v2, 3 files each, condor_run, 10/10 rc 0. New histograms filled (ZCand mean ~91 GeV in WZ / Z+fake, jets_1 only with jets); no tight data in the SR. Run-dir creation took ~10 min (/d0 slow). Run dirs (ROOT on /d0) deleted, logs kept in `hcto_prod/trilep_test2_logs.tgz`; the empty `/pnfs/.../SKNanoOutput/TriLepton/Run1E2Mu_Run3Mu_TriTestV2/2024` removed with xrdfs rmdir.
+- **Production** `hcto_prod/submit_trilep_v2.sh` (20:36-20:52 submission; flags Run1E2Mu,Run3Mu,V2 -> `SKNanoOutput/TriLepton/Run1E2Mu_Run3Mu_V2/2024/`): data DAG and MC DAG status 0 at 22:02 except TTLL (still running 22:15, not an input of measConvSF). Synced to `/mnt/SKNanoOutput_Run3/TriLepton/Run1E2Mu_Run3Mu_V2/2024/` (86 files, 16 MB). measConvSF on V2: convsf.txt, cr_summary.txt, convsf_HcToWA.json byte-identical to the first production.
+
 
 ## 2026-11-27 (GitHub; local compile check of SKNano; /d0 slowness)
 

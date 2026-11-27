@@ -3,7 +3,8 @@ decisions C1-C6 of 2026-11-27). Not an analyzer: it reads the outputs of the C++
 
   python TriLepton/python/measConvSF.py [--style an|pw] [--no-plots]
 
-Input: SKNanoOutput/TriLepton/Run1E2Mu_Run3Mu/2024/<sample>.root, histogram <CH>/ZG/<lane>/trilep_mass
+Input: SKNanoOutput/TriLepton/<tag>/2024/<sample>.root (tag Run1E2Mu_Run3Mu_V2; Run1E2Mu_Run3Mu = first production
+without the Z-candidate, non-Z lepton and leading-jet histograms), histogram <CH>/ZG/<lane>/trilep_mass
 (CH = 1E2MU, 3MU). Data: MuonEG (1E2MU), Muon0/1 (3MU), lanes Central (all leptons tight) and
 Nonprompt, Nonprompt_Up, Nonprompt_Down (loose-not-tight, fake weight with the rates Central,
 Total_Up, Total_Down).
@@ -38,7 +39,8 @@ import plotter  # noqa: E402
 
 ROOT.gROOT.SetBatch(True)
 ERA = "2024"
-IN = REPO / "SKNanoOutput" / "TriLepton" / "Run1E2Mu_Run3Mu" / ERA
+TAG = "Run1E2Mu_Run3Mu_V2"  # production with ZCand_mass, nonZLep_pt/eta, jets_1_pt/eta (2026-11-27); --tag to change
+IN = REPO / "SKNanoOutput" / "TriLepton" / TAG / ERA
 RES = REPO / "TriLepton" / "results" / ERA
 CHANNELS = ["1E2MU", "3MU"]
 DATA = {"1E2MU": ["MuonEG"], "3MU": ["Muon0", "Muon1"]}
@@ -60,13 +62,16 @@ CATS = ["diboson", "ttX", "others"]
 YVAR = "trilep_mass"
 PLOTVARS = ["trilep_mass", "pair_mass", "pair_lowM_mass", "pair_highM_mass", "muons_1_pt", "muons_2_pt",
             "muons_3_pt", "muons_1_eta", "muons_2_eta", "muons_3_eta", "electrons_1_pt", "electrons_1_scEta",
-            "jets_size", "bjets_size", "METv_pt"]
+            "jets_size", "bjets_size", "METv_pt", "ZCand_mass", "nonZLep_pt", "nonZLep_eta", "jets_1_pt", "jets_1_eta"]
+NEWVARS = {"ZCand_mass", "nonZLep_pt", "nonZLep_eta", "jets_1_pt", "jets_1_eta"}  # not in the first production
 XT = {"trilep_mass": "m(3l) [GeV]", "pair_mass": "m(#mu^{+}#mu^{-}) [GeV]",
       "pair_lowM_mass": "m_{low}(#mu^{+}#mu^{-}) [GeV]", "pair_highM_mass": "m_{high}(#mu^{+}#mu^{-}) [GeV]",
       "muons_1_pt": "p_{T}(#mu_{1}) [GeV]", "muons_2_pt": "p_{T}(#mu_{2}) [GeV]", "muons_3_pt": "p_{T}(#mu_{3}) [GeV]",
       "muons_1_eta": "#eta(#mu_{1})", "muons_2_eta": "#eta(#mu_{2})", "muons_3_eta": "#eta(#mu_{3})",
       "electrons_1_pt": "p_{T}(e) [GeV]", "electrons_1_scEta": "#eta_{SC}(e)", "jets_size": "N_{jets}",
-      "bjets_size": "N_{b jets}", "METv_pt": "p_{T}^{miss} [GeV]"}
+      "bjets_size": "N_{b jets}", "METv_pt": "p_{T}^{miss} [GeV]",
+      "ZCand_mass": "m(Z candidate) [GeV]", "nonZLep_pt": "p_{T}(l not from Z) [GeV]",
+      "nonZLep_eta": "#eta(l not from Z)", "jets_1_pt": "p_{T}(j_{1}) [GeV]", "jets_1_eta": "#eta(j_{1})"}
 CHLAB = {"1E2MU": "e#mu#mu", "3MU": "#mu#mu#mu"}
 REGLAB = {"ZG": "Z#gamma CR", "WZ": "WZ CR", "ZFake": "Z+fake CR"}
 COL = {"conv": "#5790fc", "nonprompt": "#f89c20", "WZ": "#e42536", "ZZ": "#964a8b", "ttX": "#9c9ca1", "others": "#7a21dd"}
@@ -221,7 +226,13 @@ def plot(st, ch, reg, var, sf, style, od, tag):
     groups = [g for g in groups if g[1] is not None]
     cfg = {"xTitle": XT.get(var, var), "overflow": True, "rRange": [0., 2.],
            "caption": [CHLAB[ch] + ", " + REGLAB[reg], "conversion SF applied" if sf != 1. else "before the conversion SF"]}
-    if var == "trilep_mass":
+    if var == "ZCand_mass":
+        cfg["xRange"] = [70., 110.] if reg != "ZG" else [0., 200.]
+        cfg["rebin"] = 2 if reg != "ZG" else 5
+    elif var == "jets_1_pt":
+        cfg["rebin"] = 2
+        cfg["xRange"] = [0., 300.]
+    elif var == "trilep_mass":
         cfg["xRange"] = [50., 300.] if reg != "ZG" else [80., 104.]
         cfg["rebin"] = 2 if reg == "ZG" else 10
     elif var.endswith("eta") or var.endswith("scEta"):
@@ -297,7 +308,10 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--style", default="an", choices=list(plotter.STYLES))
     ap.add_argument("--no-plots", action="store_true")
+    ap.add_argument("--tag", default=TAG, help="production directory under SKNanoOutput/TriLepton")
     a = ap.parse_args()
+    global IN
+    IN = REPO / "SKNanoOutput" / "TriLepton" / a.tag / ERA
     RES.mkdir(parents=True, exist_ok=True)
     st = Store()
     res = {ch: {cs_: measure(st, ch, cs_) for cs_ in ("nominal", "DYG")} for ch in CHANNELS}
@@ -325,6 +339,8 @@ def main():
         vars_ = [v for v in PLOTVARS if not (ch == "1E2MU" and (v.startswith("pair_") and v != "pair_mass" or v.startswith("muons_3")))
                  and not (ch == "3MU" and (v == "pair_mass" or v.startswith("electrons")))]
         sf = res[ch]["nominal"]["sf"]
+        if a.tag == "Run1E2Mu_Run3Mu":
+            vars_ = [v for v in vars_ if v not in NEWVARS]
         for var in vars_:
             plot(st, ch, "ZG", var, 1., a.style, od, "preSF")
             plot(st, ch, "ZG", var, sf, a.style, od, "postSF")
