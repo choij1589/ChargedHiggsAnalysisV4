@@ -2,6 +2,13 @@
 
 Decisions and findings for the Template construction section of AN-26-267 (signal modelling, binning, templates, mu mu mu A-candidate choice). Newest entry first.
 
+## 2026-11-28 (SignalRegionStudy port; first signal numbers)
+
+- **Port** (agent; `SignalRegionStudy` 35b98d0, 3769da0, 90e87ca, 50e875a; record `SignalRegionStudy/docs/PORT.md`): template / datacard / limit chain and the mA interpolation for 2024, Baseline only, RNTuples read directly, Asimov everywhere (SR blinded), outputs to /pnfs. Interpolation reduced to fixed degree-4 fits in mA (no F-test), >= 10 good fits per parametrization (SR3Mu_highM has 14 points), k_era = 1, yield error floor 0.08 (previous Run3), within-study RMS uncertainties: **for the user to confirm**.
+- **Bug found in the previous interp-signal templates:** member signal histograms were named `signal_{era}{syst}Up` (missing `_`), so the datacards of interpolated points had no signal shape nuisances (checked in the frozen `.../interp-signal/Run2/SR1E2Mu/points/MHc130_MA89p5/shapes.root`). Fixed in the port; relevant for B2G-25-013 interpolated points (to report to the user).
+- **Signal normalization check:** our signal samples are 5 fb x filter efficiency (`LOG_Dataset.md`), so B_sig = r x 5 fb / (2 x 923.6 pb x 0.5456); the previous /3 is not applied.
+- **mu mu mu pairing, first number** (MHc130_MA90, validation RNTuples): the generator A pair is the higher-mass pair in 68% and the lower-mass pair in 31% of the SR events (1% unmatched); e mu mu: 98.6% matched. With the nominal rule (higher pair for mA >= 60) 68% of the mu mu mu signal sits in the peak.
+
 ## 2026-11-27 (format, environment, systematics, signal normalization, user)
 
 - **S3:** TriLepton tree mode (`SRTree`), RNTuple output read directly by the chain (ROOT 6.36), no TTree conversion; gate: 6.36.07 reads our 6.40.02 RNTuples.
