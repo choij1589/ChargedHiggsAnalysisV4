@@ -1,0 +1,14 @@
+executable = /d0/scratch/choij/TnP/2024/validation/fit_nanov15/TEST_NUM_HcToWATight_DEN_TrackerMuons_2024/fits_sim.d/s3m0/run.sh
+arguments = $(Process)
+output = /d0/scratch/choij/TnP/2024/validation/fit_nanov15/TEST_NUM_HcToWATight_DEN_TrackerMuons_2024/fits_sim.d/s3m0/job$(Process).out
+error = /d0/scratch/choij/TnP/2024/validation/fit_nanov15/TEST_NUM_HcToWATight_DEN_TrackerMuons_2024/fits_sim.d/s3m0/job$(Process).err
+log = /d0/scratch/choij/TnP/2024/validation/fit_nanov15/TEST_NUM_HcToWATight_DEN_TrackerMuons_2024/fits_sim.d/s3m0/condor.log
+concurrency_limits = n20.choij
+jobbatchname = HcToWA_val_fit_TEST_NUM_HcToWATight_DEN_TrackerMuons_2024_fits_sim_s3m0
+getenv = True
+queue arguments from (
+0
+1
+2
+3
+)

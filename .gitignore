@@ -10,3 +10,10 @@ docs/CMS/
 # Python
 __pycache__/
 *.pyc
+# KNU copies: raw job output, user config and proxy references stay local
+KNU/**/*.out
+KNU/**/*.err
+KNU/**/*.log
+KNU/**/condor_log*
+KNU/hcto_prod/sknano_orig_stageout/config/
+KNU/hcto_prod/pnfs_move/move.jds

@@ -1,0 +1,14 @@
+NUM_HcToWATight_DEN_RecoElectrons_2024_altMC: flagged 13, refit accepted 8, still flagged 5
+  accepted   data bin7/s0m0
+  accepted   data bin17/s0m0
+  accepted   data bin6/s1m0
+  accepted   data bin31/s1m0
+  accepted   data bin35/s1m0
+  accepted   data bin48/s1m0
+  accepted   sim bin24/s0m0
+  accepted   sim bin28/s0m0
+  rejected   sim bin48/s1m0
+  rejected   sim bin49/s1m0
+  rejected   sim bin50/s1m0
+  rejected   sim bin51/s1m0
+  rejected   sim bin55/s1m0

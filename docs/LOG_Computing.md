@@ -3,6 +3,12 @@
 Decisions and findings about the computing setup (KNU, SKNano, storage). Newest entry first. Each entry: date, what was decided or found, why, and where it is implemented.
 
 
+## 2026-11-27 (GitHub; local compile check of SKNano; /d0 slowness)
+
+- **GitHub (user):** `ChargedHiggsAnalysisV4` pushed (`main`; AN, previous-analysis links, `docs/CMS` and `SKNanoOutput` excluded by `.gitignore`); SKNanoAnalyzer branch `HcToWA_Run3` pushed (`957557e`: `HcToWA_Analyzers` + framework patches; the local `.gitignore` edit that un-ignored `CLAUDE.md`/`.claude` left uncommitted); tnp_tamsa branch `TopHNT-Run3` created from `TopHNT` and pushed (`032efb7`: NanoV15 setup, ROOT 6.40 fit fixes, `checkFitStatus.py`, HcToWA configs, RooFit shape sources; ACLiC products and `.orig` ignored). User rule: the KNU scratch area erases untouched files, so needed files are pushed after each step.
+- **/d0 slowness (17:00-18:00):** the TriLepton build took > 40 min, stuck in `rootcling` (NFS waits, `rpc_wait_bit_killable`, 6.5% CPU); reading a few-kB file on /d0 took 0.4-0.9 s from knu1 / knu2 and 9 s from knu (same server `cluster254` for all nodes); other users' heavy I/O on /d0 at the same time. Also a double build: the build of an interrupted tool call kept running on knu1 while a second one started in the same build directory (`could not delete .../libHcToWA_rdict.pcm`); both stopped, one clean build at 17:31 (`hcto_prod/build_once.sh`, BUILD_RC=0 at 18:17).
+- **Local compile check** (`scripts/sknano_check_build.sh`): environment `~/micromamba/envs/SKNanoCheck` = exact mirror of the KNU Nano environment (`config/env/sknano_Nano_knu_explicit.txt`, 432 packages: ROOT 6.40.02, GCC 13.3, correctionlib 2.6.4); clone `~/Sync/workspace/SKNanoAnalyzer_Run3` (branch HcToWA_Run3); build, install and externals in `~/.cache/sknano_check` (libtorch 2.9.0.dev20250630+cpu as on KNU, RoccoR sources copied from KNU, LHAPDF 6.5.5 built locally without PDF sets). Clean build 108 s, incremental 16 s. The libraries used by the jobs are still built on knu1 (KNU environment paths).
+
 ## 2026-11-27 (knu1 schedd stalls: "SECMAN:2007:Read failure during security negotiation")
 
 - **Symptom (from ~15:36):** every `condor_q` on knu1 fails after 20 s with `SECMAN:2007:Read failure during security negotiation` / "Failed to fetch ads from ... schedd_1464". It is the client timeout, not an authentication problem: the schedd does not answer.

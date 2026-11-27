@@ -1,0 +1,40 @@
+name = s0m0
+path = /d0/scratch/choij/hcto_prod/tnp_fittest/out/V3/NUM_wp90noiso_DEN_RecoElectrons_2024
+data = /d0/scratch/choij/TnP/2024/rntuple/electron/EGamma
+sim = /d0/scratch/choij/TnP/2024/rntuple/electron/DYto2E_2J_MLL50toInf
+sim_weight = weight
+sim_genmatching = tag_gen_matched && probe_gen_matched
+sim_genmass = pair_gen_mass
+tree = electron/Events
+mass = pair_mass_cor
+vars = ['probe_sc_eta', 'probe_pt_cor']
+nbins = 56
+expr = (tag_trig && tag_cutBased >= 4 && tag_pt_cor > 35. && abs(tag_sc_eta) < 2.5 && !(abs(tag_sc_eta) > 1.4442 && abs(tag_sc_eta) < 1.566) && tag_q*probe_q < 0 && probe_pt_cor > 10. && abs(probe_sc_eta) < 2.5 && pair_dr > 0.1)
+test = (probe_isMVANoIsoWP90)
+data_hist_file = hists_data.root
+sim_hist_file = hists_sim.root
+hist_prefix = 
+hist_nbins = 72
+hist_range = (54, 126)
+method = fit
+data_fit_file = fits_data.root
+sim_fit_file = fits_sim.root
+fit_parameter = 
+  HistPdf::sigPhysPass(x,histPass_genmatching,2)
+  HistPdf::sigPhysFail(x,histFail_genmatching,2)
+  Gaussian::sigResPass(x,meanGaussP[0.0,-5.0,5.0],sigmaP[1.0,0.4,4.0])
+  Gaussian::sigResFail(x,meanGaussF[0.0,-5.0,5.0],sigmaF[1.4,0.4,4.0])
+  FCONV::sigPass(x, sigPhysPass , sigResPass)
+  FCONV::sigFail(x, sigPhysFail , sigResFail)
+  RooCMSShape::bkgPass(x, aCMSP[50.,50.,80.],bCMSP[0.1,0.01,0.25],cCMSP[0.05,-0.1,0.2],peakCMSP[90.0])
+  RooCMSShape::bkgFail(x, aCMSF[60.,40.,90.],bCMSF[0.1,0.1,0.5],cCMSF[0.05,-0.1,0.2],peakCMSF[90.0])
+fit_range = (60, 120)
+systematic = 
+  [{'title': 'altsig', 'fit_parameter': ['HistPdf::sigPhysPass(x,histPass_genmatching,2)', 'HistPdf::sigPhysFail(x,histFail_genmatching,2)', 'RooCBShape::sigResPass(x,meanP[0.0,-5.0,5.0],sigmaP[1.0,0.4,4.0],alphaP[2.0,1.2,3.5],nP[3,-5,5])', 'RooCBShape::sigResFail(x,meanF[0.0,-5.0,5.0],sigmaF[1.4,0.4,4.0],alphaF[2.0,1.2,3.5],nF[3,-5,5])', 'FCONV::sigPass(x, sigPhysPass , sigResPass)', 'FCONV::sigFail(x, sigPhysFail , sigResFail)', 'RooCMSShape::bkgPass(x, aCMSP[50.,50.,80.],bCMSP[0.1, 0.01,0.25],cCMSP[0.05, -0.1,0.2],peakCMSP[90.0])', 'RooCMSShape::bkgFail(x, aCMSF[50.,40.,90.],bCMSF[0.1, 0.1,0.5],cCMSF[0.05, -0.1,0.2],peakCMSF[90.0])']}]
+  [{'title': 'altbkg', 'fit_parameter': ['HistPdf::sigPhysPass(x,histPass_genmatching,2)', 'HistPdf::sigPhysFail(x,histFail_genmatching,2)', 'Gaussian::sigResPass(x,meanGaussP[0.0,-5.0,5.0],sigmaP[1.0,0.4,4.0])', 'Gaussian::sigResFail(x,meanGaussF[0.0,-5.0,5.0],sigmaF[1.4,0.4,5.0])', 'FCONV::sigPass(x, sigPhysPass , sigResPass)', 'FCONV::sigFail(x, sigPhysFail , sigResFail)', 'Exponential::bkgPass(x, alphaP[0.,-3.,3.])', 'Exponential::bkgFail(x, alphaF[0.,-3.,3.])']}]
+axes = [{'var': 'probe_sc_eta', 'type': 'float', 'bins': [-2.5, -2.0, -1.566, -1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5], 'title': '#eta_{SC}'}, {'var': 'probe_pt_cor', 'type': 'float', 'bins': [10.0, 20.0, 35.0, 50.0, 70.0, 100.0, 200.0, 300.0], 'title': 'p_{T} [GeV]'}]
+bin_map = [0, 1, None, 2, 3, 4, 5, None, 6, 7, 8, 9, None, 10, 11, 12, 13, None, 14, 15, 16, 17, None, 18, 19, 20, 21, None, 22, 23, 24, 25, None, 26, 27, 28, 29, None, 30, 31, 32, 33, None, 34, 35, 36, 37, None, 38, 39, 40, 41, None, 42, 43, 44, 45, None, 46, 47, 48, 49, None, 50, 51, 52, 53, None, 54, 55]
+option = 
+sim_maxweight = 100000.0
+title = stat
+vartitles = ['#eta_{SC}', 'p_{T} [GeV]']

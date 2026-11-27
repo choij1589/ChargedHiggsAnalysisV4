@@ -25,6 +25,11 @@ KNU paths (shared by all login nodes and the workers):
 - `/pnfs/knu.ac.kr/data/cms/store/user/choij/RNTuple/`: the RNTuples (signal in `TTToHcToWA_AToMuMu/<mp>/`). Jobs read them over xrootd (`root://cluster142.knu.ac.kr//store/user/choij/...`).
 - `/d0/scratch/choij/RNTuplizer`: RNTuple production and QC, with its own `CLAUDE.md` and rules. Read its `results/`; do not run or edit it from here.
 
+Code and GitHub (user, 2026-11-27: the KNU scratch area erases files in directories not touched for a while, so everything needed is pushed to GitHub at the end of each step):
+- This repository: `github.com/choij1589/ChargedHiggsAnalysisV4` (`main`). Not committed: the AN (`docs/AN-26-267`, its own repository), `docs/previous_analysis`, `docs/CMS` (CERN-internal), `SKNanoOutput`. `KNU/hcto_prod` and `KNU/TnP` are copies of `/d0/scratch/choij/{hcto_prod,TnP}` without ROOT files.
+- SKNanoAnalyzer: branch `HcToWA_Run3` of `github.com/choij1589/SKNanoAnalyzer` (framework patches + `HcToWA_Analyzers`). tnp_tamsa: branch `TopHNT-Run3` of `github.com/choij1589/tnp_tamsa`.
+- Analyzer changes: edit in the local clone `~/Sync/workspace/SKNanoAnalyzer_Run3`, compile-check with `bash scripts/sknano_check_build.sh` (local mirror of the KNU Nano environment, ~2 min clean, ~20 s incremental; no `/d0`), commit and push, then `git pull` on knu1 and build there once (the condor jobs need the KNU build). One build at a time on knu1 (all nodes share the build directory).
+
 Rules on KNU:
 - Remove condor jobs by cluster id only, never `condor_rm <user>`.
 - Never run heavy work on a login node (user rule, 2026-11-25): conversions, ntuple or histogram loops over production samples, fits over many bins. They go to condor. The login nodes are for submission, builds, and short tests on a few files.

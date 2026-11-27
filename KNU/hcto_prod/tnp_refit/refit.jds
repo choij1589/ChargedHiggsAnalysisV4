@@ -1,0 +1,41 @@
+executable = /d0/scratch/choij/hcto_prod/tnp_refit/refit_job.sh
+output = /d0/scratch/choij/hcto_prod/tnp_refit/logs/refit.$(ClusterId).$(ProcId).out
+error = /d0/scratch/choij/hcto_prod/tnp_refit/logs/refit.$(ClusterId).$(ProcId).err
+log = /d0/scratch/choij/hcto_prod/tnp_refit/logs/refit.log
+request_memory = 2000
+jobbatchname = tnp_refit
+queue arguments from (
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 0 0 data 6,9,30,37
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 1 0 data 6,23
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 1 1 data 6,14,31,39
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 2 0 data 18,21,37
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 2 1 data 6,18,30,31
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 3 0 data 6,18,28,39
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 3 1 data 9,16,20
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 4 0 data 7,9,23,30
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 0 0 sim 15
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 1 0 sim 2,15,35
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 1 1 sim 2,9,10,15,17
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 2 0 sim 9,14,32,35,36
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 2 1 sim 15,17
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 3 0 sim 36
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 3 1 sim 33
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 4 0 sim 10,14,19,30
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu17Leg1_DEN_HcToWATight_2024 5 0 sim 10,27
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 0 0 data 29
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 1 0 data 3,15,21
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 1 1 data 10,23
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 2 0 data 3,9,10,29
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 2 1 data 15
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 3 0 data 20,21,31
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 3 1 data 8,12
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 4 0 data 22
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 0 0 sim 0,7,18,19,24
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 1 0 sim 0
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 1 1 sim 0,9,10
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 2 0 sim 6,25,28
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 2 1 sim 9,13
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 3 0 sim 15,28
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 3 1 sim 15,25
+/d0/scratch/choij/hcto_prod/tnp_refit/refit/HcToWA_MuonTrig_2024 NUM_Mu8Leg2_DEN_HcToWATight_2024 4 0 sim 11
+)

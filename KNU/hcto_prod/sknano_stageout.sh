@@ -1,0 +1,35 @@
+#!/bin/bash
+# Local patch (KNU, 2026-11-25): stage-out helper.
+#   sknano_stageout.sh LOCAL FINAL
+# Copies LOCAL to FINAL. A FINAL under SKNANO_STAGEOUT_PREFIX (default
+# /pnfs/knu.ac.kr/data/cms/) is written over xrootd (SKNANO_STAGEOUT_URL, default
+# root://cluster142.knu.ac.kr/) with the adler32 checksum compared between source
+# and destination, then its size is checked on the mount: dCache over NFS is
+# write-once, so nothing there is written in place. Nothing on /pnfs is
+# overwritten: an existing FINAL with the same size is taken as already copied (a
+# restarted job), with another size the copy fails. Other destinations get a cp.
+set -u
+src=$1; dst=$2
+prefix=${SKNANO_STAGEOUT_PREFIX:-/pnfs/knu.ac.kr/data/cms/}
+url=${SKNANO_STAGEOUT_URL:-root://cluster142.knu.ac.kr/}
+[[ -f "$src" ]] || { echo "stageout: no source $src" >&2; exit 1; }
+if [[ "$dst" != "$prefix"* ]]; then
+    mkdir -p "$(dirname "$dst")" && cp "$src" "$dst"
+    exit $?
+fi
+if [[ -e "$dst" ]]; then
+    if [[ "$(stat -c %s "$src")" == "$(stat -c %s "$dst")" ]]; then
+        echo "stageout: $dst already present (same size)"
+        exit 0
+    fi
+    echo "stageout: $dst exists with a different size; not overwritten" >&2
+    exit 1
+fi
+rel=${dst#"$prefix"}
+xrdcp --nopbar --path --cksum adler32:source "$src" "$url/$rel" || { echo "stageout: xrdcp failed for $dst" >&2; exit 1; }
+for i in 1 2 3 4 5 6; do
+    [[ -e "$dst" && "$(stat -c %s "$src")" == "$(stat -c %s "$dst")" ]] && { echo "stageout: $dst"; exit 0; }
+    sleep 5
+done
+echo "stageout: $dst not visible with the right size after the copy" >&2
+exit 1

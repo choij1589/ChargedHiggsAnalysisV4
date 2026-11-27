@@ -1,0 +1,1 @@
+2026-11-27 removed (user permission): /store/user/choij/SKNanoOutput/MeasFakeRate/MeasMuFR_MeasElFR/2024/{TTLL,TTLJ}_powheg.root[.provenance.json] (MeasFakeRate with the top pT weight)

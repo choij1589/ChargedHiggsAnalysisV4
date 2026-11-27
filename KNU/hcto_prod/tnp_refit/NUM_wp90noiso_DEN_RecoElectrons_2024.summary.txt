@@ -1,0 +1,13 @@
+NUM_wp90noiso_DEN_RecoElectrons_2024: flagged 12, refit accepted 0, still flagged 12
+  rejected   data bin0/s1m0
+  rejected   data bin2/s1m0
+  rejected   data bin5/s1m0
+  rejected   data bin6/s1m0
+  rejected   sim bin0/s1m0
+  rejected   sim bin1/s1m0
+  rejected   sim bin2/s1m0
+  rejected   sim bin5/s1m0
+  rejected   sim bin6/s1m0
+  rejected   sim bin7/s1m0
+  rejected   sim bin10/s1m0
+  rejected   sim bin51/s3m0

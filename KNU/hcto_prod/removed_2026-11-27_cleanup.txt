@@ -1,0 +1,65 @@
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoSkim/2024/MC/Skim/choij/Skim_TriLep_StageOutTest_TTToHcToWAToMuMu-MHc130_MA100/tree_0.root.performance.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoSkim/2024/MC/Skim/choij/Skim_TriLep_StageOutTest_TTToHcToWAToMuMu-MHc130_MA100/provenance.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoSkim/2024/MC/Skim/choij/Skim_TriLep_StageOutTest_TTToHcToWAToMuMu-MHc130_MA100/tree_0.root.errors.summary.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoSkim/2024/MC/Skim/choij/Skim_TriLep_StageOutTest_TTToHcToWAToMuMu-MHc130_MA100/tree_0.root
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoSkim/2024/DATA/Skim/choij/Skim_TriLep_StageOutTest_MuonEG/provenance.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoSkim/2024/DATA/Skim/choij/Skim_TriLep_StageOutTest_MuonEG/PeriodI_v2/tree_0.root.performance.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoSkim/2024/DATA/Skim/choij/Skim_TriLep_StageOutTest_MuonEG/PeriodI_v2/tree_0.root.errors.summary.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoSkim/2024/DATA/Skim/choij/Skim_TriLep_StageOutTest_MuonEG/PeriodI_v2/tree_0.root
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/DiLepton/RunDiMu_StageOutTest/2024/TTToHcToWAToMuMu-MHc130_MA100.root.provenance.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/DiLepton/RunDiMu_StageOutTest/2024/TTToHcToWAToMuMu-MHc130_MA100.root
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/DiLepton/RunDiMu_StageOutTest/2024/Skim_TriLep_StageOutTest_TTToHcToWAToMuMu-MHc130_MA100.root
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/DiLepton/RunDiMu_StageOutTest/2024/Skim_TriLep_StageOutTest_TTToHcToWAToMuMu-MHc130_MA100.root.provenance.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/MuonTnPProducer/StageOutTest/2024/TTToHcToWAToMuMu-MHc130_MA100/hists_0.root.performance.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/MuonTnPProducer/StageOutTest/2024/TTToHcToWAToMuMu-MHc130_MA100/provenance.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/MuonTnPProducer/StageOutTest/2024/TTToHcToWAToMuMu-MHc130_MA100/hists_1.root.performance.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/MuonTnPProducer/StageOutTest/2024/TTToHcToWAToMuMu-MHc130_MA100/hists_0.root.errors.summary.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/MuonTnPProducer/StageOutTest/2024/TTToHcToWAToMuMu-MHc130_MA100/hists_1.root.errors.summary.json
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/MuonTnPProducer/StageOutTest/2024/TTToHcToWAToMuMu-MHc130_MA100/hists_0.root
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/MuonTnPProducer/StageOutTest/2024/TTToHcToWAToMuMu-MHc130_MA100/hists_1.root
+/d0/scratch/choij/SKNanoRunlog/2026_11_24_150043_DiLepton_RunDiMu_RunEMu_RunZEE_RunIDCheck
+/d0/scratch/choij/SKNanoRunlog/2026_11_24_150547_DiLepton_RunDiMu_RunEMu_RunZEE
+/d0/scratch/choij/SKNanoRunlog/2026_11_24_151443_DiLepton_RunDiMu_RunZEE_RunSyst
+/d0/scratch/choij/SKNanoRunlog/2026_11_24_200523_Skim_TriLep
+/d0/scratch/choij/SKNanoRunlog/2026_11_24_200743_Skim_TriLep
+/d0/scratch/choij/SKNanoRunlog/2026_11_24_210012_MuonTnPProducer
+/d0/scratch/choij/SKNanoRunlog/2026_11_24_210057_ElectronTnPProducer
+/d0/scratch/choij/SKNanoRunlog/2026_11_24_212140_ElectronTnPProducer
+/d0/scratch/choij/SKNanoRunlog/2026_11_24_212229_MuonTnPProducer
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_002346_MuonTnPProducer
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_002620_MuonTnPProducer
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_002723_ElectronTnPProducer
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_003000_ElectronTnPProducer
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_003952_MuonTnPProducer
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_004034_ElectronTnPProducer
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_004204_Skim_TriLep
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_010807_Skim_TriLep
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_092439_DiLepton_RunDiMu_StageOutTest
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_092449_MuonTnPProducer_StageOutTest
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_092454_Skim_TriLep_StageOutTest
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_092500_Skim_TriLep_StageOutTest
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_092903_DiLepton_RunDiMu_StageOutTest
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_153708_DiLepton_RunDiMu_RunEMu_RunZEE_RunSyst_IDSFTest
+/d0/scratch/choij/SKNanoRunlog/2026_11_25_163707_MeasTrigEff_MeasElLegs_MeasMuLegs_MeasDblMuPair_MeasEMuPair_TrigTest
+/d0/scratch/choij/SKNanoRunlog/2026_11_26_160229_DiLepton_RunDiMu_L1Test
+/d0/scratch/choij/hcto_prod/idsf_test
+/d0/scratch/choij/hcto_prod/l1test
+/d0/scratch/choij/hcto_prod/trig_test
+/d0/scratch/choij/hcto_prod/trigsf_test
+/d0/scratch/choij/hcto_prod/trilep_test
+/d0/scratch/choij/hcto_prod/skimfix_test
+/d0/scratch/choij/hcto_prod/stageout_test
+/d0/scratch/choij/hcto_prod/fr_test (all but trim.py)
+/d0/scratch/choij/hcto_prod/libAnalyzerFramework.so.pre_common.2026_11_26_012439_Skim_TriLep
+/d0/scratch/choij/hcto_prod/libAnalyzerFramework.so.pre_common.2026_11_26_012445_Skim_FakeRate
+/d0/scratch/choij/hcto_prod/tnp_fittest, tnp_refit: 2320 ROOT files (fit tests, refit candidates; accepted refits are in tnp_tamsa/results)
+/d0/scratch/choij/tnp_tamsa/results/HcToWA_Muon_2024_test
+/d0/scratch/choij/tnp_tamsa/results/HcToWA_Electron_2024_test
+# superseded productions (user: delete the superseded ones)
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/DiLepton/RunDiMu_RunSyst (76 files)
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/DiLepton/RunEMu_RunSyst (60 files)
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/DiLepton/RunZEE_RunSyst (76 files)
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/DiLepton/RunDiMu_RunSyst_TrigSF (44 files)
+/pnfs/knu.ac.kr/data/cms/store/user/choij/SKNanoOutput/DiLepton/RunEMu_RunSyst_TrigSF (44 files)
+/d0/scratch/choij/SKNanoRunlog/2026_11_24_152208_DiLepton_RunDiMu_RunSyst
+/d0/scratch/choij/SKNanoRunlog/2026_11_24_152213_DiLepton_RunEMu_RunSyst

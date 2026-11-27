@@ -1,0 +1,38 @@
+name = s0m0
+path = /d0/scratch/choij/TnP/2024/validation/fit_cmssw/TEST_NUM_HcToWATight_DEN_RecoElectrons_2024
+data = /d0/scratch/choij/TnP/2024/test/electron/EGamma0_H.root
+sim = /d0/scratch/choij/TnP/2024/test/electron/DYto2E_2J_MLL50toInf.root
+sim_weight = weight
+sim_genmatching = tag_gen_matched && probe_gen_matched
+sim_genmass = pair_gen_mass
+tree = electron/Events
+mass = pair_mass_cor
+vars = ['probe_sc_eta', 'probe_pt']
+nbins = 4
+expr = (tag_trig && tag_cutBased >= 4 && tag_pt_cor > 35. && abs(tag_sc_eta) < 2.5 && !(abs(tag_sc_eta) > 1.4442 && abs(tag_sc_eta) < 1.566) && tag_q*probe_q < 0 && probe_pt_cor > 10. && abs(probe_sc_eta) < 2.5 && pair_dr > 0.1)
+test = (probe_isHcToWATight)
+data_hist_file = hists_data.root
+sim_hist_file = hists_sim.root
+hist_prefix = 
+hist_nbins = 72
+hist_range = (54, 126)
+method = fit
+data_fit_file = fits_data.root
+sim_fit_file = fits_sim.root
+fit_parameter = 
+  HistPdf::sigPhysPass(x,histPass_genmatching,2)
+  HistPdf::sigPhysFail(x,histFail_genmatching,2)
+  Gaussian::sigResPass(x,meanGaussP[0.0,-5.0,5.0],sigmaP[1.0,0.4,4.0])
+  Gaussian::sigResFail(x,meanGaussF[0.0,-5.0,5.0],sigmaF[1.4,0.4,4.0])
+  FCONV::sigPass(x, sigPhysPass , sigResPass)
+  FCONV::sigFail(x, sigPhysFail , sigResFail)
+  RooCMSShape::bkgPass(x, aCMSP[50.,50.,80.],bCMSP[0.1,0.01,0.25],cCMSP[0.05,-0.1,0.2],peakCMSP[90.0])
+  RooCMSShape::bkgFail(x, aCMSF[60.,40.,90.],bCMSF[0.1,0.1,0.5],cCMSF[0.05,-0.1,0.2],peakCMSF[90.0])
+fit_range = (60, 120)
+systematic = 
+axes = [{'var': 'probe_sc_eta', 'type': 'float', 'bins': [-2.5, 0.0, 2.5], 'title': '#eta_{SC}'}, {'var': 'probe_pt', 'type': 'float', 'bins': [20.0, 50.0, 300.0], 'title': 'p_{T} [GeV]'}]
+bin_map = [0, 1, 2, 3]
+option = 
+sim_maxweight = 100000.0
+title = stat
+vartitles = ['#eta_{SC}', 'p_{T} [GeV]']

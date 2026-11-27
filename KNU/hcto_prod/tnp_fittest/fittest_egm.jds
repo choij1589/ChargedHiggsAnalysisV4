@@ -1,0 +1,16 @@
+executable = /d0/scratch/choij/hcto_prod/tnp_fittest/fit_job.sh
+output = /d0/scratch/choij/hcto_prod/tnp_fittest/logs/egm.$(ClusterId).$(ProcId).out
+error = /d0/scratch/choij/hcto_prod/tnp_fittest/logs/egm.$(ClusterId).$(ProcId).err
+log = /d0/scratch/choij/hcto_prod/tnp_fittest/logs/egm.log
+request_memory = 2000
+jobbatchname = tnp_fittest_egm
+queue arguments from (
+EGM config/HcToWA_fittest.py NUM_wp90noiso_DEN_RecoElectrons_2024 1 0 data 0,1,2,3,4,5,6,7,16,17,18,19,20,21,22,23,40,41,42,43,44,45,46,47
+EGM config/HcToWA_fittest.py NUM_wp90noiso_DEN_RecoElectrons_2024 4 0 data 0,1,2,3,4,5,6,7,16,17,18,19,20,21,22,23,40,41,42,43,44,45,46,47
+EGM config/HcToWA_fittest.py NUM_wp90noiso_DEN_RecoElectrons_2024 1 0 sim 0,1,2,3,4,5,6,7,16,17,18,19,20,21,22,23,40,41,42,43,44,45,46,47
+EGM config/HcToWA_fittest.py NUM_wp90noiso_DEN_RecoElectrons_2024 4 0 sim 0,1,2,3,4,5,6,7,16,17,18,19,20,21,22,23,40,41,42,43,44,45,46,47
+EGM config/HcToWA_fittest.py NUM_cutBasedTight_DEN_RecoElectrons_2024 1 0 data 0,1,2,3,4,5,6,7,16,17,18,19,20,21,22,23,40,41,42,43,44,45,46,47
+EGM config/HcToWA_fittest.py NUM_cutBasedTight_DEN_RecoElectrons_2024 4 0 data 0,1,2,3,4,5,6,7,16,17,18,19,20,21,22,23,40,41,42,43,44,45,46,47
+EGM config/HcToWA_fittest.py NUM_cutBasedTight_DEN_RecoElectrons_2024 1 0 sim 0,1,2,3,4,5,6,7,16,17,18,19,20,21,22,23,40,41,42,43,44,45,46,47
+EGM config/HcToWA_fittest.py NUM_cutBasedTight_DEN_RecoElectrons_2024 4 0 sim 0,1,2,3,4,5,6,7,16,17,18,19,20,21,22,23,40,41,42,43,44,45,46,47
+)

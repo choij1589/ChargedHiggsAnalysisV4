@@ -1,0 +1,37 @@
+# Systematics of the HcToWA DiLepton analyzer (2024), read by SystematicHelper.
+# Event-loop lanes rebuild only the affected objects (index lists, no copies);
+# weight-only lanes swap one factor of the Central weight. The analyzer adds a
+# "<factor>_NotImplemented" lane per weight factor (that factor divided out)
+# and keeps only the lanes that differ from Central in a channel:
+#   DIMU: all event-loop lanes, PileupReweight, TopPtReweight (TT powheg)
+#   EMU : all event-loop lanes, PileupReweight, ElectronRecoSF, BtagSF_*, TopPtReweight
+#   ZEE : ElectronRes, ElectronEn, PileupReweight, ElectronRecoSF,
+#         ElectronIDSFProxy, ElectronTrigSFProxy, TopPtReweight
+# Central has NO top-pT weight; TopPtReweight gives the lane
+# "TopPtReweight_Applied" (TTLL/TTLJ powheg only).
+systematics:
+  - syst: JetRes
+    evtLoopAgain: true
+  - syst: JetEn
+    evtLoopAgain: true
+    source: total
+  - syst: ElectronRes
+    evtLoopAgain: true
+  - syst: ElectronEn
+    evtLoopAgain: true
+  - syst: MuonEn
+    evtLoopAgain: true
+  - syst: MuonRes
+    evtLoopAgain: true
+  - syst: UnclusteredEn
+    evtLoopAgain: true
+  - syst: PileupReweight
+  - syst: ElectronRecoSF
+  - syst: BtagSF_HFcorr
+  - syst: BtagSF_HFuncorr
+  - syst: BtagSF_LFcorr
+  - syst: BtagSF_LFuncorr
+  - syst: TopPtReweight
+    oneSided: true
+  - syst: ElectronIDSFProxy
+  - syst: ElectronTrigSFProxy

@@ -1,0 +1,165 @@
+"""HcToWA (B2G-25-013 -> 2024) electron tight-ID efficiencies and scale factors.
+
+Setup: EGM 2024 electron ID measurement (ChargedHiggsAnalysisV4 docs/CMS/EGM/README.md,
+docs/PLAN_LeptonID.md section 2b, L5, L7, L8), our tight ID as numerator over
+reconstructed (NanoAOD) electrons.
+Ntuples: HcToWA_Analyzers ElectronTnPProducer (SKNano 2.0, NanoAODv15),
+read directly as RNTuples by the RDataFrame hist step (NanoV15); one directory per sample.
+pT and mass use the scale/smear-corrected electrons (probe_pt_cor, pair_mass_cor; L4 revised 2026-11-25); MC weight = genWeight x PU (L3), branch
+'weight' (normalised to <|genWeight|> = 1).
+
+User decisions 2026-11-24:
+- ECAL-gap bins (1.4442 < |eta_SC| < 1.566) are skipped: no histograms, no fits.
+  Our tight ID rejects the gap (trigger emulation), so they would have no passing
+  probe. In efficiency.root the two gap columns of the data/sim/sf histograms are
+  left at 0 +- 0; the SF lookup never needs them (no tight electron in the gap),
+  and the correctionlib conversion sets them to 1 +- 0.
+- The tag is vetoed in the ECAL gap (as B2G-25-013; EGM 2024 does not veto it).
+- DYto2E 4J MLM (LO) is the alternative MC as a separate cross-check config
+  (..._altMC, tnp_tamsa 'altmc'), not in the nominal systematic set.
+"""
+from tnpConfig import tnpConfig
+
+GAP = (1.4442, 1.566)
+
+
+class tnpConfigSkipGap(tnpConfig):
+    """tnpConfig without the eta_SC bins inside the ECAL gap.
+
+    The bins are kept as tnp_tamsa's full product (names keep the full index);
+    the gap bins are removed from self.bins and find_bin() returns None for
+    them, so histUtils fills nothing there, the fit jobs never see them and
+    make_eff_hist leaves those cells empty."""
+
+    def __setattr__(self, key, val):
+        super(tnpConfigSkipGap, self).__setattr__(key, val)
+        if key == "bins":
+            full = self.__dict__["bins"]
+            keep, bin_map = [], []
+            for b in full:
+                v = b["vars"].get("probe_sc_eta")
+                gap = False
+                if v is not None:
+                    lo, hi = sorted([abs(v["min"]), abs(v["max"])])
+                    gap = lo >= GAP[0] - 1e-6 and hi <= GAP[1] + 1e-6
+                bin_map.append(None if gap else len(keep))
+                if not gap:
+                    keep.append(b)
+            object.__setattr__(self, "bins", keep)
+            object.__setattr__(self, "bin_map", bin_map)
+
+    def find_bin(self, *args):
+        ib = super(tnpConfigSkipGap, self).find_bin(*args)
+        return None if ib is None else self.bin_map[ib]
+
+BASE = "/d0/scratch/choij/TnP/2024/rntuple/electron"   # symlinks to the SKNano TnP RNTuples on /pnfs (2026-11-25)
+samples = {
+    "data2024": BASE + "/EGamma",                    # EGamma0 + EGamma1, Run2024C-I
+    "amc2024": BASE + "/DYto2E_2J_MLL50toInf",       # amc@NLO (FxFx), nominal (EGM)
+    "mg2024": BASE + "/DYto2E_4J_MLL50toInf",        # MadGraph LO (MLM), alternative-MC cross-check
+}
+
+#### binning (EGM 2024 eta_SC x our pT bins, L8)
+binnings = {
+    "ID": [
+        {"var": "probe_sc_eta", "type": "float",
+         "bins": [-2.5, -2.0, -1.566, -1.4442, -0.8, 0.0, 0.8, 1.4442, 1.566, 2.0, 2.5],
+         "title": "#eta_{SC}"},
+        {"var": "probe_pt_cor", "type": "float",
+         "bins": [10., 20., 35., 50., 70., 100., 200., 300.], "title": "p_{T} [GeV]"},
+    ],
+}
+
+#### fit models (as TopHNT_Electron_Run3_v1; EGM-framework style)
+fit_nominal = [
+    "HistPdf::sigPhysPass(x,histPass_genmatching,2)",
+    "HistPdf::sigPhysFail(x,histFail_genmatching,2)",
+    "Gaussian::sigResPass(x,meanGaussP[0.0,-5.0,5.0],sigmaP[1.0,0.4,4.0])",
+    "Gaussian::sigResFail(x,meanGaussF[0.0,-5.0,5.0],sigmaF[1.4,0.4,4.0])",
+    "FCONV::sigPass(x, sigPhysPass , sigResPass)",
+    "FCONV::sigFail(x, sigPhysFail , sigResFail)",
+    "RooCMSShape::bkgPass(x, aCMSP[50.,50.,80.],bCMSP[0.1,0.01,0.25],cCMSP[0.05,-0.1,0.2],peakCMSP[90.0])",
+    "RooCMSShape::bkgFail(x, aCMSF[60.,40.,90.],bCMSF[0.1,0.1,0.5],cCMSF[0.05,-0.1,0.2],peakCMSF[90.0])",
+]
+# Crystal Ball resolution with a fixed tail (alpha 2.0, n 3.0; mean and sigma
+# float), user decision 2026-11-25: with a floating tail (alpha [0,3.5],
+# n [-5,5]) the fits were unstable at full statistics (n at its limits, NaN
+# efficiencies, 0.05-0.2 jumps between minimizer settings); the tail cannot be
+# taken from MC because the CB smears the MC template itself.
+fit_altsig = [
+    "HistPdf::sigPhysPass(x,histPass_genmatching,2)",
+    "HistPdf::sigPhysFail(x,histFail_genmatching,2)",
+    "RooCBShape::sigResPass(x,meanP[0.0,-5.0,5.0],sigmaP[1.0,0.4,4.0],alphaP[2.0],nP[3.0])",
+    "RooCBShape::sigResFail(x,meanF[0.0,-5.0,5.0],sigmaF[1.4,0.4,4.0],alphaF[2.0],nF[3.0])",
+    "FCONV::sigPass(x, sigPhysPass , sigResPass)",
+    "FCONV::sigFail(x, sigPhysFail , sigResFail)",
+    "RooCMSShape::bkgPass(x, aCMSP[50.,50.,80.],bCMSP[0.1, 0.01,0.25],cCMSP[0.05, -0.1,0.2],peakCMSP[90.0])",
+    "RooCMSShape::bkgFail(x, aCMSF[50.,40.,90.],bCMSF[0.1, 0.1,0.5],cCMSF[0.05, -0.1,0.2],peakCMSF[90.0])",
+]
+fit_altbkg = [
+    "HistPdf::sigPhysPass(x,histPass_genmatching,2)",
+    "HistPdf::sigPhysFail(x,histFail_genmatching,2)",
+    "Gaussian::sigResPass(x,meanGaussP[0.0,-5.0,5.0],sigmaP[1.0,0.4,4.0])",
+    "Gaussian::sigResFail(x,meanGaussF[0.0,-5.0,5.0],sigmaF[1.4,0.4,5.0])",
+    "FCONV::sigPass(x, sigPhysPass , sigResPass)",
+    "FCONV::sigFail(x, sigPhysFail , sigResFail)",
+    "Exponential::bkgPass(x, alphaP[0.,-3.,3.])",
+    "Exponential::bkgFail(x, alphaF[0.,-3.,3.])",
+]
+
+#### denominator: EGM 2024 tag, NanoAOD-electron probe
+# tag: OR of HLT_Ele32_WPTight_Gsf / HLT_Ele115_CaloIdVT_GsfTrkIdT / HLT_Photon200
+# (fired and matched, tag_trig), cut-based tight, pT > 35, |eta_SC| < 2.5, not in the gap
+# tag outside the ECAL gap (user decision, as B2G-25-013)
+expr = ("(tag_trig && tag_cutBased >= 4 && tag_pt_cor > 35. && abs(tag_sc_eta) < 2.5"
+        " && !(abs(tag_sc_eta) > 1.4442 && abs(tag_sc_eta) < 1.566)"
+        " && tag_q*probe_q < 0"
+        " && probe_pt_cor > 10. && abs(probe_sc_eta) < 2.5 && pair_dr > 0.1)")
+
+#### numerators
+# our tight ID (HcToWABase::EvaluateElectronIDs): HLT CaloIdL_TrackIdL_IsoVL
+# emulation, conversion veto, lostHits < 2, |dz| < 0.1, MVA noIso WP90,
+# SIP3D < 4, miniIso < 0.1, precomputed by the producer
+HcToWATight = "(probe_isHcToWATight)"
+POGwp90noiso = "(probe_isMVANoIsoWP90)"
+POGcutBasedTight = "(probe_cutBased >= 4)"
+
+systematic = [
+    [{"title": "altsig", "fit_parameter": fit_altsig}],
+    [{"title": "altbkg", "fit_parameter": fit_altbkg}],
+]
+
+Configs = {}
+config = tnpConfigSkipGap(
+    data=samples["data2024"],
+    sim=samples["amc2024"],
+    sim_weight="weight",
+    sim_maxweight=1e5,
+    sim_genmatching="tag_gen_matched && probe_gen_matched",
+    sim_genmass="pair_gen_mass",
+    tree="electron/Events",
+    mass="pair_mass_cor",
+    bins=binnings["ID"],
+    expr=expr,
+    test=HcToWATight,
+    hist_nbins=72,
+    hist_range=(54, 126),
+    method="fit",
+    fit_parameter=fit_nominal,
+    fit_range=(60, 120),
+    systematic=systematic,
+)
+
+Configs["NUM_HcToWATight_DEN_RecoElectrons_2024"] = config.clone()
+# POG working points for the validation against the official EGM 2024 SFs
+Configs["NUM_wp90noiso_DEN_RecoElectrons_2024"] = config.clone(test=POGwp90noiso)
+Configs["NUM_cutBasedTight_DEN_RecoElectrons_2024"] = config.clone(test=POGcutBasedTight)
+# cross-check, reported separately (not in the nominal EGM systematic set):
+# MadGraph LO DYto2E 4J as the alternative MC (tnp_tamsa 'altmc': template and
+# MC efficiency); s0m0 repeats the nominal, s1m0 is the LO-MC result.
+Configs["NUM_HcToWATight_DEN_RecoElectrons_2024_altMC"] = config.clone(
+    systematic=[[{"title": "altmc", "sim": samples["mg2024"]}]])
+
+if __name__ == "__main__":
+    for key in sorted(Configs.keys()):
+        print(key)

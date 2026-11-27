@@ -1,0 +1,13 @@
+NUM_cutBasedTight_DEN_RecoElectrons_2024: flagged 12, refit accepted 0, still flagged 12
+  rejected   data bin14/s0m0
+  rejected   data bin2/s1m0
+  rejected   data bin6/s1m0
+  rejected   data bin38/s3m0
+  rejected   sim bin0/s1m0
+  rejected   sim bin1/s1m0
+  rejected   sim bin2/s1m0
+  rejected   sim bin5/s1m0
+  rejected   sim bin6/s1m0
+  rejected   sim bin7/s1m0
+  rejected   sim bin47/s3m0
+  rejected   sim bin48/s3m0

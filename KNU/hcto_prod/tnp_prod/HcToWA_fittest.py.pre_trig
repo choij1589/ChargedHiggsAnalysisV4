@@ -1,0 +1,26 @@
+"""Fit-tuning tests (2026-11-25): the production HcToWA configs, output under
+TNP_FITTEST_OUT (fit step only, on copies of the production histograms).
+TNP_FITTEST_ALPHA12=1: electron alternative signal (Crystal Ball resolution)
+with alpha in [1.2, 3.5] instead of [0, 3.5], as most tnp_tamsa configs."""
+import os
+from config import HcToWA_Muon_2024 as _mu
+from config import HcToWA_Electron_2024 as _el
+
+Configs = {}
+Configs.update(_mu.Configs)
+Configs.update(_el.Configs)
+if os.getenv("TNP_FITTEST_ALPHA12"):
+    for c in _el.Configs.values():
+        for members in c.systematic:
+            for m in members:
+                if "fit_parameter" in m:
+                    m["fit_parameter"] = [l.replace("alphaP[2.0,0.0,3.5]", "alphaP[2.0,1.2,3.5]").replace("alphaF[2.0,0.0,3.5]", "alphaF[2.0,1.2,3.5]") for l in m["fit_parameter"]]
+OutputDir = os.environ["TNP_FITTEST_OUT"]
+if os.getenv("TNP_FITTEST_CBFIX"):
+    # Crystal Ball tail fixed (alpha 2.0, n 3.0), mean and sigma float
+    for c in _el.Configs.values():
+        for members in c.systematic:
+            for m in members:
+                if "fit_parameter" in m:
+                    m["fit_parameter"] = [l.replace("alphaP[2.0,0.0,3.5],nP[3,-5,5]", "alphaP[2.0],nP[3.0]").replace("alphaF[2.0,0.0,3.5],nF[3,-5,5]", "alphaF[2.0],nF[3.0]") for l in m["fit_parameter"]]
+OutputDir = os.environ["TNP_FITTEST_OUT"]

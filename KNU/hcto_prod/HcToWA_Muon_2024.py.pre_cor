@@ -1,0 +1,114 @@
+"""HcToWA (B2G-25-013 -> 2024) muon tight-ID efficiencies and scale factors.
+
+Setup: MUO 2024 medium-pT measurement (ChargedHiggsAnalysisV4 docs/CMS/MUO/README.md,
+docs/PLAN_LeptonID.md section 2b), our tight ID as numerator over TrackerMuons.
+Ntuples: HcToWA_Analyzers MuonTnPProducer (SKNano 2.0, NanoAODv15) converted to
+TTrees by scripts/tnp/rntuple_to_ttree.py; one directory per sample.
+pT is the uncorrected NanoAOD pT (L4); MC weight = genWeight x PU (L3), branch
+'weight' (normalised to <|genWeight|> = 1).
+"""
+from tnpConfig import tnpConfig
+
+BASE = "/d0/scratch/choij/TnP/2024/muon"
+samples = {
+    "data2024": BASE + "/Muon",                      # Muon0 + Muon1, Run2024C-I
+    "mg2024": BASE + "/DYto2Mu_4J_MLL50toInf",       # MadGraph LO (MLM), nominal
+    "amc2024": BASE + "/DYto2Mu_2J_MLL50toInf",      # amc@NLO (FxFx), alternative signal template
+}
+
+#### binning (MUO 2024: signed eta 13 bins x pT 9 bins)
+binnings = {
+    "ID": [
+        {"var": "probe_eta", "type": "float",
+         "bins": [-2.4, -2.1, -1.6, -1.2, -0.9, -0.3, -0.2, 0.2, 0.3, 0.9, 1.2, 1.6, 2.1, 2.4],
+         "title": "#eta"},
+        {"var": "probe_pt", "type": "float",
+         "bins": [10, 15, 20, 25, 30, 40, 50, 60, 120, 200], "title": "p_{T} [GeV]"},
+    ],
+}
+
+#### fit models (as TopHNT_Muon_Run3_v0: MC template (x) Gaussian, RooCMSShape)
+fit_nominal = [
+    "HistPdf::sigPhysPass(x,histPass_genmatching,2)",
+    "HistPdf::sigPhysFail(x,histFail_genmatching,2)",
+    "Gaussian::sigResPass(x,meanGaussP[0.0,-5.0,5.0],sigmaP[1.0,0.1,4.0])",
+    "Gaussian::sigResFail(x,meanGaussF[0.0,-5.0,5.0],sigmaF[1.4,0.1,4.0])",
+    "FCONV::sigPass(x, sigPhysPass , sigResPass)",
+    "FCONV::sigFail(x, sigPhysFail , sigResFail)",
+    "RooCMSShape::bkgPass(x, aCMSP[60.,50.,80.],bCMSP[0.1,0.01,0.25],cCMSP[0.05, -0.1,0.2],peakCMSP[90.0])",
+    "RooCMSShape::bkgFail(x, aCMSF[60.,50.,80.],bCMSF[0.1,0.01,0.25],cCMSF[0.05, -0.1,0.2],peakCMSF[90.0])",
+]
+fit_altbkg = [
+    "HistPdf::sigPhysPass(x,histPass_genmatching,2)",
+    "HistPdf::sigPhysFail(x,histFail_genmatching,2)",
+    "Gaussian::sigResPass(x,meanGaussP[0.0,-5.0,5.0],sigmaP[1.0,0.1,4.0])",
+    "Gaussian::sigResFail(x,meanGaussF[0.0,-5.0,5.0],sigmaF[1.4,0.1,4.0])",
+    "FCONV::sigPass(x, sigPhysPass , sigResPass)",
+    "FCONV::sigFail(x, sigPhysFail , sigResFail)",
+    "Exponential::bkgPass(x, alphaP[0.,-3.,3.])",
+    "Exponential::bkgFail(x, alphaF[0.,-3.,3.])",
+]
+
+#### denominator: tag (MUO 2024) and TrackerMuon probe
+# probe_isDuplicated: the probe pairs with more than one nominal tag (iso < 0.2);
+# probe_nTagsIso0p{1,3} give the same count for the tag-iso variations.
+expr = ("(probe_isTracker"
+        " && abs(probe_dxy) < 0.2 && abs(probe_dz) < 0.5"
+        " && tag_isTight && tag_pt > 26. && abs(tag_eta) < 2.4 && tag_IsoMu24 == 1"
+        " && abs(tag_dxy) < 0.2 && abs(tag_dz) < 0.5"
+        " && pair_probeMultiplicity == 1 && !probe_isDuplicated"
+        " && tag_pfRelIso04 < 0.2)")
+
+
+def tag_iso(cut):
+    return expr.replace("tag_pfRelIso04 < 0.2", "tag_pfRelIso04 < {}".format(cut)) \
+               .replace("!probe_isDuplicated", "probe_nTagsIso{} < 2".format(str(cut).replace(".", "p")))
+
+
+#### numerators
+# our tight ID (HcToWABase::EvaluateMuonIDs): POG medium, |dz| < 0.1, SIP3D < 3,
+# TkRelIso < 0.4, miniIso < 0.1, precomputed by the producer
+HcToWATight = "(probe_isHcToWATight)"
+POGMedium = "(probe_isMedium)"
+POGTight = "(probe_isTight)"
+
+systematic = [
+    [{"title": "tagIso0p3", "expr": tag_iso(0.3)},
+     {"title": "tagIso0p1", "expr": tag_iso(0.1)}],
+    [{"title": "massbin160", "hist_nbins": 200},     # 0.25 GeV
+     {"title": "massbin40", "hist_nbins": 50}],      # 1 GeV
+    [{"title": "massrange75to115", "fit_range": (75, 115)},
+     {"title": "massrange65to105", "fit_range": (65, 105)}],
+    [{"title": "altsig", "sim": samples["amc2024"]}], # amc@NLO template (and MC efficiency)
+    [{"title": "altbkg", "fit_parameter": fit_altbkg}],
+]
+
+Configs = {}
+config = tnpConfig(
+    data=samples["data2024"],
+    sim=samples["mg2024"],
+    sim_weight="weight",
+    sim_maxweight=1e5,
+    sim_genmatching="tag_gen_matched && probe_gen_matched",
+    sim_genmass="pair_gen_mass",
+    tree="muon/Events",
+    mass="pair_mass",
+    bins=binnings["ID"],
+    expr=expr,
+    test=HcToWATight,
+    hist_nbins=100,           # 0.5 GeV: 80 bins in the 70-110 GeV fit window
+    hist_range=(65, 115),     # covers the 65-105 / 75-115 range variations
+    method="fit",
+    fit_parameter=fit_nominal,
+    fit_range=(70, 110),
+    systematic=systematic,
+)
+
+Configs["NUM_HcToWATight_DEN_TrackerMuons_2024"] = config.clone()
+# POG working points for the validation against the official MUO 2024 SFs
+Configs["NUM_MediumID_DEN_TrackerMuons_2024"] = config.clone(test=POGMedium)
+Configs["NUM_TightID_DEN_TrackerMuons_2024"] = config.clone(test=POGTight)
+
+if __name__ == "__main__":
+    for key in sorted(Configs.keys()):
+        print(key)
