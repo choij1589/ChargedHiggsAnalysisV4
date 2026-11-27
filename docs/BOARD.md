@@ -28,6 +28,7 @@ Feasibility study of B2G-25-013 with the **2024 data set alone** (NanoAODv15, RN
 
 ## Next step
 
+- **Blocked (2026-11-28 03:48): KNU scratch purge.** The purge deleted files of the `Nano` env (Python stdlib, `bin/root`) and `NanoV15` (`packaging`), and SKNano's `external/libtorch` and part of `lhapdf/data`. Every PreBTagEff SR-tree job after 03:48 failed; 10 data files were done before. Needs the user: repair Nano, NanoV15 and the SKNano externals (inputs prepared, `LOG_Computing.md` 2026-11-28), then resubmit the failed samples. The SRS chain itself works end to end on condor (MA90 test on the Val inputs, staged out to /pnfs `ValChainTest_v1`).
 - **On-going (2026-11-27 night): signal and Baseline limits** (`docs/PLAN_Signal.md`; decisions S1-S5, S7, S8 settled, `LOG_TmpCnstrct.md`): step A TriLepton SR tree mode (RNTuple, systematic lanes, per-flavour nonprompt), b-tag efficiencies (DiLepton option on TTLL), signal theory sums; step B `SignalRegionStudy` repository (submodule; KNU clone `/d0/scratch/choij/SignalRegionStudy`), CMSSW_16_0_0 + Combine v11.1.0 builds (local `~/local/workspace`, KNU in the clone), port of SignalRegionStudyV4 incl. mA interpolation (1D at mH+ = 130); gates G1-G3. Open for the user: 2024 lumi uncertainty (S6, TWiki down); interpolation uncertainty size (gate on S2).
 - Order (user, 2026-11-25): implement and test Skim_FakeRate + MeasFakeRate (PLAN_BkgEst step 1); then 1. finalize DiLepton and its AN sections, 2. skims (Skim_TriLep and Skim_FakeRate together), 3. fake-rate measurement and closure.
 
