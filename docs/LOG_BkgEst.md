@@ -2,6 +2,10 @@
 
 Decisions and findings for the Background estimation section of AN-26-267. Newest entry first.
 
+## 2026-11-27 (nonprompt nuisances in the templates, user)
+
+- **Decided (user), S5 of `PLAN_Signal.md`:** F1 implemented as decided: per-flavour shape nuisances (muon, electron) from Total_Up / Total_Down of one flavour at a time, shared by e mu mu and mu mu mu; TriLepton gets per-flavour nonprompt weight fields (tree mode) and histogram lanes (now only both flavours together: +22 / -20% e mu mu, +18 / -16% mu mu mu). No per-channel lnN.
+
 ## 2026-11-27 (eps_p: deferred to the next iteration, user)
 
 - **Decided (user):** eps_p = 1 is kept for the feasibility study (F4 (a), quantified by the closure: prompt LNT share 1.4% e mu mu, < 0.1% mu mu mu, vs rate uncertainty 7.2% / 11.3%); the prompt-rate treatment goes to the next iteration after the final limits, with the prompt subtraction of the fake rates and the DYGto2LG comparison. AN `Sections/BkgEst.tex` (`sssec:BkgEst_FkPromptRate`): user-decision TODO replaced by the statement and a next-iteration TODO. No user decision is left open in the background estimation.

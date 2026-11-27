@@ -1,0 +1,3 @@
+[submodule "SignalRegionStudy"]
+	path = SignalRegionStudy
+	url = git@github.com:choij1589/SignalRegionStudy.git

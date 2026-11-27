@@ -2,6 +2,18 @@
 
 Decisions and findings for the Template construction section of AN-26-267 (signal modelling, binning, templates, mu mu mu A-candidate choice). Newest entry first.
 
+## 2026-11-27 (format, environment, systematics, signal normalization, user)
+
+- **S3:** TriLepton tree mode (`SRTree`), RNTuple output read directly by the chain (ROOT 6.36), no TTree conversion; gate: 6.36.07 reads our 6.40.02 RNTuples.
+- **S7:** CMSSW_16_0_0 (ROOT 6.36.07) + Combine v11.1.0 (current recommendation), clean build with n-2 cores; no CombineHarvester (combineTool.py / plotImpacts.py are in Combine). Gates: template step reproduces a previous point (the previous notes say ROOT 6.36 segfaulted template making), v11.1.0 limit on a previous datacard agrees with v10.5.1.
+- **S4:** full previous systematic list where 2024 inputs exist (DiLepton lanes; muon resolution new; trigger as shape from the measured SFs; ZZ 4.2%; WZ 12% correlated); object variations as separate RNTuples, weight variations as fields.
+- **Signal (user proposal):** B_sig limits only; tt cross-section lnN on the signal; theory variations (muF, muR, PDF + alpha_s, ISR, FSR) normalized at generator level (sum of weights over all generated events), so they keep the acceptance effect and drop the inclusive cross-section effect covered by the lnN. The previous chain normalized the signal to a 5 fb reference and converted to B_sig with the central sigma(tt) (no tt uncertainty in the fit), with raw theory weights.
+
+## 2026-11-27 (mass points: mA interpolation as in the previous study, user)
+
+- **Decided (user), S2 of `PLAN_Signal.md`:** the mA interpolation of `SignalRegionStudyV4` (docs/interpolation/WORKFLOW.md) on the 23 generated MHc130 points, reduced to fits in mA at mH+ = 130 GeV (the previous (mH+, mA) surfaces need the seven mH+ studies; 2024 has only 130 GeV), with the previous model choices, deltas, LOO closure and within-study RMS uncertainties.
+- **Gate (user):** check the size of the interpolation (modelling) uncertainties first; if large, use only the simulated mass points until the full simulation exists.
+
 ## 2026-11-27 (method and mu mu mu A candidate, user)
 
 - **Decided (user):** the limits use the binned shape method of B2G-25-013 `ChargedHiggsAnalysisV3/SignalRegionStudyV4` (`python/makeBinnedTemplates.py`, `binned_template_core.py`, `template_utils.py:298`): DCB fit of the signal per mass point -> x0, sigma_eff = sqrt((sigma_L^2 + sigma_R^2) / 2); window x0 +- 10 sigma_eff (lower edge >= 12 GeV); n_core uniform bins in +-5 sigma_eff plus one sideband bin on each side; n_core scanned 15 -> 5 until every background bin has n_eff = round(y^2 / sigma^2) >= 5 (autoMCStats rule). First with the Baseline selection (SR without ParticleNet), then the ParticleNet selection with the same templates.

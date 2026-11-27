@@ -4,6 +4,10 @@ Decisions and findings for the ObjectID section of AN-26-267: lepton, jet, b-jet
 
 
 
+## 2026-11-27 (b-tag efficiencies: selection decided, user)
+
+- **Decided (user), S1 of `PLAN_Signal.md`: (a)**, the previous method (`docs/previous_analysis/SKNanoAnalyzer/Analyzers/src/MeasJetTagEff.cc`): dilepton tt selection (tight e mu or >= 2 tight mu with the B2G triggers and pT cuts, >= 2 lepton-cleaned tight jets, pT > 20, |eta| < 2.5), hadron flavour, weight gen x norm x PU, previous |eta| x pT binning, UParT Medium, on TTLL; implemented as an option of DiLepton. Reason: the previous analysis did so, most statistics, and the SR is tt-like (signal, ttX and nonprompt about 90% of the expected SR background). Cross-check: the trilepton loose preselection, all MC, from the TriLepton tree production (option (b)). Replaces the approximate `2024/BTV/btaggingEff.json` after the user review (PLAN 2.5).
+
 ## 2026-11-27 (AN: ObjectID section and appendix finalized up to the open decisions)
 
 - **Written** (an-writer) in `docs/AN-26-267/Sections/ObjectID.tex` and `Appendix/ObjectID.tex`:

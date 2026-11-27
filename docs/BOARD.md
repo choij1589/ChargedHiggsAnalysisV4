@@ -28,7 +28,7 @@ Feasibility study of B2G-25-013 with the **2024 data set alone** (NanoAODv15, RN
 
 ## Next step
 
-- **Next (user, 2026-11-27): signal and Baseline limits, before ParticleNet.** Plan `docs/PLAN_Signal.md` (2026-11-27, open decisions S1-S8): b-tag efficiencies (2.5), signal at mH+ = 130 GeV with the binned shape method of SignalRegionStudyV4 (4.1-4.3; mu mu mu A candidate = previous rule, other options as studies, `LOG_TmpCnstrct.md`), expected limits with the Baseline selection (6.1); then ParticleNet (5).
+- **On-going (2026-11-27 night): signal and Baseline limits** (`docs/PLAN_Signal.md`; decisions S1-S5, S7, S8 settled, `LOG_TmpCnstrct.md`): step A TriLepton SR tree mode (RNTuple, systematic lanes, per-flavour nonprompt), b-tag efficiencies (DiLepton option on TTLL), signal theory sums; step B `SignalRegionStudy` repository (submodule; KNU clone `/d0/scratch/choij/SignalRegionStudy`), CMSSW_16_0_0 + Combine v11.1.0 builds (local `~/local/workspace`, KNU in the clone), port of SignalRegionStudyV4 incl. mA interpolation (1D at mH+ = 130); gates G1-G3. Open for the user: 2024 lumi uncertainty (S6, TWiki down); interpolation uncertainty size (gate on S2).
 - Order (user, 2026-11-25): implement and test Skim_FakeRate + MeasFakeRate (PLAN_BkgEst step 1); then 1. finalize DiLepton and its AN sections, 2. skims (Skim_TriLep and Skim_FakeRate together), 3. fake-rate measurement and closure.
 
 - User review of the DiLepton plots (`DiLepton/plots/AN/2024/`, TrigDZ production (ZEE TrigSF), all corrections in Central; findings in `LOG_ObjectID.md`, `LOG_Trigger.md`): data/MC DIMU 0.992, EMU 0.957, ZEE 0.983; PU modelling open.

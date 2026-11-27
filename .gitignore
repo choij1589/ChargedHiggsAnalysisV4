@@ -17,3 +17,6 @@ KNU/**/*.log
 KNU/**/condor_log*
 KNU/hcto_prod/sknano_orig_stageout/config/
 KNU/hcto_prod/pnfs_move/move.jds
+
+# local CMSSW + Combine area for the SignalRegionStudy check (symlink to ~/local/workspace/CMSSW_16_0_0)
+Common/CMSSW_*
