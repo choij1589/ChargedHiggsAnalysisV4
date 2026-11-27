@@ -2,6 +2,10 @@
 
 Decisions and findings for the Background estimation section of AN-26-267. Newest entry first.
 
+## 2026-11-27 (eps_p: deferred to the next iteration, user)
+
+- **Decided (user):** eps_p = 1 is kept for the feasibility study (F4 (a), quantified by the closure: prompt LNT share 1.4% e mu mu, < 0.1% mu mu mu, vs rate uncertainty 7.2% / 11.3%); the prompt-rate treatment goes to the next iteration after the final limits, with the prompt subtraction of the fake rates and the DYGto2LG comparison. AN `Sections/BkgEst.tex` (`sssec:BkgEst_FkPromptRate`): user-decision TODO replaced by the statement and a next-iteration TODO. No user decision is left open in the background estimation.
+
 ## 2026-11-27 (WZ normalization uncertainty: 12%, correlated)
 
 - **Decided (user):** WZ normalization uncertainty 12%, one lnN fully correlated between e mu mu and mu mu mu. It is |1 - r| (+) sigma(r) of the WZ CR ratio at N_jets >= 2, 0.072 (+) 0.095 = 0.12 (e mu mu) and 0.061 (+) 0.093 = 0.11 (mu mu mu), the larger for both. Supersedes the 10% of the entry below (my "~10%" was a wrong rounding of the same sum). AN updated: `Sections/BkgEst.tex` (WZ CR decision paragraph and its later-phase TODO), `Sections/Dataset.tex` (WZ paragraph). Effect on the expected SR background: 0.8% (e mu mu), 0.9% (mu mu mu).
