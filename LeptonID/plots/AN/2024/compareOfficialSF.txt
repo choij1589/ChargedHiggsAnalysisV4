@@ -1,0 +1,129 @@
+== NUM_cutBasedTight_DEN_RecoElectrons_2024 vs EGM Tight (electron.json; data/MC: statistical errors, SF: total)
+   data      |ours - official| median 0.0055, max 0.0315 | |pull| median 1.96, >2: 27, >3: 25 of 56
+       pull -16.2 at eta +1.78 pT 150.0: ours 0.8642+-0.0010 official 0.8800+-0.0000
+       pull -10.8 at eta -0.40 pT 150.0: ours 0.8421+-0.0015 official 0.8584+-0.0000
+       pull -10.7 at eta -1.12 pT 150.0: ours 0.8563+-0.0020 official 0.8774+-0.0000
+       pull  -9.7 at eta +0.40 pT 150.0: ours 0.8422+-0.0016 official 0.8573+-0.0000
+       pull  -9.2 at eta +1.12 pT 150.0: ours 0.8544+-0.0019 official 0.8717+-0.0000
+       pull  +6.1 at eta +1.12 pT  27.5: ours 0.6379+-0.0005 official 0.6283+-0.0015
+       pull  +5.8 at eta +1.12 pT  60.0: ours 0.7855+-0.0005 official 0.7777+-0.0012
+       pull  -5.4 at eta +0.40 pT 250.0: ours 0.8568+-0.0055 official 0.8860+-0.0000
+       pull  -5.2 at eta -1.78 pT 150.0: ours 0.8698+-0.0029 official 0.8850+-0.0000
+       pull  +5.0 at eta -1.12 pT  60.0: ours 0.7958+-0.0005 official 0.7890+-0.0013
+       pull  -4.9 at eta +0.40 pT  15.0: ours 0.5331+-0.0012 official 0.5575+-0.0049
+       pull  -4.9 at eta -0.40 pT 250.0: ours 0.8540+-0.0060 official 0.8831+-0.0000
+       pull  -4.6 at eta +1.12 pT 250.0: ours 0.8780+-0.0069 official 0.9095+-0.0000
+       pull  +3.7 at eta +2.25 pT  42.5: ours 0.7504+-0.0003 official 0.7451+-0.0014
+       pull  -3.7 at eta -1.78 pT  27.5: ours 0.7198+-0.0008 official 0.7261+-0.0015
+       pull  +3.6 at eta +0.40 pT  60.0: ours 0.7830+-0.0003 official 0.7785+-0.0012
+       pull  +3.6 at eta +0.40 pT  27.5: ours 0.6375+-0.0004 official 0.6321+-0.0015
+       pull  +3.5 at eta +2.25 pT  15.0: ours 0.6758+-0.0056 official 0.6480+-0.0057
+       pull  +3.4 at eta -0.40 pT  27.5: ours 0.6450+-0.0004 official 0.6398+-0.0015
+       pull  -3.4 at eta -0.40 pT  15.0: ours 0.5430+-0.0027 official 0.5599+-0.0042
+       pull  +3.4 at eta -2.25 pT  15.0: ours 0.6531+-0.0028 official 0.6319+-0.0056
+       pull  +3.4 at eta -2.25 pT  60.0: ours 0.7507+-0.0007 official 0.7410+-0.0028
+       pull  +3.3 at eta -0.40 pT  60.0: ours 0.7889+-0.0005 official 0.7846+-0.0012
+       pull  -3.3 at eta -1.12 pT 250.0: ours 0.8726+-0.0071 official 0.8960+-0.0000
+       pull  -3.2 at eta +1.78 pT  85.0: ours 0.8384+-0.0024 official 0.8488+-0.0021
+   sim       |ours - official| median 0.0038, max 0.0152 | |pull| median 1.44, >2: 20, >3: 8 of 56
+       pull  -5.0 at eta -1.78 pT  15.0: ours 0.6089+-0.0018 official 0.6229+-0.0021
+       pull  -4.9 at eta +1.78 pT  15.0: ours 0.5959+-0.0023 official 0.6111+-0.0021
+       pull  -4.9 at eta +2.25 pT  42.5: ours 0.7033+-0.0004 official 0.7104+-0.0014
+       pull  -4.8 at eta -2.25 pT  42.5: ours 0.7104+-0.0004 official 0.7174+-0.0014
+       pull  -3.3 at eta -0.40 pT  15.0: ours 0.5850+-0.0013 official 0.5921+-0.0017
+       pull  +3.3 at eta +0.40 pT  27.5: ours 0.6896+-0.0003 official 0.6846+-0.0015
+       pull  +3.3 at eta +1.78 pT  27.5: ours 0.6864+-0.0008 official 0.6810+-0.0015
+       pull  +3.2 at eta -1.78 pT  27.5: ours 0.6950+-0.0007 official 0.6898+-0.0015
+   sf        |ours - official| median 0.0093, max 0.0635 | |pull| median 0.48, >2: 4, >3: 2 of 56
+       pull  -4.1 at eta +1.12 pT 150.0: ours 0.9618+-0.0043 official 0.9836+-0.0031
+       pull  -3.9 at eta -1.12 pT 150.0: ours 0.9707+-0.0045 official 0.9918+-0.0031
+   10-20 GeV:      data ours / EGM       MC ours / EGM        SF ours / EGM
+     eta -2.25   0.653 / 0.632 (+3.4)   0.551 / 0.560 (-2.3)   1.186+-0.046 / 1.129+-0.042
+     eta -1.78   0.707 / 0.695 (+1.0)   0.609 / 0.623 (-5.0)   1.162+-0.059 / 1.116+-0.055
+     eta -1.12   0.595 / 0.596 (-0.4)   0.552 / 0.558 (-2.3)   1.078+-0.056 / 1.069+-0.082
+     eta -0.40   0.543 / 0.560 (-3.4)   0.585 / 0.592 (-3.3)   0.928+-0.048 / 0.946+-0.048
+     eta +0.40   0.533 / 0.557 (-4.9)   0.590 / 0.595 (-2.4)   0.903+-0.048 / 0.936+-0.048
+     eta +1.12   0.575 / 0.574 (+0.2)   0.549 / 0.554 (-2.0)   1.047+-0.056 / 1.037+-0.082
+     eta +1.78   0.700 / 0.679 (+1.8)   0.596 / 0.611 (-4.9)   1.174+-0.060 / 1.111+-0.055
+     eta +2.25   0.676 / 0.648 (+3.5)   0.551 / 0.557 (-1.4)   1.228+-0.047 / 1.164+-0.042
+== NUM_wp90noiso_DEN_RecoElectrons_2024 vs EGM wp90noiso (electron.json; data/MC: statistical errors, SF: total)
+   data      |ours - official| median 0.0059, max 0.0556 | |pull| median 2.75, >2: 37, >3: 23 of 56
+       pull  +9.6 at eta +1.78 pT  15.0: ours 0.8131+-0.0040 official 0.7574+-0.0043
+       pull  -9.4 at eta +1.12 pT 150.0: ours 0.9114+-0.0017 official 0.9276+-0.0000
+       pull  -9.3 at eta -1.12 pT 150.0: ours 0.9118+-0.0018 official 0.9285+-0.0000
+       pull  -8.3 at eta +0.40 pT 150.0: ours 0.9206+-0.0012 official 0.9305+-0.0000
+       pull  -7.3 at eta -0.40 pT  15.0: ours 0.5949+-0.0013 official 0.6177+-0.0028
+       pull  -7.0 at eta -0.40 pT 150.0: ours 0.9195+-0.0016 official 0.9303+-0.0000
+       pull  -6.8 at eta +0.40 pT  15.0: ours 0.5933+-0.0013 official 0.6189+-0.0035
+       pull  -6.1 at eta +1.78 pT  85.0: ours 0.9387+-0.0019 official 0.9538+-0.0016
+       pull  -5.8 at eta -1.78 pT  85.0: ours 0.9319+-0.0013 official 0.9434+-0.0015
+       pull  -5.2 at eta +0.40 pT 250.0: ours 0.9085+-0.0049 official 0.9341+-0.0000
+       pull  -5.1 at eta -0.40 pT 250.0: ours 0.9164+-0.0047 official 0.9403+-0.0000
+       pull  +5.0 at eta +2.25 pT  15.0: ours 0.7204+-0.0053 official 0.6811+-0.0059
+       pull  -4.7 at eta -1.12 pT  27.5: ours 0.8116+-0.0005 official 0.8175+-0.0012
+       pull  -4.5 at eta -0.40 pT  85.0: ours 0.9129+-0.0009 official 0.9191+-0.0011
+       pull  -4.4 at eta -2.25 pT 150.0: ours 0.9040+-0.0035 official 0.9195+-0.0000
+       pull  -4.4 at eta +1.12 pT  27.5: ours 0.8051+-0.0005 official 0.8106+-0.0012
+       pull  -4.1 at eta -2.25 pT  27.5: ours 0.7944+-0.0006 official 0.8004+-0.0013
+       pull  -4.1 at eta -1.78 pT 150.0: ours 0.9454+-0.0026 official 0.9561+-0.0000
+       pull  +3.8 at eta -2.25 pT  15.0: ours 0.7062+-0.0030 official 0.6834+-0.0052
+       pull  -3.6 at eta +2.25 pT 150.0: ours 0.9217+-0.0040 official 0.9361+-0.0000
+       pull  -3.6 at eta +1.12 pT 250.0: ours 0.9109+-0.0066 official 0.9345+-0.0000
+       pull  +3.4 at eta -1.78 pT  15.0: ours 0.8041+-0.0035 official 0.7827+-0.0052
+       pull  -3.3 at eta -2.25 pT  85.0: ours 0.9010+-0.0023 official 0.9136+-0.0030
+   sim       |ours - official| median 0.0040, max 0.0193 | |pull| median 2.23, >2: 30, >3: 23 of 56
+       pull  -7.5 at eta -1.12 pT 250.0: ours 0.9263+-0.0019 official 0.9408+-0.0000
+       pull  -6.7 at eta -1.78 pT  15.0: ours 0.7774+-0.0022 official 0.7967+-0.0019
+       pull  -6.2 at eta +1.78 pT  15.0: ours 0.7733+-0.0024 official 0.7921+-0.0019
+       pull  -6.1 at eta -0.40 pT  15.0: ours 0.7079+-0.0013 official 0.7194+-0.0014
+       pull  -5.9 at eta +2.25 pT  42.5: ours 0.9143+-0.0002 official 0.9209+-0.0011
+       pull  -5.5 at eta -2.25 pT  15.0: ours 0.7346+-0.0021 official 0.7512+-0.0021
+       pull  -5.5 at eta +0.40 pT  15.0: ours 0.7184+-0.0012 official 0.7286+-0.0014
+       pull  -5.2 at eta +1.78 pT  27.5: ours 0.8844+-0.0007 official 0.8912+-0.0011
+       pull  -5.0 at eta +1.12 pT  15.0: ours 0.7081+-0.0018 official 0.7192+-0.0014
+       pull  -4.9 at eta -2.25 pT  42.5: ours 0.9216+-0.0002 official 0.9271+-0.0011
+       pull  -4.8 at eta +2.25 pT  27.5: ours 0.8563+-0.0006 official 0.8625+-0.0012
+       pull  -4.7 at eta -2.25 pT  27.5: ours 0.8664+-0.0006 official 0.8726+-0.0012
+       pull  -4.4 at eta -1.12 pT  15.0: ours 0.7126+-0.0017 official 0.7221+-0.0014
+       pull  -4.3 at eta -1.78 pT  42.5: ours 0.9363+-0.0002 official 0.9409+-0.0011
+       pull  -4.2 at eta -1.78 pT  27.5: ours 0.8890+-0.0006 official 0.8943+-0.0011
+       pull  -4.0 at eta +1.78 pT  42.5: ours 0.9372+-0.0002 official 0.9416+-0.0011
+       pull  -4.0 at eta -0.40 pT  42.5: ours 0.9241+-0.0001 official 0.9283+-0.0011
+       pull  -3.8 at eta -0.40 pT  27.5: ours 0.8623+-0.0003 official 0.8668+-0.0011
+       pull  -3.7 at eta +0.40 pT  42.5: ours 0.9291+-0.0001 official 0.9331+-0.0011
+       pull  -3.5 at eta +2.25 pT  15.0: ours 0.7245+-0.0037 official 0.7395+-0.0021
+       pull  -3.3 at eta +1.12 pT  27.5: ours 0.8626+-0.0004 official 0.8667+-0.0012
+       pull  -3.2 at eta +0.40 pT  27.5: ours 0.8704+-0.0003 official 0.8742+-0.0011
+       pull  -3.1 at eta +1.78 pT  60.0: ours 0.9434+-0.0004 official 0.9470+-0.0011
+   sf        |ours - official| median 0.0050, max 0.0951 | |pull| median 0.43, >2: 2, >3: 0 of 56
+   10-20 GeV:      data ours / EGM       MC ours / EGM        SF ours / EGM
+     eta -2.25   0.706 / 0.683 (+3.8)   0.735 / 0.751 (-5.5)   0.961+-0.041 / 0.910+-0.053
+     eta -1.78   0.804 / 0.783 (+3.4)   0.777 / 0.797 (-6.7)   1.034+-0.050 / 0.982+-0.055
+     eta -1.12   0.715 / 0.712 (+0.7)   0.713 / 0.722 (-4.4)   1.003+-0.048 / 0.987+-0.053
+     eta -0.40   0.595 / 0.618 (-7.3)   0.708 / 0.719 (-6.1)   0.840+-0.040 / 0.859+-0.038
+     eta +0.40   0.593 / 0.619 (-6.8)   0.718 / 0.729 (-5.5)   0.826+-0.040 / 0.849+-0.038
+     eta +1.12   0.699 / 0.699 (+0.0)   0.708 / 0.719 (-5.0)   0.988+-0.048 / 0.972+-0.053
+     eta +1.78   0.813 / 0.757 (+9.6)   0.773 / 0.792 (-6.2)   1.051+-0.050 / 0.956+-0.055
+     eta +2.25   0.720 / 0.681 (+5.0)   0.725 / 0.740 (-3.5)   0.994+-0.042 / 0.921+-0.053
+== NUM_MediumID_DEN_TrackerMuons_2024 vs MUO NUM_MediumID_DEN_TrackerMuons (data: MUO fit, MC: MUO count 70-110 GeV, statistical errors; SF: muon_Z.json, total)
+   check: MUO data/MC reproduces muon_Z.json SF to median 3.6e-05, max 2.9e-04
+   data      |ours - official| median 0.0002, max 0.0062 | |pull| median 0.63, >2: 9, >3: 3 of 117
+       pull  +3.9 at eta -2.25 pT  17.5: ours 0.9564+-0.0004 official 0.9538+-0.0005
+       pull  +3.0 at eta +1.85 pT  17.5: ours 0.9907+-0.0003 official 0.9895+-0.0002
+       pull  +3.0 at eta -1.85 pT  17.5: ours 0.9891+-0.0004 official 0.9878+-0.0002
+   sim       |ours - official| median 0.0001, max 0.0019 | |pull| median 0.83, >2: 13, >3: 2 of 117
+       pull  +6.0 at eta +1.85 pT  17.5: ours 0.9961+-0.0001 official 0.9952+-0.0001
+       pull  +4.8 at eta -1.85 pT  17.5: ours 0.9954+-0.0001 official 0.9947+-0.0001
+   sf        |ours - official| median 0.0002, max 0.0050 | |pull| median 0.32, >2: 0, >3: 0 of 117
+== NUM_TightID_DEN_TrackerMuons_2024 vs MUO NUM_TightID_DEN_TrackerMuons (data: MUO fit, MC: MUO count 70-110 GeV, statistical errors; SF: muon_Z.json, total)
+   check: MUO data/MC reproduces muon_Z.json SF to median 4.2e-05, max 1.0e-03
+   data      |ours - official| median 0.0003, max 0.0065 | |pull| median 0.72, >2: 4, >3: 2 of 117
+       pull  +3.6 at eta -2.25 pT  17.5: ours 0.9545+-0.0008 official 0.9510+-0.0006
+       pull  +3.1 at eta -1.85 pT  17.5: ours 0.9832+-0.0003 official 0.9820+-0.0003
+   sim       |ours - official| median 0.0002, max 0.0077 | |pull| median 0.89, >2: 17, >3: 5 of 117
+       pull  +4.1 at eta +1.85 pT  17.5: ours 0.9925+-0.0001 official 0.9917+-0.0001
+       pull  +3.8 at eta -1.85 pT  17.5: ours 0.9920+-0.0001 official 0.9912+-0.0001
+       pull  +3.7 at eta -1.85 pT  35.0: ours 0.9925+-0.0000 official 0.9923+-0.0000
+       pull  +3.3 at eta +0.25 pT  27.5: ours 0.8930+-0.0002 official 0.8916+-0.0004
+       pull  +3.2 at eta +0.25 pT  45.0: ours 0.8920+-0.0000 official 0.8914+-0.0002
+   sf        |ours - official| median 0.0003, max 0.0068 | |pull| median 0.34, >2: 0, >3: 0 of 117

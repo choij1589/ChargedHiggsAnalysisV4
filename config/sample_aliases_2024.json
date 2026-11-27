@@ -1,0 +1,267 @@
+{
+  "DYGTo2LG_*": [
+    "DYGto2LG_1J_MLL4to50",
+    "DYGto2LG_1J_MLL50_PTG100toInf",
+    "DYGto2LG_1J_MLL50_PTG200toInf",
+    "DYGto2LG_1J_MLL50_PTG400toInf",
+    "DYGto2LG_1J_MLL50_PTG600toInf",
+    "DYGto2LG_1J_MLL50toInf"
+  ],
+  "DYJets": [
+    "DYto2E_2J_MLL50toInf",
+    "DYto2E_4J_MLL50toInf",
+    "DYto2Mu_2J_MLL50toInf",
+    "DYto2Mu_4J_MLL50toInf",
+    "DYto2Tau_2J_MLL50toInf",
+    "DYto2Tau_4J_MLL50toInf"
+  ],
+  "DYJets10to50": [
+    "DYto2E_2J_MLL10to50",
+    "DYto2E_4J_MLL10to50",
+    "DYto2Mu_2J_MLL10to50",
+    "DYto2Mu_4J_MLL10to50",
+    "DYto2Tau_2J_MLL10to50",
+    "DYto2Tau_4J_MLL10to50"
+  ],
+  "EGamma": [
+    "EGamma0",
+    "EGamma1"
+  ],
+  "Muon": [
+    "Muon0",
+    "Muon1"
+  ],
+  "MuonEG": [
+    "MuonEG"
+  ],
+  "QCD_Pt-*": [
+    "QCD_PT1000toInf_EMEnriched",
+    "QCD_PT1000toInf_MuEnriched",
+    "QCD_PT1000toInf_bcToE",
+    "QCD_PT120to170_EMEnriched",
+    "QCD_PT120to170_MuEnriched",
+    "QCD_PT120to170_bcToE",
+    "QCD_PT15to20_EMEnriched",
+    "QCD_PT15to20_MuEnriched",
+    "QCD_PT15to20_bcToE",
+    "QCD_PT170to300_EMEnriched",
+    "QCD_PT170to300_MuEnriched",
+    "QCD_PT170to300_bcToE",
+    "QCD_PT20to30_EMEnriched",
+    "QCD_PT20to30_MuEnriched",
+    "QCD_PT20to30_bcToE",
+    "QCD_PT300to470_EMEnriched",
+    "QCD_PT300to470_MuEnriched",
+    "QCD_PT300to470_bcToE",
+    "QCD_PT30to50_EMEnriched",
+    "QCD_PT30to50_MuEnriched",
+    "QCD_PT30to50_bcToE",
+    "QCD_PT470to600_EMEnriched",
+    "QCD_PT470to600_MuEnriched",
+    "QCD_PT470to600_bcToE",
+    "QCD_PT50to80_EMEnriched",
+    "QCD_PT50to80_MuEnriched",
+    "QCD_PT50to80_bcToE",
+    "QCD_PT600to800_EMEnriched",
+    "QCD_PT600to800_MuEnriched",
+    "QCD_PT600to800_bcToE",
+    "QCD_PT800to1000_EMEnriched",
+    "QCD_PT800to1000_MuEnriched",
+    "QCD_PT800to1000_bcToE",
+    "QCD_PT80to120_EMEnriched",
+    "QCD_PT80to120_MuEnriched",
+    "QCD_PT80to120_bcToE"
+  ],
+  "ST_sch_antitop_Lep": [
+    "ST_sch_antitop_Lep"
+  ],
+  "ST_sch_top_Lep": [
+    "ST_sch_top_Lep"
+  ],
+  "ST_tW_antitop_Lep": [
+    "ST_tW_antitop_Lep"
+  ],
+  "ST_tW_antitop_Semilep": [
+    "ST_tW_antitop_Semilep"
+  ],
+  "ST_tW_top_Lep": [
+    "ST_tW_top_Lep"
+  ],
+  "ST_tW_top_Semilep": [
+    "ST_tW_top_Semilep"
+  ],
+  "ST_tch_antitop": [
+    "ST_tch_antitop_lep",
+    "ST_tch_antitop_had"
+  ],
+  "ST_tch_top": [
+    "ST_tch_top_lep",
+    "ST_tch_top_had"
+  ],
+  "TTG_PTG*": [
+    "TTG_1J"
+  ],
+  "TTG_PTG100to200+TTG_PTG200toInf": [
+    "TTG_1J_PTG100toInf"
+  ],
+  "TTG_PTG200toInf": [
+    "TTG_1J_PTG200toInf"
+  ],
+  "TTHToNonbb": [
+    "ttHtoNonbb_M125"
+  ],
+  "TTJJ_powheg": [
+    "TTJJ_powheg"
+  ],
+  "TTLJ_powheg": [
+    "TTLJ_powheg"
+  ],
+  "TTLL_powheg": [
+    "TTLL_powheg"
+  ],
+  "TTTT": [
+    "TTTT"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA100": [
+    "TTToHcToWAToMuMu-MHc130_MA100"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA105": [
+    "TTToHcToWAToMuMu-MHc130_MA105"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA110": [
+    "TTToHcToWAToMuMu-MHc130_MA110"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA115": [
+    "TTToHcToWAToMuMu-MHc130_MA115"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA120": [
+    "TTToHcToWAToMuMu-MHc130_MA120"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA125": [
+    "TTToHcToWAToMuMu-MHc130_MA125"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA15": [
+    "TTToHcToWAToMuMu-MHc130_MA15"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA20": [
+    "TTToHcToWAToMuMu-MHc130_MA20"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA25": [
+    "TTToHcToWAToMuMu-MHc130_MA25"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA30": [
+    "TTToHcToWAToMuMu-MHc130_MA30"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA35": [
+    "TTToHcToWAToMuMu-MHc130_MA35"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA40": [
+    "TTToHcToWAToMuMu-MHc130_MA40"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA45": [
+    "TTToHcToWAToMuMu-MHc130_MA45"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA50": [
+    "TTToHcToWAToMuMu-MHc130_MA50"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA55": [
+    "TTToHcToWAToMuMu-MHc130_MA55"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA60": [
+    "TTToHcToWAToMuMu-MHc130_MA60"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA65": [
+    "TTToHcToWAToMuMu-MHc130_MA65"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA70": [
+    "TTToHcToWAToMuMu-MHc130_MA70"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA75": [
+    "TTToHcToWAToMuMu-MHc130_MA75"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA80": [
+    "TTToHcToWAToMuMu-MHc130_MA80"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA85": [
+    "TTToHcToWAToMuMu-MHc130_MA85"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA90": [
+    "TTToHcToWAToMuMu-MHc130_MA90"
+  ],
+  "TTToHcToWAToMuMu-MHc130_MA95": [
+    "TTToHcToWAToMuMu-MHc130_MA95"
+  ],
+  "TTWToLNu": [
+    "ttWtoLNu"
+  ],
+  "TTZ_M4to50": [
+    "ttZtoLL_MLL4to50"
+  ],
+  "TTZ_M50": [
+    "ttZtoLL_MLL50toInf"
+  ],
+  "VBFHToZZTo4L": [
+    "VBFHtoZZto4L_M125"
+  ],
+  "VHToNonbb": [
+    "WminusHtoNonbb_M125",
+    "WplusHtoNonbb_M125",
+    "ZHtoNonbb_M125"
+  ],
+  "WJets": [
+    "WtoENu_2J",
+    "WtoENu_4J",
+    "WtoMuNu_2J",
+    "WtoMuNu_4J",
+    "WtoTauNu_2J",
+    "WtoTauNu_4J"
+  ],
+  "WWW": [
+    "WWW"
+  ],
+  "WWZ": [
+    "WWZ"
+  ],
+  "WW_pythia": [
+    "WW_pythia"
+  ],
+  "WZTo3LNu_powheg": [
+    "WZto3LNu"
+  ],
+  "WZZ": [
+    "WZZ"
+  ],
+  "WZ_pythia": [
+    "WZ_pythia"
+  ],
+  "ZZTo4L_powheg": [
+    "ZZto4L"
+  ],
+  "ZZZ": [
+    "ZZZ"
+  ],
+  "ZZ_pythia": [
+    "ZZ_pythia"
+  ],
+  "ggHToZZTo4L": [
+    "ggHtoZZto4L_M125"
+  ],
+  "tHW": [
+    "tHW"
+  ],
+  "tHq": [
+    "tHq"
+  ],
+  "tWZ_thadWlep": [
+    "tWZ_thadWlep"
+  ],
+  "tWZ_tlepWhad": [
+    "tWZ_tlepWhad"
+  ],
+  "tWZ_tlepWlep": [
+    "tWZ_tlepWlep"
+  ],
+  "tZq": [
+    "tZq"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "_doc": "Background groups: members are 2024 sample aliases (CommonSampleInfo). 'order' lists groups bottom to top of the stack; the legend shows them top to bottom. Colours follow the V3 role mapping (PALETTE_LONG): [0] #3f90da dominant background on top, [1] #ffa90e diboson, [2] #bd1f01 ttbar/ttX, [3] #94a4a2 conversion/W, [4] #832db6 other/single t.",
+  "DiLepton": {
+    "order": ["ST", "W", "VV", "TT", "Z"],
+    "groups": {
+      "Z":  {"label": "Drell-Yan", "color": "#3f90da",
+             "members": ["DYto2E_2J_MLL10to50", "DYto2E_2J_MLL50toInf", "DYto2Mu_2J_MLL10to50", "DYto2Mu_2J_MLL50toInf", "DYto2Tau_2J_MLL10to50", "DYto2Tau_2J_MLL50toInf"]},
+      "VV": {"label": "Diboson", "color": "#ffa90e", "members": ["WW_pythia", "WZ_pythia", "ZZ_pythia"]},
+      "TT": {"label": "t#bar{t}", "color": "#bd1f01", "members": ["TTLL_powheg", "TTLJ_powheg"]},
+      "W":  {"label": "W+jets", "color": "#94a4a2", "members": ["WtoENu_2J", "WtoMuNu_2J", "WtoTauNu_2J"]},
+      "ST": {"label": "Single t", "color": "#832db6",
+             "members": ["ST_tch_top_lep", "ST_tch_antitop_lep", "ST_tW_top_Lep", "ST_tW_antitop_Lep", "ST_tW_top_Semilep", "ST_tW_antitop_Semilep", "ST_sch_top_Lep", "ST_sch_antitop_Lep"]}
+    }
+  }
+}

@@ -1,0 +1,25 @@
+# ZEE (RunZEE_RunSyst_TrigSF), MC lane ElectronRecoSF_NotImplemented
+electrons/1/pt               data     32932069.0  MC     39956831.4  data/MC 0.824
+electrons/1/miniAODPt        data     32931951.0  MC     39956827.8  data/MC 0.824
+electrons/1/eta              data     32941196.0  MC     39968383.0  data/MC 0.824
+electrons/1/phi              data     32941196.0  MC     39968383.0  data/MC 0.824
+electrons/1/miniRelIso       data     32941196.0  MC     39968383.0  data/MC 0.824
+electrons/1/sip3d            data     32941196.0  MC     39968383.0  data/MC 0.824
+electrons/1/dz               data     32941196.0  MC     39968383.0  data/MC 0.824
+electrons/1/scEta            data     32928320.0  MC     39949865.1  data/MC 0.824
+electrons/2/pt               data     32941192.0  MC     39968377.7  data/MC 0.824
+electrons/2/miniAODPt        data     32941191.0  MC     39968379.9  data/MC 0.824
+electrons/2/eta              data     32941196.0  MC     39968383.0  data/MC 0.824
+electrons/2/phi              data     32941196.0  MC     39968383.0  data/MC 0.824
+electrons/2/miniRelIso       data     32941196.0  MC     39968383.0  data/MC 0.824
+electrons/2/sip3d            data     32941196.0  MC     39968383.0  data/MC 0.824
+electrons/2/dz               data     32941196.0  MC     39968383.0  data/MC 0.824
+electrons/2/scEta            data     32927858.0  MC     39950959.4  data/MC 0.824
+pair/mass                    data     32937113.0  MC     39963563.4  data/MC 0.824
+pair/massMiniAOD             data     32926554.0  MC     39941771.0  data/MC 0.824
+pair/pt                      data     32820758.0  MC     39824933.5  data/MC 0.824
+pair/eta                     data     31866123.0  MC     38579517.8  data/MC 0.826
+pair/phi                     data     32941196.0  MC     39968383.0  data/MC 0.824
+nPV                          data     32938744.0  MC     39968343.0  data/MC 0.824
+nPVsGood                     data     32941023.0  MC     39968383.0  data/MC 0.824
+rho                          data     32842471.0  MC     39875374.1  data/MC 0.824

@@ -1,0 +1,742 @@
+{
+ "_doc": "DiLepton histogram settings (generated 2026-11-24 from naming rules). Keys are histkeys under {channel}/{lane}/. 'channels' overrides per channel; 'eta' selects the eta headroom; overflow is folded into the edge bins. Not plotted: muons|electrons/*/mass, nTrueInt, nPileUp (MC only), weights/* (Central MC only), cutflow (see cutflow.py).",
+ "muons/1/pt": {
+  "xTitle": "p_{T}(#mu_{1}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "muons/1/miniAODPt": {
+  "xTitle": "p_{T}^{MiniAOD}(#mu_{1}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "muons/1/eta": {
+  "xTitle": "#eta(#mu_{1})",
+  "xRange": [
+   -2.4,
+   2.4
+  ],
+  "eta": true
+ },
+ "muons/1/phi": {
+  "xTitle": "#phi(#mu_{1})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "muons/1/miniRelIso": {
+  "xTitle": "I_{mini}(#mu_{1})",
+  "xRange": [
+   0,
+   0.1
+  ],
+  "logy": true
+ },
+ "muons/1/sip3d": {
+  "xTitle": "SIP_{3D}(#mu_{1})",
+  "xRange": [
+   0,
+   5
+  ]
+ },
+ "muons/1/dz": {
+  "xTitle": "d_{z}(#mu_{1}) [cm]",
+  "xRange": [
+   -0.1,
+   0.1
+  ]
+ },
+ "muons/2/pt": {
+  "xTitle": "p_{T}(#mu_{2}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "muons/2/miniAODPt": {
+  "xTitle": "p_{T}^{MiniAOD}(#mu_{2}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "muons/2/eta": {
+  "xTitle": "#eta(#mu_{2})",
+  "xRange": [
+   -2.4,
+   2.4
+  ],
+  "eta": true
+ },
+ "muons/2/phi": {
+  "xTitle": "#phi(#mu_{2})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "muons/2/miniRelIso": {
+  "xTitle": "I_{mini}(#mu_{2})",
+  "xRange": [
+   0,
+   0.1
+  ],
+  "logy": true
+ },
+ "muons/2/sip3d": {
+  "xTitle": "SIP_{3D}(#mu_{2})",
+  "xRange": [
+   0,
+   5
+  ]
+ },
+ "muons/2/dz": {
+  "xTitle": "d_{z}(#mu_{2}) [cm]",
+  "xRange": [
+   -0.1,
+   0.1
+  ]
+ },
+ "electrons/1/pt": {
+  "xTitle": "p_{T}(e_{1}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "electrons/1/miniAODPt": {
+  "xTitle": "p_{T}^{MiniAOD}(e_{1}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "electrons/1/eta": {
+  "xTitle": "#eta(e_{1})",
+  "xRange": [
+   -2.5,
+   2.5
+  ],
+  "eta": true
+ },
+ "electrons/1/phi": {
+  "xTitle": "#phi(e_{1})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "electrons/1/miniRelIso": {
+  "xTitle": "I_{mini}(e_{1})",
+  "xRange": [
+   0,
+   0.1
+  ],
+  "logy": true
+ },
+ "electrons/1/sip3d": {
+  "xTitle": "SIP_{3D}(e_{1})",
+  "xRange": [
+   0,
+   5
+  ]
+ },
+ "electrons/1/dz": {
+  "xTitle": "d_{z}(e_{1}) [cm]",
+  "xRange": [
+   -0.1,
+   0.1
+  ]
+ },
+ "electrons/1/scEta": {
+  "xTitle": "#eta_{SC}(e_{1})",
+  "xRange": [
+   -2.5,
+   2.5
+  ],
+  "eta": true
+ },
+ "electrons/2/pt": {
+  "xTitle": "p_{T}(e_{2}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "electrons/2/miniAODPt": {
+  "xTitle": "p_{T}^{MiniAOD}(e_{2}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "electrons/2/eta": {
+  "xTitle": "#eta(e_{2})",
+  "xRange": [
+   -2.5,
+   2.5
+  ],
+  "eta": true
+ },
+ "electrons/2/phi": {
+  "xTitle": "#phi(e_{2})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "electrons/2/miniRelIso": {
+  "xTitle": "I_{mini}(e_{2})",
+  "xRange": [
+   0,
+   0.1
+  ],
+  "logy": true
+ },
+ "electrons/2/sip3d": {
+  "xTitle": "SIP_{3D}(e_{2})",
+  "xRange": [
+   0,
+   5
+  ]
+ },
+ "electrons/2/dz": {
+  "xTitle": "d_{z}(e_{2}) [cm]",
+  "xRange": [
+   -0.1,
+   0.1
+  ]
+ },
+ "electrons/2/scEta": {
+  "xTitle": "#eta_{SC}(e_{2})",
+  "xRange": [
+   -2.5,
+   2.5
+  ],
+  "eta": true
+ },
+ "jets/1/pt": {
+  "xTitle": "p_{T}(j_{1}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/1/rawPt": {
+  "xTitle": "raw p_{T}(j_{1}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/1/originalPt": {
+  "xTitle": "NanoAOD p_{T}(j_{1}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/1/eta": {
+  "xTitle": "#eta(j_{1})",
+  "xRange": [
+   -2.5,
+   2.5
+  ],
+  "eta": true
+ },
+ "jets/1/phi": {
+  "xTitle": "#phi(j_{1})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "jets/1/mass": {
+  "xTitle": "m(j_{1}) [GeV]",
+  "xRange": [
+   0,
+   60
+  ],
+  "rebin": 2
+ },
+ "jets/2/pt": {
+  "xTitle": "p_{T}(j_{2}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/2/rawPt": {
+  "xTitle": "raw p_{T}(j_{2}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/2/originalPt": {
+  "xTitle": "NanoAOD p_{T}(j_{2}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/2/eta": {
+  "xTitle": "#eta(j_{2})",
+  "xRange": [
+   -2.5,
+   2.5
+  ],
+  "eta": true
+ },
+ "jets/2/phi": {
+  "xTitle": "#phi(j_{2})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "jets/2/mass": {
+  "xTitle": "m(j_{2}) [GeV]",
+  "xRange": [
+   0,
+   60
+  ],
+  "rebin": 2
+ },
+ "jets/3/pt": {
+  "xTitle": "p_{T}(j_{3}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/3/rawPt": {
+  "xTitle": "raw p_{T}(j_{3}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/3/originalPt": {
+  "xTitle": "NanoAOD p_{T}(j_{3}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/3/eta": {
+  "xTitle": "#eta(j_{3})",
+  "xRange": [
+   -2.5,
+   2.5
+  ],
+  "eta": true
+ },
+ "jets/3/phi": {
+  "xTitle": "#phi(j_{3})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "jets/3/mass": {
+  "xTitle": "m(j_{3}) [GeV]",
+  "xRange": [
+   0,
+   60
+  ],
+  "rebin": 2
+ },
+ "jets/4/pt": {
+  "xTitle": "p_{T}(j_{4}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/4/rawPt": {
+  "xTitle": "raw p_{T}(j_{4}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/4/originalPt": {
+  "xTitle": "NanoAOD p_{T}(j_{4}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/4/eta": {
+  "xTitle": "#eta(j_{4})",
+  "xRange": [
+   -2.5,
+   2.5
+  ],
+  "eta": true
+ },
+ "jets/4/phi": {
+  "xTitle": "#phi(j_{4})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "jets/4/mass": {
+  "xTitle": "m(j_{4}) [GeV]",
+  "xRange": [
+   0,
+   60
+  ],
+  "rebin": 2
+ },
+ "jets/5/pt": {
+  "xTitle": "p_{T}(j_{5}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/5/rawPt": {
+  "xTitle": "raw p_{T}(j_{5}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/5/originalPt": {
+  "xTitle": "NanoAOD p_{T}(j_{5}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "jets/5/eta": {
+  "xTitle": "#eta(j_{5})",
+  "xRange": [
+   -2.5,
+   2.5
+  ],
+  "eta": true
+ },
+ "jets/5/phi": {
+  "xTitle": "#phi(j_{5})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "jets/5/mass": {
+  "xTitle": "m(j_{5}) [GeV]",
+  "xRange": [
+   0,
+   60
+  ],
+  "rebin": 2
+ },
+ "bjets/1/pt": {
+  "xTitle": "p_{T}(b_{1}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "bjets/1/eta": {
+  "xTitle": "#eta(b_{1})",
+  "xRange": [
+   -2.5,
+   2.5
+  ],
+  "eta": true
+ },
+ "bjets/1/phi": {
+  "xTitle": "#phi(b_{1})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "bjets/1/mass": {
+  "xTitle": "m(b_{1}) [GeV]",
+  "xRange": [
+   0,
+   60
+  ],
+  "rebin": 2
+ },
+ "bjets/2/pt": {
+  "xTitle": "p_{T}(b_{2}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "bjets/2/eta": {
+  "xTitle": "#eta(b_{2})",
+  "xRange": [
+   -2.5,
+   2.5
+  ],
+  "eta": true
+ },
+ "bjets/2/phi": {
+  "xTitle": "#phi(b_{2})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "bjets/2/mass": {
+  "xTitle": "m(b_{2}) [GeV]",
+  "xRange": [
+   0,
+   60
+  ],
+  "rebin": 2
+ },
+ "bjets/3/pt": {
+  "xTitle": "p_{T}(b_{3}) [GeV]",
+  "xRange": [
+   0,
+   300
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "bjets/3/eta": {
+  "xTitle": "#eta(b_{3})",
+  "xRange": [
+   -2.5,
+   2.5
+  ],
+  "eta": true
+ },
+ "bjets/3/phi": {
+  "xTitle": "#phi(b_{3})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "bjets/3/mass": {
+  "xTitle": "m(b_{3}) [GeV]",
+  "xRange": [
+   0,
+   60
+  ],
+  "rebin": 2
+ },
+ "jets/size": {
+  "xTitle": "N_{jets}",
+  "xRange": [
+   0,
+   10
+  ],
+  "logy": true
+ },
+ "bjets/size": {
+  "xTitle": "N_{b jets}",
+  "xRange": [
+   0,
+   6
+  ],
+  "logy": true
+ },
+ "METv/pt": {
+  "xTitle": "p_{T}^{miss} [GeV]",
+  "xRange": [
+   0,
+   200
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "METv/phi": {
+  "xTitle": "#phi(p_{T}^{miss})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "METv_default/pt": {
+  "xTitle": "p_{T}^{miss, NanoAOD} [GeV]",
+  "xRange": [
+   0,
+   200
+  ],
+  "rebin": 5,
+  "logy": true
+ },
+ "METv_default/phi": {
+  "xTitle": "#phi(p_{T}^{miss, NanoAOD})",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "pair/mass": {
+  "xTitle": "m(#ell#ell) [GeV]",
+  "xRange": [
+   50,
+   200
+  ],
+  "rebin": 2,
+  "logy": true,
+  "channels": {
+   "DIMU": {
+    "xTitle": "m(#mu#mu) [GeV]"
+   },
+   "ZEE": {
+    "xTitle": "m(ee) [GeV]",
+    "xRange": [
+     61,
+     121
+    ],
+    "rebin": 1,
+    "logy": false
+   }
+  }
+ },
+ "pair/massMiniAOD": {
+  "xTitle": "m^{MiniAOD}(#ell#ell) [GeV]",
+  "xRange": [
+   50,
+   200
+  ],
+  "rebin": 2,
+  "logy": true,
+  "channels": {
+   "DIMU": {
+    "xTitle": "m^{MiniAOD}(#mu#mu) [GeV]"
+   },
+   "ZEE": {
+    "xTitle": "m^{MiniAOD}(ee) [GeV]",
+    "xRange": [
+     61,
+     121
+    ],
+    "rebin": 1,
+    "logy": false
+   }
+  }
+ },
+ "pair/pt": {
+  "xTitle": "p_{T}(#ell#ell) [GeV]",
+  "xRange": [
+   0,
+   200
+  ],
+  "rebin": 4,
+  "logy": true
+ },
+ "pair/eta": {
+  "xTitle": "#eta(#ell#ell)",
+  "xRange": [
+   -5,
+   5
+  ],
+  "rebin": 2,
+  "eta": true
+ },
+ "pair/phi": {
+  "xTitle": "#phi(#ell#ell)",
+  "xRange": [
+   -3.2,
+   3.2
+  ],
+  "rebin": 2
+ },
+ "nPV": {
+  "xTitle": "N_{PV}",
+  "xRange": [
+   0,
+   80
+  ],
+  "rebin": 2
+ },
+ "nPVsGood": {
+  "xTitle": "N_{PV}^{good}",
+  "xRange": [
+   0,
+   80
+  ],
+  "rebin": 2
+ },
+ "rho": {
+  "xTitle": "#rho [GeV]",
+  "xRange": [
+   0,
+   60
+  ]
+ }
+}

@@ -1,0 +1,12 @@
+# Data products and local mounts (outputs live on /pnfs, mirrored in /mnt/SKNanoOutput_Run3)
+SKNanoOutput
+# Separate repositories / read-only references (symlinks)
+docs/AN-26-267
+docs/previous_analysis
+# CMS-internal material (CERN login pages, POG slides): not for GitHub
+docs/CMS/
+# Per-user Claude settings
+.claude/settings.local.json
+# Python
+__pycache__/
+*.pyc

@@ -1,0 +1,7 @@
+# ZEE (RunZEE_RunSyst_TrigSF): total yield (first histogram of each set), data/MC
+set                                    data             MC  data/MC  MC/MC(Central)
+Central                          32932069.0     33485563.4    0.983           1.000
+NoElectronIDSF                   32932069.0     38450297.8    0.856           1.148
+NoElectronRecoSF                 32932069.0     39956831.4    0.824           1.193
+NoElectronTrigSFProxy            32932069.0     33974722.2    0.969           1.015
+NoPileupReweight                 32932069.0     34067836.1    0.967           1.017

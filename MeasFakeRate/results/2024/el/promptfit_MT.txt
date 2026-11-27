@@ -1,0 +1,14 @@
+# prompt scale from the MT template fit, inclusive single-lepton region, el (fitPromptScale.py)
+# s_fit (prompt), k_QCD (QCD MC); Z check = data / (s_fit x MC) in the Z window; s_Z from the gate
+## Ele8 tight: s_fit = 0.0001135 +- 1.59%, k_QCD = 0.000143 +- 0.7%  (mode free, fit status 0, covQual 3, corr -0.62, chi2/ndf 114/58 (with MC stat 62), N_data 59324)
+    Z check: data / (s_fit MC) = 0.938 +- 0.036 (N_data 676);  s_fit / s_Z = 1.066
+## Ele8 loose: s_fit = 8.541e-05 +- 3.11%, k_QCD = 0.000175 +- 0.3%  (mode free, fit status 0, covQual 3, corr -0.63, chi2/ndf 204/58 (with MC stat 80), N_data 213720)
+    Z check: data / (s_fit MC) = 1.369 +- 0.045 (N_data 914);  s_fit / s_Z = 0.731
+## Ele12 tight: s_fit = 0.0006562 +- 0.65%, k_QCD = 0.000752 +- 0.3%  (mode free, fit status 0, covQual 3, corr -0.62, chi2/ndf 287/58 (with MC stat 54), N_data 318187)
+    Z check: data / (s_fit MC) = 0.929 +- 0.015 (N_data 3869);  s_fit / s_Z = 1.077
+## Ele12 loose: s_fit = 0.000584 +- 1.08%, k_QCD = 0.000919 +- 0.1%  (mode free, fit status 0, covQual 3, corr -0.63, chi2/ndf 540/58 (with MC stat 67), N_data 1130585)
+    Z check: data / (s_fit MC) = 1.098 +- 0.016 (N_data 5009);  s_fit / s_Z = 0.911
+## Ele23 tight: s_fit = 0.0005535 +- 0.96%, k_QCD = 0.000739 +- 0.7%  (mode free, fit status 0, covQual 3, corr -0.80, chi2/ndf 313/58 (with MC stat 59), N_data 158487)
+    Z check: data / (s_fit MC) = 0.937 +- 0.016 (N_data 3259);  s_fit / s_Z = 1.067
+## Ele23 loose: s_fit = 0.000569 +- 1.40%, k_QCD = 0.00079 +- 0.3%  (mode free, fit status 0, covQual 3, corr -0.81, chi2/ndf 731/58 (with MC stat 89), N_data 471625)
+    Z check: data / (s_fit MC) = 0.952 +- 0.015 (N_data 4174);  s_fit / s_Z = 1.050

@@ -1,0 +1,10 @@
+Control regions after the ConvSF (POWHEG WZ, no WZ N_jet SF), 2024
+
+WZ 1E2MU: data 3366, pred 3673.3, data/pred 0.916 (FxFx WZ 0.880); nonprompt 729.1, conv 24.8, WZ 2548.1, ZZ 269.5, ttX 41.7, others 60.2; nonprompt Total_Up/Down 916.9/566.9
+    (data - non-WZ) / WZ by N_jets: 0: 0.975 +- 0.036 (stat) +- 0.072 (nonprompt 25%); 1: 0.732 +- 0.036 (stat) +- 0.065 (nonprompt 25%); 2: 0.798 +- 0.056 (stat) +- 0.072 (nonprompt 25%); >=3: 1.219 +- 0.103 (stat) +- 0.098 (nonprompt 25%); >=2: 0.928 +- 0.050 (stat) +- 0.080 (nonprompt 25%)
+WZ 3MU: data 5243, pred 5687.9, data/pred 0.922 (FxFx WZ 0.883); nonprompt 1287.4, conv 10.6, WZ 3885.3, ZZ 351.6, ttX 64.2, others 88.8; nonprompt Total_Up/Down 1519.7/1082.9
+    (data - non-WZ) / WZ by N_jets: 0: 0.942 +- 0.029 (stat) +- 0.092 (nonprompt 25%); 1: 0.783 +- 0.030 (stat) +- 0.070 (nonprompt 25%); 2: 0.902 +- 0.047 (stat) +- 0.075 (nonprompt 25%); >=3: 1.022 +- 0.080 (stat) +- 0.104 (nonprompt 25%); >=2: 0.939 +- 0.041 (stat) +- 0.084 (nonprompt 25%)
+ZFake 1E2MU: data 1496, pred 1511.1, data/pred 0.990 (FxFx WZ 0.916); nonprompt 446.3, conv 5.4, WZ 806.0, ZZ 173.0, ttX 35.5, others 45.0; nonprompt Total_Up/Down 562.1/346.1
+ZFake 3MU: data 2114, pred 2112.9, data/pred 1.001 (FxFx WZ 0.924); nonprompt 674.9, conv 10.7, WZ 1179.8, ZZ 128.0, ttX 55.6, others 63.8; nonprompt Total_Up/Down 799.0/566.9
+SR 1E2MU expected background (no data, blinded): total 1159.9; nonprompt 620.3 (53%), conv 51.2 (4%), WZ 76.7 (7%), ZZ 43.1 (4%), ttX 359.1 (31%), others 9.5 (1%)
+SR 3MU expected background (no data, blinded): total 1397.1; nonprompt 780.2 (56%), conv 17.7 (1%), WZ 107.3 (8%), ZZ 47.7 (3%), ttX 431.5 (31%), others 12.6 (1%)

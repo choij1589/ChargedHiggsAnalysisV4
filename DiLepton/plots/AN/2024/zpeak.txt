@@ -1,0 +1,4 @@
+DIMU corrected data mean 90.735 rms 3.178 | MC mean 90.722 rms 3.180 | shift +0.013 GeV
+DIMU MiniAOD   data mean 90.627 rms 3.171 | MC mean 90.675 rms 3.150 | shift -0.047 GeV
+ZEE corrected data mean 90.523 rms 3.591 | MC mean 90.535 rms 3.590 | shift -0.012 GeV
+ZEE MiniAOD   data mean 90.044 rms 3.608 | MC mean 90.526 rms 3.420 | shift -0.482 GeV

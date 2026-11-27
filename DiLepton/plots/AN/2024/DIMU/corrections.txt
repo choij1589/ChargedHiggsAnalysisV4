@@ -1,0 +1,7 @@
+# DIMU (RunDiMu_RunSyst_TrigDZ): total yield (first histogram of each set), data/MC
+set                                    data             MC  data/MC  MC/MC(Central)
+Central                          71503905.0     72072195.8    0.992           1.000
+NoDblMuTrigSF                    71503905.0     75719582.5    0.944           1.051
+NoMuonIDSF                       71503905.0     80322657.4    0.890           1.114
+NoPileupReweight                 71503905.0     72819447.3    0.982           1.010
+TopPtReweight_Applied            71503905.0     72064989.0    0.992           1.000

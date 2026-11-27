@@ -1,0 +1,4 @@
+{
+  "_doc": "Era registry for the plotting library. lumi_fb must equal the value in SKNano's HLT_Path.json (2024: 109.82 /fb, PPD table, docs/LOG_Dataset.md).",
+  "2024": {"lumi_fb": 109.82, "energy_TeV": 13.6}
+}

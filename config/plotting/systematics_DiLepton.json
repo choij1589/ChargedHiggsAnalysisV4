@@ -1,0 +1,21 @@
+{
+  "_doc": "Lanes entering the uncertainty band, per channel, as [up, down]. Each source is enveloped on the total prediction (correlated across samples) and sources are added in quadrature with the MC statistical uncertainty. _NotImplemented and _Applied lanes are comparisons, not uncertainties. Lanes missing in a production (e.g. the ID SFs before LepIDSF, ElectronIDSFProxy in LepIDSF) are skipped with a warning.",
+  "DIMU": {"MuonEn": ["MuonEn_Up", "MuonEn_Down"], "MuonRes": ["MuonRes_Up", "MuonRes_Down"],
+           "ElectronEn": ["ElectronEn_Up", "ElectronEn_Down"], "ElectronRes": ["ElectronRes_Up", "ElectronRes_Down"],
+           "JetEn": ["JetEn_Up", "JetEn_Down"], "JetRes": ["JetRes_Up", "JetRes_Down"],
+           "UnclusteredEn": ["UnclusteredEn_Up", "UnclusteredEn_Down"], "PileupReweight": ["PileupReweight_Up", "PileupReweight_Down"],
+           "MuonIDSF": ["MuonIDSF_Up", "MuonIDSF_Down"], "DblMuTrigSF": ["DblMuTrigSF_Up", "DblMuTrigSF_Down"]},
+  "EMU": {"MuonEn": ["MuonEn_Up", "MuonEn_Down"], "MuonRes": ["MuonRes_Up", "MuonRes_Down"],
+          "ElectronEn": ["ElectronEn_Up", "ElectronEn_Down"], "ElectronRes": ["ElectronRes_Up", "ElectronRes_Down"],
+          "JetEn": ["JetEn_Up", "JetEn_Down"], "JetRes": ["JetRes_Up", "JetRes_Down"],
+          "UnclusteredEn": ["UnclusteredEn_Up", "UnclusteredEn_Down"], "PileupReweight": ["PileupReweight_Up", "PileupReweight_Down"],
+          "ElectronRecoSF": ["ElectronRecoSF_Up", "ElectronRecoSF_Down"],
+          "BtagSF_HFcorr": ["BtagSF_HFcorr_Up", "BtagSF_HFcorr_Down"], "BtagSF_HFuncorr": ["BtagSF_HFuncorr_Up", "BtagSF_HFuncorr_Down"],
+          "BtagSF_LFcorr": ["BtagSF_LFcorr_Up", "BtagSF_LFcorr_Down"], "BtagSF_LFuncorr": ["BtagSF_LFuncorr_Up", "BtagSF_LFuncorr_Down"],
+          "MuonIDSF": ["MuonIDSF_Up", "MuonIDSF_Down"], "ElectronIDSF": ["ElectronIDSF_Up", "ElectronIDSF_Down"],
+          "EMuTrigSF": ["EMuTrigSF_Up", "EMuTrigSF_Down"]},
+  "ZEE": {"ElectronEn": ["ElectronEn_Up", "ElectronEn_Down"], "ElectronRes": ["ElectronRes_Up", "ElectronRes_Down"],
+          "PileupReweight": ["PileupReweight_Up", "PileupReweight_Down"], "ElectronRecoSF": ["ElectronRecoSF_Up", "ElectronRecoSF_Down"],
+          "ElectronIDSFProxy": ["ElectronIDSFProxy_Up", "ElectronIDSFProxy_Down"], "ElectronTrigSFProxy": ["ElectronTrigSFProxy_Up", "ElectronTrigSFProxy_Down"],
+          "ElectronIDSF": ["ElectronIDSF_Up", "ElectronIDSF_Down"]}
+}

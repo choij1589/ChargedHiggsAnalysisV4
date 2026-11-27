@@ -1,0 +1,32 @@
+# MC closure in tt (TTLL + TTLJ powheg skims), rates measured in QCD MC (F3, evalClosure.py)
+# (A) |N_obs/N_pred - 1| < sigma (MC stat (+) rate groups); (B) chi2 p > 0.05 (bins n_eff >= 10)
+## 1E2MU pair_mass
+  (A) N_obs 574.01 +- 3.57, N_pred 529.35 +- 2.41; ratio 1.084 +- 0.079 -> FAIL  (rate unc. 7.2%: Stat 4.6%, PromptNorm 0.3%, AwayJet 5.5%, BTag 0.8%)
+  (B) chi2 57.7 / 47, p = 0.136 -> PASS; bins [12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 148, 152, 156, 160, 164, 168, 172, 176, 180, 184, 188, 192, 196, 200]
+  diag: obs / pred(data rates) 0.968, obs / pred(tt-MC rates) 1.142; prompt-LNT share of the prediction 0.014; all-prompt share of the observed 0.053
+# 1E2MU: FAIL (A and B in every tested distribution)
+## 3MU pair_lowM_mass
+  (A) N_obs 409.21 +- 3.03, N_pred 427.70 +- 2.27; ratio 0.957 +- 0.109 -> PASS  (rate unc. 11.3%: Stat 3.9%, PromptNorm 2.2%, AwayJet 7.5%, BTag 7.3%)
+  (B) chi2 23.7 / 40, p = 0.981 -> PASS; bins [12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 148, 156, 164, 172, 180, 188, 200]
+  diag: obs / pred(data rates) 0.831, obs / pred(tt-MC rates) 1.056; prompt-LNT share of the prediction 0.000; all-prompt share of the observed 0.035
+## 3MU pair_highM_mass
+  (A) N_obs 409.21 +- 3.03, N_pred 427.70 +- 2.27; ratio 0.957 +- 0.109 -> PASS  (rate unc. 11.3%: Stat 3.9%, PromptNorm 2.2%, AwayJet 7.5%, BTag 7.3%)
+  (B) chi2 64.8 / 71, p = 0.686 -> PASS; bins [12, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 148, 152, 156, 160, 164, 168, 172, 176, 180, 184, 188, 192, 196, 200, 204, 208, 212, 216, 220, 224, 228, 232, 236, 240, 244, 248, 252, 256, 260, 264, 268, 272, 276, 280, 284, 288, 292, 296, 300]
+  diag: obs / pred(data rates) 0.831, obs / pred(tt-MC rates) 1.056; prompt-LNT share of the prediction 0.000; all-prompt share of the observed 0.035
+# 3MU: PASS (A and B in every tested distribution)
+## 3MU_onZ pair_lowM_mass (diagnostic)
+  (A) N_obs 109.55 +- 1.58, N_pred 114.44 +- 1.09; ratio 0.957 +- 0.118 -> PASS  (rate unc. 12.2%: Stat 4.2%, PromptNorm 2.7%, AwayJet 6.9%, BTag 8.8%)
+  (B) chi2 14.1 / 23, p = 0.924 -> PASS; bins [12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 88, 92, 96, 100, 200]
+  diag: obs / pred(data rates) 0.802, obs / pred(tt-MC rates) 1.050; prompt-LNT share of the prediction 0.001; all-prompt share of the observed 0.030
+## 3MU_onZ pair_highM_mass (diagnostic)
+  (A) N_obs 109.55 +- 1.58, N_pred 114.44 +- 1.09; ratio 0.957 +- 0.118 -> PASS  (rate unc. 12.2%: Stat 4.2%, PromptNorm 2.7%, AwayJet 6.9%, BTag 8.8%)
+  (B) chi2 40.9 / 50, p = 0.818 -> PASS; bins [12, 84, 88, 92, 96, 100, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 148, 152, 156, 160, 164, 168, 172, 176, 180, 184, 188, 192, 196, 200, 204, 208, 212, 216, 220, 224, 228, 232, 236, 240, 244, 248, 252, 260, 264, 268, 276, 280, 292, 300]
+  diag: obs / pred(data rates) 0.802, obs / pred(tt-MC rates) 1.050; prompt-LNT share of the prediction 0.001; all-prompt share of the observed 0.030
+## 3MU_offZ pair_lowM_mass (diagnostic)
+  (A) N_obs 299.67 +- 2.59, N_pred 313.26 +- 1.99; ratio 0.957 +- 0.106 -> PASS  (rate unc. 11.1%: Stat 3.7%, PromptNorm 2.0%, AwayJet 7.7%, BTag 6.7%)
+  (B) chi2 26.4 / 36, p = 0.878 -> PASS; bins [12, 16, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 148, 156, 164, 172, 180, 188, 200]
+  diag: obs / pred(data rates) 0.843, obs / pred(tt-MC rates) 1.058; prompt-LNT share of the prediction 0.000; all-prompt share of the observed 0.037
+## 3MU_offZ pair_highM_mass (diagnostic)
+  (A) N_obs 299.67 +- 2.59, N_pred 313.26 +- 1.99; ratio 0.957 +- 0.106 -> PASS  (rate unc. 11.1%: Stat 3.7%, PromptNorm 2.0%, AwayJet 7.7%, BTag 6.7%)
+  (B) chi2 60.6 / 67, p = 0.696 -> PASS; bins [12, 20, 24, 28, 32, 36, 40, 44, 48, 52, 56, 60, 64, 68, 72, 76, 80, 84, 104, 108, 112, 116, 120, 124, 128, 132, 136, 140, 144, 148, 152, 156, 160, 164, 168, 172, 176, 180, 184, 188, 192, 196, 200, 204, 208, 212, 216, 220, 224, 228, 232, 236, 240, 244, 248, 252, 256, 260, 264, 268, 272, 276, 280, 284, 288, 292, 296, 300]
+  diag: obs / pred(data rates) 0.843, obs / pred(tt-MC rates) 1.058; prompt-LNT share of the prediction 0.000; all-prompt share of the observed 0.037

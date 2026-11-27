@@ -1,0 +1,36 @@
+# MeasFakeRate step-2 gate, mu (MuFR), production 2026-11-27 (measFakeRate.py --step gate)
+# Z window 76-106 GeV (OS, Nom selection); MC = 22 prompt-MC samples, all classes
+## Mu8 loose
+  s = 0.0001655  (N_data 1981, N_MC 11970999.0; MC prompt class 0.999)
+  components: (a) Z stat 0.0225, (b) W 0.4907, (c) obj 0.0327
+    W region: data / (s MC) = 1.4907 +- 0.0096  (N_data 24318)
+    (c) per source: JetEn 0.0251, JetRes 0.0145, UnclusteredEn 0.0151, MuonEn 0.0001, MuonRes 0.0000, Pileup 0.0175  (Pileup not included)
+  checks: SS data 6 vs s x MC 1.7; sidebands data / (s MC) 1.130
+  nPV mean in Z region: data 37.17, MC 35.61
+    W region per pT_corr: 10-12: 2.840 (263), 12-14: 2.719 (458), 14-17: 2.070 (866), 17-20: 1.955 (1212), 20-30: 1.696 (5038)
+## Mu8 tight
+  s = 0.0001581  (N_data 1686, N_MC 10665466.2; MC prompt class 1.000)
+  components: (a) Z stat 0.0244, (b) W 0.1948, (c) obj 0.0332
+    W region: data / (s MC) = 1.1948 +- 0.0091  (N_data 17467)
+    (c) per source: JetEn 0.0258, JetRes 0.0148, UnclusteredEn 0.0147, MuonEn 0.0001, MuonRes 0.0000, Pileup 0.0159  (Pileup not included)
+  checks: SS data 1 vs s x MC 0.3; sidebands data / (s MC) 1.206
+  nPV mean in Z region: data 37.11, MC 35.55
+    W region per pT_corr: 10-12: 2.311 (178), 12-14: 1.989 (273), 14-17: 1.537 (533), 17-20: 1.410 (738), 20-30: 1.300 (3348)
+## Mu8: delta = 0.1991 (tight: Z stat 0.0244, W 0.1948, obj 0.0332)
+## Mu17 loose
+  s = 0.002883  (N_data 34306, N_MC 11900130.6; MC prompt class 0.999)
+  components: (a) Z stat 0.0054, (b) W 0.3738, (c) obj 0.0384
+    W region: data / (s MC) = 1.3738 +- 0.0024  (N_data 357583)
+    (c) per source: JetEn 0.0312, JetRes 0.0169, UnclusteredEn 0.0148, MuonEn 0.0001, MuonRes 0.0000, Pileup 0.0174  (Pileup not included)
+  checks: SS data 34 vs s x MC 28.0; sidebands data / (s MC) 1.025
+  nPV mean in Z region: data 36.90, MC 35.61
+    W region per pT_corr: 30-50: 1.457 (141777), 50-100: 1.259 (119364), 100-200: 1.146 (18212), 200-300: 1.074 (1164)
+## Mu17 tight
+  s = 0.002761  (N_data 29297, N_MC 10609323.8; MC prompt class 1.000)
+  components: (a) Z stat 0.0059, (b) W 0.1270, (c) obj 0.0384
+    W region: data / (s MC) = 1.1270 +- 0.0022  (N_data 265632)
+    (c) per source: JetEn 0.0313, JetRes 0.0170, UnclusteredEn 0.0144, MuonEn 0.0001, MuonRes 0.0000, Pileup 0.0157  (Pileup not included)
+  checks: SS data 4 vs s x MC 5.9; sidebands data / (s MC) 1.017
+  nPV mean in Z region: data 36.80, MC 35.55
+    W region per pT_corr: 30-50: 1.142 (99785), 50-100: 1.080 (94591), 100-200: 1.062 (15707), 200-300: 1.050 (1062)
+## Mu17: delta = 0.1328 (tight: Z stat 0.0059, W 0.1270, obj 0.0384)

@@ -1,0 +1,10 @@
+# prompt scale from the MT template fit, inclusive single-lepton region, mu (fitPromptScale.py)
+# s_fit (prompt), k_QCD (QCD MC); Z check = data / (s_fit x MC) in the Z window; s_Z from the gate
+## Mu8 tight: s_fit = 0.0001581 +- 0.00%, k_QCD = 0.00018 +- 0.3%  (mode zfixed, fit status 0, covQual 3, corr 0.00, chi2/ndf 892/59 (with MC stat 678), N_data 147169)
+    Z check: data / (s_fit MC) = 1.000 +- 0.024 (N_data 1686);  s_fit / s_Z = 1.000
+## Mu8 loose: s_fit = 0.0001655 +- 0.00%, k_QCD = 0.000176 +- 0.2%  (mode zfixed, fit status 0, covQual 3, corr 0.00, chi2/ndf 3925/59 (with MC stat 2969), N_data 385562)
+    Z check: data / (s_fit MC) = 1.000 +- 0.022 (N_data 1981);  s_fit / s_Z = 1.000
+## Mu17 tight: s_fit = 0.002761 +- 0.00%, k_QCD = 0.00298 +- 0.2%  (mode zfixed, fit status 0, covQual 3, corr 0.00, chi2/ndf 1611/59 (with MC stat 1056), N_data 760954)
+    Z check: data / (s_fit MC) = 1.000 +- 0.006 (N_data 29297);  s_fit / s_Z = 1.000
+## Mu17 loose: s_fit = 0.002883 +- 0.00%, k_QCD = 0.00275 +- 0.1%  (mode zfixed, fit status 0, covQual 3, corr 0.00, chi2/ndf 8453/59 (with MC stat 3263), N_data 1809321)
+    Z check: data / (s_fit MC) = 1.000 +- 0.005 (N_data 34306);  s_fit / s_Z = 1.000

@@ -1,0 +1,10 @@
+Conversion SF, Z gamma CR, 2024 (TriLepton/python/measConvSF.py)
+
+1E2MU [nominal]: SF = 0.759 +- 0.078 (10.3%): stat 0.028, nonprompt 0.073, theory 0.003 (diboson 0.003, ttX 0.000, others 0.001)
+    yields: data 2783.0, nonprompt 726.94, conv 2449.63 +- 53.12, WZ 24.51, ZZ 166.64, ttX 0.39, others 4.31
+1E2MU [DYG]: SF = 0.567 +- 0.058 (10.2%): stat 0.018, nonprompt 0.055, theory 0.002 (diboson 0.002, ttX 0.000, others 0.001)
+    yields: data 2783.0, nonprompt 726.94, conv 3280.40 +- 37.22, WZ 24.51, ZZ 166.64, ttX 0.39, others 4.31
+3MU [nominal]: SF = 0.947 +- 0.126 (13.3%): stat 0.080, nonprompt 0.090, theory 0.035 (diboson 0.034, ttX 0.000, others 0.004)
+    yields: data 1504.0, nonprompt 397.14, conv 611.49 +- 26.42, WZ 37.21, ZZ 485.59, ttX 0.37, others 4.34
+3MU [DYG]: SF = 0.436 +- 0.055 (12.7%): stat 0.033, nonprompt 0.042, theory 0.016 (diboson 0.016, ttX 0.000, others 0.002)
+    yields: data 1504.0, nonprompt 397.14, conv 1329.86 +- 27.22, WZ 37.21, ZZ 485.59, ttX 0.37, others 4.34

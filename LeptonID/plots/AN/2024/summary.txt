@@ -1,0 +1,12 @@
+== NUM_Mu17Leg1_DEN_HcToWATight_2024 (Mu17 leg (DoubleMu) / HcToWA tight)
+   40 cells; SF min 0.9524, median 0.9878, max 2.5831; NaN cells 0
+   largest unc.: eta[2.1,2.4] pT[10,14] SF 2.3711 +- 4.1290 (syst 4.1040)
+   largest unc.: eta[2.1,2.4] pT[14,16] SF 2.5831 +- 3.9627 (syst 3.9535)
+   largest unc.: eta[0.9,1.2] pT[10,14] SF 2.2558 +- 1.6491 (syst 1.3415)
+   fit results still flagged: 9 bin6/s0m0 bin6/s1m1 bin6/s2m1 bin6/s3m0 bin20/s3m1 bin31/s1m1 bin31/s2m1 bin39/s1m1 bin35/s1m0
+== NUM_Mu8Leg2_DEN_HcToWATight_2024 (Mu8 leg (DoubleMu) / HcToWA tight)
+   32 cells; SF min 0.9476, median 0.9692, max 0.9987; NaN cells 0
+   largest unc.: eta[2.1,2.4] pT[100,200] SF 0.9758 +- 0.0028 (syst 0.0021)
+   largest unc.: eta[0.9,1.2] pT[100,200] SF 0.9534 +- 0.0024 (syst 0.0022)
+   largest unc.: eta[2.1,2.4] pT[10,15] SF 0.9641 +- 0.0021 (syst 0.0018)
+   fit results still flagged: 3 bin3/s2m0 bin9/s2m0 bin15/s1m0

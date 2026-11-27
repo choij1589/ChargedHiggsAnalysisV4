@@ -1,0 +1,122 @@
+{
+ "schema_version": 2,
+ "corrections": [
+  {
+   "name": "ConvSF",
+   "description": "Conversion SF in the Z gamma CR, 2024 (ChargedHiggsAnalysisV4 TriLepton/python/measConvSF.py); nominal conversion samples DY 2J + TTG; symmetric total = stat (+) nonprompt (+) theory",
+   "version": 1,
+   "inputs": [
+    {
+     "name": "channel",
+     "type": "string",
+     "description": "1E2MU or 3MU"
+    },
+    {
+     "name": "syst",
+     "type": "string",
+     "description": "Central, Total_Up/Down, Stat_Up/Down, Nonprompt_Up/Down, Theory_Up/Down"
+    }
+   ],
+   "output": {
+    "name": "sf",
+    "type": "real"
+   },
+   "data": {
+    "nodetype": "category",
+    "input": "channel",
+    "content": [
+     {
+      "key": "1E2MU",
+      "value": {
+       "nodetype": "category",
+       "input": "syst",
+       "content": [
+        {
+         "key": "Central",
+         "value": 0.7593843475839062
+        },
+        {
+         "key": "Total_Up",
+         "value": 0.8378427134749424
+        },
+        {
+         "key": "Total_Down",
+         "value": 0.6809259816928699
+        },
+        {
+         "key": "Stat_Up",
+         "value": 0.7874129013109455
+        },
+        {
+         "key": "Stat_Down",
+         "value": 0.7313557938568668
+        },
+        {
+         "key": "Nonprompt_Up",
+         "value": 0.8325979785013687
+        },
+        {
+         "key": "Nonprompt_Down",
+         "value": 0.6861707166664436
+        },
+        {
+         "key": "Theory_Up",
+         "value": 0.7625275310249031
+        },
+        {
+         "key": "Theory_Down",
+         "value": 0.7562411641429092
+        }
+       ]
+      }
+     },
+     {
+      "key": "3MU",
+      "value": {
+       "nodetype": "category",
+       "input": "syst",
+       "content": [
+        {
+         "key": "Central",
+         "value": 0.9474411344377737
+        },
+        {
+         "key": "Total_Up",
+         "value": 1.0731851946690973
+        },
+        {
+         "key": "Total_Down",
+         "value": 0.8216970742064501
+        },
+        {
+         "key": "Stat_Up",
+         "value": 1.0278265089247827
+        },
+        {
+         "key": "Stat_Down",
+         "value": 0.8670557599507648
+        },
+        {
+         "key": "Nonprompt_Up",
+         "value": 1.037767751582157
+        },
+        {
+         "key": "Nonprompt_Down",
+         "value": 0.8571145172933903
+        },
+        {
+         "key": "Theory_Up",
+         "value": 0.981950009923568
+        },
+        {
+         "key": "Theory_Down",
+         "value": 0.9129322589519794
+        }
+       ]
+      }
+     }
+    ]
+   }
+  }
+ ]
+}
