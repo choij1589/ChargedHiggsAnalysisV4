@@ -83,7 +83,12 @@ Validation: reference build bcb270f vs f45096c on the same files, bisect by comm
 
 - **Stay with LZ4-4** (the merge's `hadd -fk404`): O2 (per-RNTuple ZSTD-5, 58158f5) removed again; the merge is unchanged.
 - **QuantObj = half precision only:** object eta / phi / mass and MET phi as float16 (merge-safe); no 16-bit quantized
-  columns (they make hadd abort). Being implemented (2026-11-28 evening, local).
+  columns (they make hadd abort).
+- Implemented (SKNano, pushed, HEAD compile-checked): `face22f` revert of O2 (framework SetCompression patch removed;
+  writers back to LZ4-1, merged as LZ4-4; skims' ZSTD-5 unchanged), `24b5a23` QuantObj half precision only
+  (framework SetQuantized patch removed), `6b1a017` TriLepton ttZ CR (flag `Run2E1Mu`, channel 2E1MU, region TTZ;
+  `LOG_BkgEst.md`). The validation compares bcb270f with 6b1a017 (bisect list in `scripts/validation/README.md`
+  changes: 58158f5 is reverted).
 
 ## Validation tooling and findings (2026-11-28 evening, local)
 
