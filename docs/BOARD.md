@@ -1,6 +1,6 @@
 # BOARD
 
-Feasibility study of B2G-25-013 with the **2024 data set alone** (NanoAODv15, RNTuple, SKNano 2.0 at KNU). Decisions and their reasons are in `docs/LOG_<Section>.md`; this board only tracks state. Updated 2026-11-27.
+Feasibility study of B2G-25-013 with the **2024 data set alone** (NanoAODv15, RNTuple, SKNano 2.0 at KNU). Decisions and their reasons are in `docs/LOG_<Section>.md`; this board only tracks state. Updated 2026-11-28.
 
 ## Done
 
@@ -28,7 +28,12 @@ Feasibility study of B2G-25-013 with the **2024 data set alone** (NanoAODv15, RN
 
 ## Next step
 
-- **Blocked (2026-11-28 03:48): KNU scratch purge.** The purge deleted files of the `Nano` env (Python stdlib, `bin/root`) and `NanoV15` (`packaging`), and SKNano's `external/libtorch` and part of `lhapdf/data`. Every PreBTagEff SR-tree job after 03:48 failed; 10 data files were done before. Needs the user: repair Nano, NanoV15 and the SKNano externals (inputs prepared, `LOG_Computing.md` 2026-11-28), then resubmit the failed samples. The SRS chain itself works end to end on condor (MA90 test on the Val inputs, staged out to /pnfs `ValChainTest_v1`).
+- **State at the KNU downtime (11/28 20:00 - 11/30 20:00):**
+  - Purge repaired (Nano, NanoV15, libtorch, PDF sets, SKNano rebuilt; cmsstyle back). Final TriLepton production with the HcToWA b-tag map (87 outputs) and DiLepton EMU MC: done, checked, copied locally.
+  - First 2024 Baseline expected limits (23 points, lumi 1.016): 0.96-2.3e-6 off the Z, 5.8e-6 at mA = 90; ratio to B2G-25-013 Run2+Run3 1.06-1.65 (Baseline region). Impacts, GoF (Asimov) at 4 points; FitDiagnostics only MA60 (rest cancelled at 18:00). mA interpolation gate passed (user). AN TmpCnstrct / SystUnc / Result / ObjectID b-tag updated (an-writer; not committed).
+  - ParticleNet: plan with decisions P1-P11 (`PLAN_ParticleNet.md`); PNet env (local GPU); TriLepton TrainTree + object fields (SKNano bcb270f).
+  - Analyzer optimization Tier 0/1, ZSTD, QuantObj option, Train prescale (SKNano f45096c, compile-checked only; `PLAN_Optimization.md`).
+- **Next (after 11/30):** validate bcb270f vs f45096c on KNU (bit-identical checklist), first TrainTree test -> prescale values; B2G statistics tests (pulls, blinded GoF, signal injection) and FitDiagnostics redo; interp-signal templates (export-config, grid, groups); PNet dataset builder and training; KNU NanoV15 torch-free (PNet stays local).
 - **On-going (2026-11-27 night): signal and Baseline limits** (`docs/PLAN_Signal.md`; decisions S1-S5, S7, S8 settled, `LOG_TmpCnstrct.md`): step A TriLepton SR tree mode (RNTuple, systematic lanes, per-flavour nonprompt), b-tag efficiencies (DiLepton option on TTLL), signal theory sums; step B `SignalRegionStudy` repository (submodule; KNU clone `/d0/scratch/choij/SignalRegionStudy`), CMSSW_16_0_0 + Combine v11.1.0 builds (local `~/local/workspace`, KNU in the clone), port of SignalRegionStudyV4 incl. mA interpolation (1D at mH+ = 130); gates G1-G3. Open for the user: 2024 lumi uncertainty (S6, TWiki down); interpolation uncertainty size (gate on S2).
 - Order (user, 2026-11-25): implement and test Skim_FakeRate + MeasFakeRate (PLAN_BkgEst step 1); then 1. finalize DiLepton and its AN sections, 2. skims (Skim_TriLep and Skim_FakeRate together), 3. fake-rate measurement and closure.
 

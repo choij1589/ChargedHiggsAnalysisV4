@@ -2,6 +2,10 @@
 
 Decisions and findings for the Results section of AN-26-267 (expected limits, Combine diagnostics). Newest entry first.
 
+## 2026-11-28 18:00 (FitDiagnostics)
+
+- **FitDiagnostics on Asimov** (cluster 2256079, `--robustFit 1`, robust Hesse): MA60 finished (outputs `SKNanoOutput/SignalRegionStudy/2024/HcToWABTagEff_v1/templates/MHc130_MA60/.../Combined/combine_output/fitdiag/`, local copy); MA30, MA90, MA110 still in the numerical Hesse after 6 h and removed at 18:00 (KNU downtime 20:00; user: run until 18:00). To redo after 11/30, with faster settings (e.g. no robust Hesse, or `--cminDefaultMinimizerStrategy 0` without `--robustHesse`), together with the pulls of the B2G statistics checklist.
+
 ## 2026-11-28 (B2G statistics recommendations vs the current chain)
 
 Source: `docs/CMS/B2G_StatisticsRecommendations.md` (B2GStatisticsRecommendations TWiki, provided by the user 2026-11-28). Tests the B2G Combine contact asks for at the object review, and where we stand:
