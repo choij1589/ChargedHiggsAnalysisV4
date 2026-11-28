@@ -2,6 +2,11 @@
 
 Decisions and findings for the Systematic uncertainties section of AN-26-267: the nuisance parameters of the datacards, their sources, sizes, correlation naming and impacts. Newest entry first.
 
+## 2026-11-28 (S6 decided)
+
+- **S6 (user):** `lumi_2024` lnN 1.016 (LUM 2024 preliminary 1.6%, CERN-CMS-DP-2026-003); the luminosity stays 109.82 /fb from PPD (the B2G/LUM page may not be up to date). `configs/systematics.2024.json` (SRS aafed83); limits rerun with output tag `HcToWABTagEff_v2` (cluster 2256095, 14:55).
+- **B2G statistics tests** (pulls, blinded GoF with a measurement region, signal injection, F-test note): after the KNU downtime (user).
+
 ## 2026-11-28 (LUM recommendation, copy in docs/CMS)
 
 - **Source:** `docs/CMS/LUM_LumiRecommendationsRun3.md` (LumiRecommendationsRun3 TWiki, 2024 entry "updated Dec./2025", provided by the user 2026-11-28; identical to `docs/AN-26-267/docs/LumiRecommendationsRun3_CMS_TWiki.md`).
