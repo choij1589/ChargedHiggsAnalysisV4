@@ -2,6 +2,12 @@
 
 Decisions and findings about the computing setup (KNU, SKNano, storage). Newest entry first. Each entry: date, what was decided or found, why, and where it is implemented.
 
+## 2026-11-28 late afternoon (ParticleNet environment)
+
+- **`PNet` env (local, PLAN_ParticleNet P10, user):** python 3.14, pytorch 2.14.1 (cuda134_mkl), pytorch_geometric 2.8.1, pytorch_cluster 1.6.3 (CUDA 13.4), triton 3.7.1, cuda-cudart-dev 13.5, uproot, awkward, numpy, scikit-learn, pyyaml; no ROOT. Lock `config/env/PNet_local_explicit.txt`. Compile test `ParticleNet/test/compile_test.py` (eager 0.40 s / compiled 0.32 s for 50 FP32 steps, 221 MB).
+- **NanoV15 (local) restored:** the torch stack was first installed into NanoV15 and reverted (triton forces gcc < 16: compiler / C++ headers 16.2 -> 15.3, ROOT's interpreter then fails its include-path detection). Removing the packages and installing the lock left duplicate package records (an explicit-lock install does not replace newer same-name packages), so NanoV15 was recreated from its lock (`config/env/NanoV15_local_explicit.txt`, 307/307, ROOT clean).
+- **pip packages are not in the conda locks:** the recreation dropped `cmsstyle` 0.5.0 (pip, PLAN_Plotting step 1). Reinstalled locally and on KNU (the KNU NanoV15 rebuilt after the purge had lost it too); listed in `config/env/NanoV15_pip.txt` (install after the lock with `pip install --no-deps -r`).
+
 ## 2026-11-28 afternoon (cleanup, user approvals)
 
 - **Deleted (user approval):** the PreBTagEff TriLepton outputs on /pnfs (10 data files + provenance, superseded by HcToWABTagEff; tag dir removed); on /d0 the damaged `envs/{Nano,NanoV15}_purged_20261128`, the damaged package cache `micromamba_envs/pkgs` (the repair used `pkgs_20261128`) and the empty failed run dir `2026_11_28_085515_DiLepton_...` (`hcto_prod/cleanup_20261128.sh`).

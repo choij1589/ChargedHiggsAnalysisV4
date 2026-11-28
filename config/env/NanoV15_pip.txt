@@ -1,0 +1,3 @@
+# pip packages of NanoV15 (not in the conda lock NanoV15_local_explicit.txt); install after the lock:
+#   python -m pip install --no-deps -r config/env/NanoV15_pip.txt
+cmsstyle==0.5.0
