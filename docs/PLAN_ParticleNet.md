@@ -80,8 +80,12 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
   background mix of its window. Scoring: the template at mA_i scores every window event with mA_i.
   Caveat: inside a window the network can learn |m(mu mu) - mA| from the muon 4-vectors (sculpting
   towards the signal peak, partly double counting the fitted mass) -> mass decorrelation in P7.
-- **P4 classes:** (a) previous 4 classes; (b) + conversion (DYG / TTG / ZG) for the low-mA windows;
-  (c) + ttW / ttH into ttX (the AN said so).
+- **P4 classes: decided (user, 2026-11-28): (c) 4 classes** - signal, nonprompt, diboson (WZ + ZZ),
+  ttX (ttZ + ttW + ttH + tZq). No conversion class (too few weighted MC events in the training
+  selection; e.g. the MA30 eμμ template had one event carrying 4.6 of 9.9 events in a bin); "others"
+  not trained. Window composition (v2 templates, % of window background): nonprompt 37-73 everywhere;
+  WZ+ZZ + ttZ + tZq ~ half at the Z (80-105); conversion up to 10-16 off-Z; ttW up to 13 at high mA
+  (eμμ); others 2-6.
 - **P5 nonprompt sample:** (a) TTLL (+ TTLJ, DY) MC loose-not-tight with the 2024 fake rates
   (previous); (b) data loose-not-tight sideband (the real background; small signal contamination).
 - **P6 diboson b-jet promotion:** re-derive the rank-promotion tables for 2024 (previous method) or use
