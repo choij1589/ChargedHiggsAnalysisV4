@@ -134,6 +134,20 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
 - **Hardware (user, 2026-11-28):** local RTX 2070 SUPER (8 GB). gamsa (RTX 3090, code under ~/Sync) is a
   possible fallback but heavily used by another user: train on the local host.
 
+- **P11 sample weights and class balance: decided (user, 2026-11-28).** As ParticleNetMD
+  (`DynamicDatasetLoader.py`: per class and fold a uniform random subsample to 50k events keeping the
+  physical weights; `_balance_and_shuffle` rescales each class to the total weight of the heaviest class,
+  per split), with two changes: (1) the per-sample **prescale** of the Train trees replaces the uniform
+  subsample, N_s = round((n_s / Y_s) / min_s'(n_s' / Y_s')) within a class (kept events proportional to
+  xsec x acceptance, ~uniform per-event weights; physical weights incl. N carry the composition);
+  (2) **class rescaling per split and per mA window (ii)**: every window has equal signal and background-
+  class totals (the Z-peak windows have ~10x the background of the low-mA ones). Preview from the SR
+  trees (all tight, N_b >= 1): diboson WZ 1 / ZZ 3 (~125k kept); ttX ttZ(>50) 1, ttZ(4-50) 2, ttW 2,
+  ttH 6, tZq 3 (~290k); signal 1 for all 23 points (1.39M; raw counts already follow the acceptance).
+  Nonprompt (TTLL, TTLJ, DY 2J loose-not-tight x fake weight) and the final values from the first KNU
+  Train test -> `HcToWA_Analyzers/data/TrainTreePrescale.yaml`. Signal within its class: by acceptance
+  (low-mA points ~half the weight of mid-mA points).
+
 ## Status
 
 - **Step 1 implemented (2026-11-28, SKNano `bcb270f`, local compile check only):** object fields in all
