@@ -44,9 +44,9 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
 
 ## Design (proposal; decisions P1-P10 below)
 
-1. **Training trees from TriLepton** (P1): a `TrainTree` lane in TriLepton (2024 object definitions,
-   corrections and SFs identical to the SR trees), RNTuple per channel, object-level vectors (leptons
-   with tight flag and isolation, jets with UParT score, MET), the SR selection without the N_b and
+1. **Training trees from TriLepton** (P1, decided): a `TrainTree` lane in TriLepton (2024 object
+   definitions and corrections identical to the SR trees), RNTuple per channel, object-level vectors
+   (leptons with tight flag, jets with b-tag flag, MET), weights generator x pileup (+ fake-rate weight), the SR selection without the N_b and
    tight requirements, plus flags (tight, N_b, SR membership) so every class is selected offline. Both
    charge signs. MC only (data LNT optional, P5).
 2. **Parametrization in mA** (P3): signal events carry their generated mA; background events get the
@@ -61,10 +61,18 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
 
 ## Open decisions (one by one)
 
-- **P1 training-tree producer:** (a) new TrainTree lane in TriLepton (recommended: one object/SF
-  definition with the SR); (b) port `EvtTreeProducer` as a separate analyzer.
-- **P2 node features:** previous 9 features; options: add the UParT b score and lepton miniIso
-  (recommended to test: available for free), keep the 4-vector + flags otherwise.
+- **P1 training-tree producer: decided (user, 2026-11-28): (a) a `TrainTree` lane in TriLepton.**
+  MC RNTuple `Train_<CH>` at the SR selection (trigger, plateau, jets, 2024 objects with their
+  corrections) with loose leptons (tight flag per lepton) and any N_b, no Z window, both charge signs.
+  Fields: per lepton 4-vector, charge, flavour, tight flag (no mini-isolation); per jet 4-vector and
+  b-tag flag (no b-tag score: it would need a shape-based b-tagging correction); MET pT / phi; the two
+  A-candidate masses and the pairing; event number; weights: **generator x pileup only** (any rescale
+  of the central weight by SFs would require re-training; the object corrections are applied anyway;
+  a slightly sub-optimal classifier is accepted) and the **fake-rate weight** computed in the analyzer
+  (2024 rates). **The same object fields are added to all SR-tree lanes** (`SR_<CH>_<lane>`, incl.
+  object variations and the data Nonprompt lane) for the offline scoring.
+- **P2 node features: decided with P1 (user):** the previous 9 features (E, px, py, pz, charge, isMu,
+  isE, isJet, isB); no b-tag score, no isolation.
 - **P3 mA parametrization:** (a) window-based assignment (recommended, above); (b) background mA
   sampled from the signal mA distribution (Baldi et al.); (c) the reconstructed m(mu mu) as the
   parameter.
