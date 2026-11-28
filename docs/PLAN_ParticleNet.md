@@ -103,8 +103,14 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
   computed over the mu mu mu events of the batch only (mask, not Delta_2 = 0, which would correlate with
   the channel), so both channels train together in one network. Window membership (P3) stays with the
   template's A candidate. dCor per window logged as a monitor.
-- **P8 splits:** (a) event-number based folds (train / valid / test), templates from all events as
-  before; (b) k-fold cross-training (k networks, each event scored by the network that did not see it).
+- **P8 splits: decided (user, 2026-11-28): (b) 5-fold cross-training.** Folds by `event % 5` (fold of
+  any event known at scoring). Network j: test fold j (never seen), early-stopping fold (j+1) % 5,
+  training on the other three. Every event (MC, SR data, data sideband) is scored by the network of its
+  fold: no overtraining bias in the templates, full MC statistics. Checks: (1) per network, training vs
+  held-out score distributions per class and mA window (ROC/AUC, KS); (2) fold-to-fold consistency of
+  the held-out score distributions and AUCs; (3) the same fold rule for data, the P5 data check per
+  network; (4) optional: one process' template from network j alone (fold j x 5) vs the fold-wise one.
+  Cost: 5 trainings on the local GPU.
 - **P9 inference:** offline python on the SR RNTuples (recommended) vs SKNano PyAnalyzer vs libtorch C++.
 - **P10 environment:** a pinned local env `PNet` (torch with CUDA 12, PyG), exported to `config/env/`
   (the local `Nano` env has torch 2.4.1+cu121 with CUDA but no PyG).
