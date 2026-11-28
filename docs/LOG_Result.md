@@ -17,7 +17,7 @@ Decisions and findings for the Results section of AN-26-267 (expected limits, Co
 ## 2026-11-28 (first Baseline expected limits, 2024)
 
 - **Inputs:** TriLepton production `Run1E2Mu_Run3Mu_SRTree_RunSyst_BTagEffHists_HcToWABTagEff` (HcToWA b-tag map), SignalRegionStudy 307225c, output tag `HcToWABTagEff_v1` (/pnfs `SKNanoOutput/SignalRegionStudy/2024/HcToWABTagEff_v1/`, local copy `SKNanoOutput/SignalRegionStudy/2024/`). Binned shape method of SignalRegionStudyV4, Asimov data_obs (SR blinded), CMSSW_16_0_0 + Combine v11.1.0 on x86_64-v3+ workers. JSONs `SignalRegionStudy/results/json/BR/2024/limits.2024[.SR1E2Mu|.SR3Mu].Asymptotic.Baseline.json`, per point `results/json/points/Baseline/mc-signal/`.
-- **Expected 95% CL upper limits on B_sig** (x 1e-6; B = r x 5 fb / (2 sigma(tt) x 0.5456), sigma(tt) = 923.6 pb, source TODO). No luminosity uncertainty yet (S6 open, TWiki down); signal tt cross-section lnN 1.044 (placeholder, source TODO).
+- **Expected 95% CL upper limits on B_sig** (x 1e-6; B = r x 5 fb / (2 sigma(tt) x 0.5456), sigma(tt) = 923.6 pb, source TODO). Luminosity: placeholder `lumi_2024` lnN 1.020 in all datacards (`configs/systematics.2024.json`; corrected 2026-11-28 by the SystUnc check: an earlier version of this entry said none), value and structure pending (S6); signal tt cross-section lnN 1.044 (placeholder, source TODO).
 
 | mA [GeV] | Combined exp | Combined +-1 sigma | SR1E2Mu exp | SR3Mu exp |
 |---|---|---|---|---|
