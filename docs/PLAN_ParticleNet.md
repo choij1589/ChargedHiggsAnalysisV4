@@ -164,6 +164,36 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
   previous build, vector sizes, masses from the lep 4-vectors, Train[passSR] = SR Central, weight
   checks, blinding, uproot read.
 
+- **Steps 2-4 implemented (2026-11-28 evening, local, synthetic bench only):** `ParticleNet/python/`
+  (`build_dataset.py`, `train.py`, `score.py`, model / losses / weights / windows modules), configs
+  `ParticleNet/configs/{windows,classes,training}.json` (windows from the v2 binning.json per channel). Synthetic
+  bench in the analyzer format (`test/run_synthetic_bench.py`): inputs, node building, window assignment, P11
+  weights per (split, window, class), DisCo Delta_2 mask (zero gradient from e mu mu), torch.compile (|Delta logits|
+  <= 2.5e-6), scores = held-out score of the own fold, row alignment with duplicated event keys: all pass
+  (`test/results/synthetic_bench_20261128.json`). Step 20 ms (compiled, batch 512, 256 hidden), ~1 GB GPU.
+  Replication ~3.4 (event, mA) pairs per background event (from the real SR masses); cost for 1.4M signal + 0.4M
+  diboson/ttX + 0.4-2M nonprompt: 6-14 h for 5 networks x 40 epochs, 17-42 h at the 120-epoch cap
+  (`test/results/cost_estimate_20261128.json`).
+- **P9 amended (finding 2026-11-28):** (run, lumi, event) is not unique in the signal samples (run = lumi = 1,
+  event numbers repeat across generation files). Score files are row-aligned friends of the input RNTuples (one
+  file per sample, same RNTuple names and entry order); the event key is only a check. SignalRegionStudy
+  `sample_reader` must align by entry.
+- **Open for the user (choices made in the implementation, adjustable in the configs):**
+  1. **Window coverage:** windows x0 +- 10 sigma_eff are narrow at low mA (2.8 GeV at mA = 15 with 5 GeV spacing):
+     3-27% of background events (3MU 23-27%) are in no window and never trained; interp-grid points between the
+     windows (e.g. mA = 17.5) would be scored on mass regions the network never saw. Options: train on the windows
+     of the interpolated grid (376 points), or widen the training windows to the midpoints between neighbours.
+  2. **P11 (ii) target:** every (split, window, class) cell gets the same total, so windows are also equal to
+     each other (not only classes within a window). With signal only in its own window, the "signal by acceptance"
+     weighting has no effect.
+  3. **Signal only in its own window** (80% kept; 3MU 56-91%, lowest at MA60 from the pairing).
+  4. **Delta_k** uses the channel's fitted x0 and sigma_eff (not the nominal mA); not clipped.
+  5. **No jet charge** in the trees (P2's charge feature is 0 for jets; the previous analysis had it).
+  6. Nonprompt = !allTight && N_b >= 1, positive total weight, TTLL + TTLJ + six DY 2J samples, no conversion
+     filter (the open Train conversion-filter question; `classes.json` has the knob).
+  7. Graph feature mA / 100 only (no era / channel flag); edge dropout 0.4 and ReduceLROnPlateau on the training
+     loss kept from ParticleNetMD.
+
 ## Steps (after the decisions)
 
 1. TrainTree lane in TriLepton (local compile check during the KNU downtime), production after
