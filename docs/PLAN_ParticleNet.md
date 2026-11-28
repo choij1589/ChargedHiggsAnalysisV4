@@ -134,6 +134,22 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
 - **Hardware (user, 2026-11-28):** local RTX 2070 SUPER (8 GB). gamsa (RTX 3090, code under ~/Sync) is a
   possible fallback but heavily used by another user: train on the local host.
 
+## Status
+
+- **Step 1 implemented (2026-11-28, SKNano `bcb270f`, local compile check only):** object fields in all
+  `SR_<CH>_<lane>` RNTuples (lep_pt/eta/phi/mass [3, muons first, then the electron; lep_pt = the
+  lane pT_corr, = pT for tight leptons], lep_charge, lep_isMuon, lep_isTight; jet_pt/eta/phi/mass,
+  jet_isBtagged [UParT M, no score]; MET_pt / MET_phi; mass1/mass2 = both OS mu mu masses, pairing
+  applied offline) and the MC-only `TrainTree` flag -> `Train_<CH>` (SR selection with loose leptons,
+  any N_b, no Z window, both charge signs; nTight, allTight, passSR, weight_genpu = gen x xsec x lumi x
+  PU, weight_fake = -prod(-f/(1-f)) over loose-not-tight leptons (2024 rates; 1 for all-tight),
+  category + lep_genType, matchedPair). Size of the SR RNTuples ~1.6 -> ~7.6 GB.
+  Open for the user: the conversion-sample filter is not applied in Train (DY 2J as a nonprompt
+  source keeps its non-conversion events; `category` stored to reapply it offline).
+  Validation plan on KNU after the downtime: histograms and existing fields identical to the
+  previous build, vector sizes, masses from the lep 4-vectors, Train[passSR] = SR Central, weight
+  checks, blinding, uproot read.
+
 ## Steps (after the decisions)
 
 1. TrainTree lane in TriLepton (local compile check during the KNU downtime), production after
