@@ -96,8 +96,13 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
   2024 SR (all tight, N_b >= 1) raw / weighted: WZ 36256 / 77.0 (eμμ), 48222 / 107.6 (μμμ); ZZ 59624 /
   43.2, 63264 / 47.9 (final production, 2026-11-28) - about 200k genuine events, above the previous
   per-class cap; promotion only if a window turns out short of diboson events.
-- **P7 mass decorrelation:** keep DisCo lambda = 0.1 on the A-candidate mass(es) without a lambda scan,
-  or drop it (with window-based parametrization the score shape on the mass matters less).
+- **P7 mass decorrelation: decided (user, 2026-11-28): DisCo on the in-window mass position**,
+  Delta_k = (m_k(mu mu) - mA) / sigma_eff(mA) for the OS pairs k, lambda = 0.1 fixed (no scan), over the
+  background events of each batch: loss = CE + lambda [dCor(s_sig, Delta_1) + dCor(s_sig, Delta_2)];
+  mu mu mu uses both OS pairs (no pairing rule); e mu mu has only Delta_1, and the Delta_2 term is
+  computed over the mu mu mu events of the batch only (mask, not Delta_2 = 0, which would correlate with
+  the channel), so both channels train together in one network. Window membership (P3) stays with the
+  template's A candidate. dCor per window logged as a monitor.
 - **P8 splits:** (a) event-number based folds (train / valid / test), templates from all events as
   before; (b) k-fold cross-training (k networks, each event scored by the network that did not see it).
 - **P9 inference:** offline python on the SR RNTuples (recommended) vs SKNano PyAnalyzer vs libtorch C++.
