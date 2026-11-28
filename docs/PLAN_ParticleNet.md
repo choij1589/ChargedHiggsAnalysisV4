@@ -194,6 +194,19 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
   7. Graph feature mA / 100 only (no era / channel flag); edge dropout 0.4 and ReduceLROnPlateau on the training
      loss kept from ParticleNetMD.
 
+- **Decisions (user, 2026-11-28 evening), replacing P3 (window-based) for training:**
+  - **Three networks by mA band**, mA in [15, 80) / [80, 100) / [100, 125] (SignalRegionStudy
+    `interpolation_config.NORM_MA_BINS`; on-Z holds 80-95), each 5-fold (15 trainings), **no per-mA windows** in the
+    training. Answers the window-coverage gap (item 1 above).
+  - **Parametric with random mA:** signal at its generated mA; a background event enters a band's network once if
+    its A-candidate mass is in the band's mass range (union of the band's template windows), with an mA drawn from
+    the band's signal mA distribution (reproducible per event). DisCo on Delta_k with the assigned mA. Class
+    rescaling per split per network (replaces the per-window cells of P11 (ii)). Scoring: the band network of the
+    grid mA, events in that grid point's template window.
+  - **Jet charge:** none, as before: the previous SKNano also set it to 0 for every jet (`AnalyzerCore.cc:942`,
+    "Jets have no charge information in NanoAOD"), so the 9 features are unchanged in practice.
+  - Code rework under way (2026-11-28 evening, synthetic bench).
+
 ## Steps (after the decisions)
 
 1. TrainTree lane in TriLepton (local compile check during the KNU downtime), production after

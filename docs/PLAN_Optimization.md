@@ -79,6 +79,12 @@ to the framework version; one shared copy), the staged Central-result reuse, Run
 Validation: reference build bcb270f vs f45096c on the same files, bisect by commit on any difference
 (checklist in the agent report, `LOG_Computing.md`).
 
+## User decisions (2026-11-28 evening)
+
+- **Stay with LZ4-4** (the merge's `hadd -fk404`): O2 (per-RNTuple ZSTD-5, 58158f5) removed again; the merge is unchanged.
+- **QuantObj = half precision only:** object eta / phi / mass and MET phi as float16 (merge-safe); no 16-bit quantized
+  columns (they make hadd abort). Being implemented (2026-11-28 evening, local).
+
 ## Validation tooling and findings (2026-11-28 evening, local)
 
 Tools in `scripts/validation/` (`compare_outputs.py`, `compare_production.py`, `set_train_prescale.py`, `README.md`

@@ -16,6 +16,9 @@ Outputs: SignalRegion/plots/<AN|PW>/2024/limits/
   compare_B2G25013                 2024 Combined (median + bands) with the B2G-25-013 Run 2 + Run 3
                                    published expected curve
   channels                         median expected of Combined, SR1E2Mu, SR3Mu
+  brazil_Combined_interp           fine grid (interp-signal, 376 points, ...Baseline.interp-signal.json) with the
+                                   simulated points' medians as markers
+  compare_B2G25013_interp          fine-grid 2024 Combined with the B2G-25-013 published expected curve
   comparison.txt                   mA, 2024 expected, B2G-25-013 expected at the same mA, ratio
 """
 import argparse
@@ -52,6 +55,19 @@ def load_2024(channel):
     extra = sorted(set(raw) - {common.masspoint(m) for m in common.GRID_MA})
     if extra:
         print(f"warning: 2024 {channel} limits have keys outside the grid: {extra}")
+    return out
+
+
+def load_2024_interp(channel):
+    """Fine-grid limits (interp-signal): {mA: quantiles}, keys MHc130_MA<x>[p<y>]."""
+    suffix = "" if channel == "Combined" else f".{channel}"
+    with open(LIM / f"limits.{common.ERA}{suffix}.Asymptotic.Baseline.interp-signal.json") as f:
+        raw = json.load(f)
+    out = {}
+    for key, rec in raw.items():
+        mhc, ma = srspaths.masspoint_mhc_ma(key)
+        if mhc == common.MHC:
+            out[float(ma)] = {q: rec[q] for q in QUANT}
     return out
 
 
@@ -136,6 +152,26 @@ def main():
                vlines=list(PNET_WINDOW), vlineColor="#000000", vlineStyle=ROOT.kDashed, vlineWidth=1)
     c = plotter.GraphCanvas(items, cfg, style=a.style).draw()
     common.save(c, a.style, "limits", "compare_B2G25013")
+
+    # (b2) fine grid (interp-signal): Combined brazil with the simulated points, and vs B2G-25-013
+    fine = load_2024_interp("Combined")
+    mc = ROOT.TGraph(len(lims["Combined"]))
+    for i, m in enumerate(sorted(lims["Combined"])):
+        mc.SetPoint(i, m, SCALE * lims["Combined"][m]["exp0"])
+    items = brazil_items(fine) + [{"obj": mc, "kind": "markers", "color": "#000000", "marker": ROOT.kFullCircle,
+                                   "size": 0.8, "label": "Simulated m_{A}"}]
+    cfg = dict(LAYOUT, caption=TOP_TEXT + [CH_LABEL["Combined"]], legend=(0.58, 0.65, 0.93, 0.86),
+               legend_order=[2, 1, 0, 3])
+    c = plotter.GraphCanvas(items, cfg, style=a.style).draw()
+    common.save(c, a.style, "limits", "brazil_Combined_interp")
+    items = brazil_items(fine, "Expected (2024)")
+    items.append({"obj": gprev, "kind": "line", "color": plotter.PALETTE_LONG[2], "width": 3,
+                  "label": "B2G-25-013 expected"})
+    cfg = dict(LAYOUT, caption=TOP_TEXT + [CH_LABEL["Combined"]], legend=(0.58, 0.65, 0.93, 0.86),
+               legend_order=[2, 1, 0, 3],
+               vlines=list(PNET_WINDOW), vlineColor="#000000", vlineStyle=ROOT.kDashed, vlineWidth=1)
+    c = plotter.GraphCanvas(items, cfg, style=a.style).draw()
+    common.save(c, a.style, "limits", "compare_B2G25013_interp")
 
     # (c) channel comparison of the medians
     items = []
