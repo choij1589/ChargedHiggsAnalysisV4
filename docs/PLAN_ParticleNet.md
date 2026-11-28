@@ -1,0 +1,92 @@
+# PLAN: ParticleNet (2024, mH+ = 130 GeV, full mA range)
+
+Milestone: a ParticleNet classifier for the 2024 signal regions, parametric in mA over the full range
+(15-125 GeV at mH+ = 130 GeV), trained on the local GPU, and its score used in the templates
+(PLAN phase 5). Status and decisions: below; dated findings in `LOG_EventSel.md` / `LOG_TmpCnstrct.md`.
+
+## User decisions (2026-11-28)
+
+- **Full mA range.** The network covers all of mA (previous: only 82.5-97.5 GeV, 15 per-point models).
+  The background composition changes with mA (conversions / low-mass DY at low mA, WZ / ZZ around the
+  Z, ttX higher up), so the training sample design must follow it (P3, P4).
+- **Parametric network**, one model, trained on the local host (RTX 2070 SUPER, 8 GB). **No GA
+  optimisation** this round: fixed hyperparameters.
+- **FP32** training.
+
+## What the previous analysis did (B2G-25-013, code is authoritative)
+
+Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
+
+- **Variant:** `ChargedHiggsAnalysisV3/ParticleNetMD` (DisCo mass decorrelation, lambda = 0.1), 15
+  classifiers mA = 85/90/95 x mH+ = 100-160 (+2 validation points), used only in 82.5 <= mA <= 97.5 with
+  template-sharing groups of +-2.5 GeV; template variable `LR_modified = s_sig / (s_sig + sum w_i s_i)`
+  (w_i = background-class fractions in the window), cut at background efficiency 20%.
+- **Training trees:** `SKNanoAnalyzer/Analyzers/src/EvtTreeProducer.cc` (MC only), "reduced baseline":
+  exact loose-lepton counts per channel (Run1E2Mu: 2 mu + 1 e; Run3Mu: 3 mu, 0 e), OS mu mu with
+  M > 12, one pair in 60-120 GeV (!), >= 2 jets; no trigger, no N_b, no tight requirement, no SFs.
+  Flat TTree: up to 3 muons, 1 electron, 20 jets (pT, eta, phi, mass, charge, miniIso / b-score,
+  isTight), PUPPI MET; weights genWeight x xsec x lumi, PU, prefire.
+- **Classes (4):** signal (tight); nonprompt = TTLL MC (9 variants) loose-not-tight + >= 1 b, fake-rate
+  weighted; diboson = WZ + ZZ tight with 0 b, rank-based b-jet promotion (conditional tables); ttX =
+  ttZ + tZq (no ttH despite the AN). No DY, conversion or ttW.
+- **Graph:** nodes = muons, electrons, jets, b jets, MET; 9 features (E, px, py, pz, charge, isMu, isE,
+  isJet, isB; no b-score / isolation), k = 4 nearest in Delta R for the first layer; 8-bit era one-hot.
+- **Model:** GraphNorm, 3 DynamicEdgeConv (k = 4, residual, BN, dropout 0.4), mean pooling, 2 dense,
+  4 logits; weighted CE + 0.1 [dCor(s_sig, m1) + dCor(s_sig, m2)]; batch 512, <= 120 epochs, patience
+  10, phi rotation. GA over nNodes / optimizer / scheduler / LR / weight decay on Perlmutter.
+- **Splits:** random 5 folds (seed 42, not event number), train 0-2 / valid 3 / test 4, 50k per class
+  per fold, class-balanced weights. **Inference** in python SKNano PyAnalyzers on all events (training
+  events included in the templates).
+- **Issues to fix:** Run3Mu training kept only total charge +1 (the SR uses |sum q| = 1); signal and
+  ttX had no b-jet requirement; training trees not at the SR selection; nonprompt / diboson
+  validation and test folds are augmented; the "60 < M < 120" requirement restricts training to the
+  Z window (fine for 85-95, wrong for the full range).
+
+## Design (proposal; decisions P1-P10 below)
+
+1. **Training trees from TriLepton** (P1): a `TrainTree` lane in TriLepton (2024 object definitions,
+   corrections and SFs identical to the SR trees), RNTuple per channel, object-level vectors (leptons
+   with tight flag and isolation, jets with UParT score, MET), the SR selection without the N_b and
+   tight requirements, plus flags (tight, N_b, SR membership) so every class is selected offline. Both
+   charge signs. MC only (data LNT optional, P5).
+2. **Parametrization in mA** (P3): signal events carry their generated mA; background events get the
+   mA values of the signal points whose template window `[x0 - 10 sigma_eff, x0 + 10 sigma_eff]`
+   contains their A-candidate mass (one graph per (event, mA) pair), so the network learns the
+   background mix of each window.
+3. **Classes** (P4): signal / nonprompt / diboson / ttX (+ conversion if the low-mA windows need it).
+4. **Training** local (PyG, CUDA, FP32), fixed hyperparameters from the previous best model at
+   MHc130_MA90 (AN-25-154 `tab:BestModel`), DisCo on the A-candidate mass(es).
+5. **Inference offline** on the SR RNTuples (local GPU), score columns written as friend RNTuples read
+   by SignalRegionStudy (P9).
+
+## Open decisions (one by one)
+
+- **P1 training-tree producer:** (a) new TrainTree lane in TriLepton (recommended: one object/SF
+  definition with the SR); (b) port `EvtTreeProducer` as a separate analyzer.
+- **P2 node features:** previous 9 features; options: add the UParT b score and lepton miniIso
+  (recommended to test: available for free), keep the 4-vector + flags otherwise.
+- **P3 mA parametrization:** (a) window-based assignment (recommended, above); (b) background mA
+  sampled from the signal mA distribution (Baldi et al.); (c) the reconstructed m(mu mu) as the
+  parameter.
+- **P4 classes:** (a) previous 4 classes; (b) + conversion (DYG / TTG / ZG) for the low-mA windows;
+  (c) + ttW / ttH into ttX (the AN said so).
+- **P5 nonprompt sample:** (a) TTLL (+ TTLJ, DY) MC loose-not-tight with the 2024 fake rates
+  (previous); (b) data loose-not-tight sideband (the real background; small signal contamination).
+- **P6 diboson b-jet promotion:** re-derive the rank-promotion tables for 2024 (previous method) or use
+  genuine b-tagged WZ / ZZ only (low statistics).
+- **P7 mass decorrelation:** keep DisCo lambda = 0.1 on the A-candidate mass(es) without a lambda scan,
+  or drop it (with window-based parametrization the score shape on the mass matters less).
+- **P8 splits:** (a) event-number based folds (train / valid / test), templates from all events as
+  before; (b) k-fold cross-training (k networks, each event scored by the network that did not see it).
+- **P9 inference:** offline python on the SR RNTuples (recommended) vs SKNano PyAnalyzer vs libtorch C++.
+- **P10 environment:** a pinned local env `PNet` (torch with CUDA 12, PyG), exported to `config/env/`
+  (the local `Nano` env has torch 2.4.1+cu121 with CUDA but no PyG).
+
+## Steps (after the decisions)
+
+1. TrainTree lane in TriLepton (local compile check during the KNU downtime), production after
+   11/30 20:00.
+2. Dataset builder (graphs, mA assignment, classes, weights, folds) and its validation.
+3. Local training (fixed hyperparameters), monitoring of loss / AUC per mA window and class.
+4. Inference on the SR RNTuples, templates with the score (working point per window), limits; compare
+   with the Baseline limits and B2G-25-013.
