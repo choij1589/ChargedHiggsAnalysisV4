@@ -111,7 +111,12 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
   the held-out score distributions and AUCs; (3) the same fold rule for data, the P5 data check per
   network; (4) optional: one process' template from network j alone (fold j x 5) vs the fold-wise one.
   Cost: 5 trainings on the local GPU.
-- **P9 inference:** offline python on the SR RNTuples (recommended) vs SKNano PyAnalyzer vs libtorch C++.
+- **P9 inference: decided (user, 2026-11-28): (a) offline python on the local GPU.** Reads the SR
+  RNTuples (object fields of P1), scores each event with its fold's network (P8) at every grid mA whose
+  window contains its A candidate, for every lane (object variations), SR data and the data sideband;
+  writes a score RNTuple per sample and lane (event key, list of (mA, 4 class scores)), joined by event
+  key in SignalRegionStudy `sample_reader`. Score files go to our SKNanoOutput on /pnfs for the KNU
+  chain (or the chain runs locally in the el9 container). No PyG in SKNano's environments.
 - **P10 environment:** a pinned local env `PNet` (torch with CUDA 12, PyG), exported to `config/env/`
   (the local `Nano` env has torch 2.4.1+cu121 with CUDA but no PyG).
 
