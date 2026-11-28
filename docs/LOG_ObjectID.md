@@ -4,6 +4,56 @@ Decisions and findings for the ObjectID section of AN-26-267: lepton, jet, b-jet
 
 
 
+## 2026-11-28 (AN: TriLepton b-tag cross-check with each process once, 33 MC samples)
+
+- **Written** (an-writer), `Appendix/ObjectID.tex` `appendix:BTaggingEfficiency`, TriLepton cross-check only:
+  - Sample sentence: each process is taken once. The alternative WZ sample (`WZto3LNu_1J_amcatnloFXFX`) and all six `DYGto2LG` samples are excluded, which leaves 33 MC samples. The "WZ counted twice" caveat is removed.
+  - Jet counts (den entries): b 4.8e6, c 2.0e6, light 1.5e7 (they were 4.8e6, 2.2e6, 1.7e7).
+  - Ratios TriLepton / TTLL for pT < 300 GeV (28 bins): b median 0.99 (0.92-1.01, no bin beyond 3 sigma); light median 1.07 (0.57-1.69, 2 bins beyond +3 sigma); c median 0.77 (0.43-1.07, 5 bins below -3 sigma).
+  - c-jet composition: WZ 56%, TTLL 7% (it was 65% from the two WZ samples and 4% TTLL). The b efficiency at 600-1000 GeV and |eta| 2.1-2.5 is still 0.065.
+  - `fig:app-BTagEffTriLepton`: copied the regenerated `BTagEff/plots/AN/2024/eff_{b,c,light}_TriLepton.png`; the md5 of each copy matches its source. Caption: "each process once". The median in the PLAN 2.5 TODO changes from 0.75 to 0.77.
+  - The appendix builds on its own; the only undefined references point to other sections.
+- **Sources** (2026-11-28):
+  - Sample selection: `BTagEff/python/makeBTagEff.py:130-136` (the skip list).
+  - `BTagEff/results/2024/efficiencies.txt`, block "33 MC samples summed". The file is dated 13:01 (the task said 13:10).
+  - Ratios, pulls, entries and composition: computed from the unrounded histograms with a scratch script that calls `makeBTagEff.eff_hists` on the same 33 files and on `SKNanoOutput/DiLepton/MeasBTagEff/2024/TTLL_powheg.root`.
+  - The TTLL JSON and the TTLL plots are unchanged: md5 1a24e3c6, and the AN copies are identical.
+- **Mismatches:**
+  - The task statement quoted the ratios from the 3-decimal table: b 0.99 (0.92-1.01), c 0.77 (0.43-1.07), light 1.14 (0.60-1.69).
+    - Recomputing from that table gives light median 1.127 (0.600-1.688), c 0.769 (0.426-1.074) and b 0.992 (0.920-1.013).
+    - The light efficiencies are 0.003-0.03, so rounding to three decimals shifts their ratios. The unrounded light median is 1.069 and the minimum is 0.569.
+    - The AN uses the unrounded values (light 1.07, 0.57-1.69), as the previous entry did. The b and c values agree with the task.
+  - One sample, `DYto2Tau_2J_MLL50toInf`, has a negative c-jet sum of weights below 300 GeV. Its effect on the sum is small.
+- **Open:**
+  - user (PLAN 2.5): whether the c-jet sample dependence (median now 0.77, driven by WZ) becomes an additional b-tag efficiency uncertainty.
+  - user / BkgEst: the exclusion removes all `DYGto2LG` samples. That includes `DYGto2LG_1J_MLL4to50`, which covers m_ll 4-10 GeV, below the DY 2J samples (MLL10to50). TTG is kept together with TTLL. The cross-check should follow the sample list of the SR prediction once the DY/DYG overlap is decided (`LOG_BkgEst.md`).
+  - Still open from the entries below: the SR yield / N_b comparison (PLAN 2.5 step 3), the plot style, the UParT WP study, and keeping the EMU HcToWABTagEff plot set.
+
+## 2026-11-28 (AN: b-tag check in e-mu with the HcToWA map; TriLepton cross-check in the appendix)
+
+- **Written** (an-writer):
+  - `Sections/ObjectID.tex` `ssec:BTagSFEffect`: numbers and the left panel of `fig:BTagSFEffect` now come from the HcToWA map. The DiLepton EMU MC production is `RunEMu_RunSyst_TrigDZ_HcToWABTagEff`; the data are the unchanged MuonEG files of `RunEMu_RunSyst_TrigDZ`, which are links to LepIDSF. Changes: the weight scales the simulated yield by 0.980 (approximate map: 0.976); data/MC goes 0.934 -> 0.953 (approximate map: 0.957); ratios for 1-4 b jets are 0.928, 0.959, 1.43, 1.61 (approximate map: 0.933, 0.961, 1.44, 1.61; without the weight: 0.977, 0.880, 1.36, 1.43, unchanged); the gap between the 1- and 2-b bins is 0.031 (approximate map: 0.028). The measured map raises the simulated yield by 0.4% and moves every 1-4 b-jet ratio by at most 0.005. The 2026-11-28 TODO is closed. The old numbers are kept in the text as the comparison.
+  - `ssec:BJetID`: states that the control-region results use the approximate map, except `ssec:BTagSFEffect`. Closed the TODO "rebuild libHcToWA.so before c657425": all 855 EMU job logs print the HcToWA map, and the snapshot JSON has md5 1a24e3c6 (= `BTagEff/results/2024/btaggingEff_HcToWA.json`).
+  - `Appendix/ObjectID.tex` `appendix:BTaggingEfficiency`: the TriLepton cross-check replaces the two TODOs. It gives the selection from `TriLepton.cc#SelectLane` (all-tight MC, trigger, lepton pT, OS muon pair(s) with m > 12 GeV, conversion filter, before jet requirements; Central lane; gen x norm x PU) and the jet counts (b 4.8e6, c 2.2e6, light 1.7e7 entries). Ratios to TTLL for pT < 300 GeV, 28 bins: b median 0.99 (0.91-1.01, no bin beyond 3 sigma); light 1.0 (0.61-1.37, 5 bins beyond 3 sigma); c 0.75 (0.52-1.00, 12 bins beyond 3 sigma). New figure `fig:app-BTagEffTriLepton` (copies of `BTagEff/plots/AN/2024/eff_*_TriLepton.png` in `Figures/BTagEff/2024/`). The SR-yield TODO is kept.
+  - Figure files: new `Figures/DiLepton/2024/EMU_HcToWABTagEff/Central/bjets_size.png`. The right panel keeps `Figures/DiLepton/2024/EMU/NoBtagSF/bjets_size.png`, which is byte-identical to the new production's NoBtagSF plot.
+  - Both files build alone; only cross-references to other sections are undefined.
+- **Sources** (2026-11-28):
+  - knu1 `/pnfs/.../SKNanoOutput/DiLepton/RunEMu_RunSyst_TrigDZ_HcToWABTagEff/2024/*.provenance.json`: commit c65742573ab9, userflags `RunEMu,RunSyst,TrigDZ,HcToWABTagEff`, 22 MC. Local copies: md5 equal for TTLL_powheg and WZ_pythia.
+  - Run dir `knu1:/d0/scratch/choij/SKNanoRunlog/2026_11_28_090131_DiLepton_RunEMu_RunSyst_TrigDZ_HcToWABTagEff`.
+  - Plots: `DiLepton/python/plot.py --channel EMU --all-lanes`, run on a scratch copy of plot.py / Common/Tools / config/plotting with `PRODUCTION["EMU"] = "TrigDZ_HcToWABTagEff"`, and a scratch SKNanoOutput view (new MC + TrigDZ MuonEG). Output: `corrections.txt` Central MC 689183.3, NoBtagSF 703281.3 (identical to TrigDZ).
+  - Per-bin ratios: computed with ROOT from `EMU/{Central,BtagSF_NotImplemented}/bjets/size`. Recomputing the TrigDZ numbers this way reproduces the 2026-11-26 values exactly.
+  - Cross-check: `makeBTagEff.eff_hists` on the 40 TriLepton background files, compared with the TTLL file, using the unrounded histograms. The range ends differ in the last digit from the entry below, which used the 3-decimal table (light 0.60-1.38 -> 0.61-1.37, c max 0.99 -> 1.00).
+- **Findings / mismatches:**
+  - The S1 (b) cross-check sums all 40 TriLepton background samples. That includes both WZ samples (nominal `WZto3LNu` powheg and the alternative `WZto3LNu_1J_amcatnloFXFX`), so WZ is counted twice; DY 2J and DYGto2LG are both included (their overlap is open in `LOG_BkgEst.md`). The c jets of the cross-check below 300 GeV are 65% WZ (33% + 32%), 4% TTLL. The c sample dependence is therefore WZ vs tt; the "ttV" contribution named in the entry below is minor (ttZ 5%). The AN text states the double counting.
+  - Figures without a durable source: the new EMU plot set (all lanes) exists only in the scratch run and in the AN copy. `DiLepton/plots/AN/2024/EMU/` still holds the approximate-map production, which the rest of the AN uses. To regenerate: the same plot.py with the EMU production switched and the MuonEG data linked into the new production directory.
+  - The appendix caption at `appendix:DiLeptonValidation` (EMU figure) points to `fig:BTagSFEffect` for the b-jet multiplicity, which now uses the other map. Harmless; not changed.
+- **Open:**
+  - user (PLAN 2.5): whether the c-jet sample dependence (median 0.75) becomes an additional b-tag efficiency uncertainty. If it is quantified, use the cross-check without the double-counted WZ sample.
+  - user / orchestrator: persist the HcToWABTagEff EMU plot set (e.g. a production switch in `DiLepton/python/plot.py` plus data links in `SKNanoOutput/DiLepton/RunEMu_RunSyst_TrigDZ_HcToWABTagEff/2024/`). Not done here (outside the an-writer scope).
+  - later phase (PLAN 2.5 step 3): SR yield / N_b comparison approximate vs measured map (gate: user review, PLAN_Signal step 1).
+  - user: plot style of `BTagEff/plots/AN/2024/` (now also the TriLepton panels in the AN).
+  - later phase (PLAN 2.5): UParT WP study (`appendix:BTaggingWP`).
+
 ## 2026-11-28 (b-tag cross-check with the final TriLepton production)
 
 - **Cross-check (PLAN_Signal S1 (b))**: `BTagEff/python/makeBTagEff.py --crosscheck` on the final TriLepton production (`..._HcToWABTagEff`, BTagEffHists of the TriLepton preselection, 40 MC samples summed, signal and data excluded; gen x norm x PU), against the TTLL map, pT < 300 GeV (28 bins per flavour): b ratio TriLepton/TTLL median 0.99 (0.91-1.01); light median 1.00 (0.60-1.38, statistics); c median 0.75 (0.52-0.99): the c efficiency is sample dependent (c jets from W -> cs / gluon splitting in WZ, ttV vs tt). The map stays the TTLL one (S1 (a)); the c dependence is a candidate for an additional b-tag efficiency uncertainty (open, later phase). Table `BTagEff/results/2024/efficiencies.txt` (replaces the partial Val cross-check), plots `BTagEff/plots/AN/2024/eff_*_TriLepton.png`; the JSON is unchanged.

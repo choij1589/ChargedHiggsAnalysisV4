@@ -128,8 +128,11 @@ def main():
             p.unlink()
         tmp.rmdir()
     if a.crosscheck:
+        # each process once (as the SR prediction): no data, no signal, no alternative WZ (FxFx) and no DYG
+        # (overlaps DY 2J); found by the an-writer check 2026-11-28 (WZ was counted twice)
+        skip = ("MuonEG", "_Muon0", "_Muon1", "TTToHcToWA", "WZto3LNu_1J_amcatnloFXFX", "DYGto2LG")
         mc = [p for p in glob.glob(os.path.join(a.crosscheck, "*.root"))
-              if not any(s in os.path.basename(p) for s in ("MuonEG", "_Muon0", "_Muon1", "TTToHcToWA"))]
+              if not any(s in os.path.basename(p) for s in skip)]
         effx = eff_hists(mc)
         lines += table(effx, f"cross-check: TriLepton preselection, {len(mc)} MC samples summed")
         plot(effx, "TriLepton")
