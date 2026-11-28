@@ -2,6 +2,13 @@
 
 Decisions and findings about the computing setup (KNU, SKNano, storage). Newest entry first. Each entry: date, what was decided or found, why, and where it is implemented.
 
+## 2026-11-28 evening (HcToWA optimization, local only; PLAN_Optimization)
+
+- **Implemented in SKNano `HcToWA_Run3`** (local clone, compile check `scripts/sknano_check_build.sh`, no new -Wall -Wextra warnings; **not yet built or run on KNU**), one commit per step: 78d0ac2 Tier 0 (M1 Sparse SR/Train RNTuples, C1 TriLepton lepton-count pre-check before the filters, F1 MeasFakeRate PU-lane NaN, F2 opt-in ID-SF / trigger-eff maps, F3 no TrigClosure term), 58158f5 O2 (ZSTD-5 for SR/Train/TnP RNTuples), 4447fa3 Tier 1 CPU (per-event caches, bit-identical), cdc519f Tier 1 consolidation (HcToWABase, `TriLepHists.h`, `TnPCommon.h`), 513d070 O1 as option (TriLepton flag `QuantObj`), f45096c Train prescale (`data/TrainTreePrescale.yaml`, all N = 1). Module 5767 -> 5983 lines (caches + shared headers; the consolidation step itself -241).
+- **New local framework patches** (AnalyzerFramework, in the same commits): `RNTupleHandle::SetCompression(algorithm, level)` (per RNTuple, default LZ4-1 unchanged), `RNTupleHandle::SetQuantized(name, nBits, min, max)` (like SetHalfPrecision), `PassJetVetoMap(jets, vetoJetIndices, category)` overload (the old overload calls it).
+- **Found:** the skim Snapshot path already writes ZSTD-5 (patch 2026-11-25), not LZ4-1 as PLAN_Optimization O2 says; left unchanged.
+- **Expected deltas:** MeasFakeRate MET (float -> double nominal MET pieces, rounding level) and the PU lanes of events with nominal PU weight 0 (were NaN); Train_<CH> gains the field `prescale`; everything else identical. To validate on KNU after the downtime (PLAN_Optimization Validation): entry-by-entry / bin-by-bin against bcb270f on the same files, peak RSS and CPU from `.performance.json`.
+
 ## 2026-11-28 late afternoon (ParticleNet environment)
 
 - **`PNet` env (local, PLAN_ParticleNet P10, user):** python 3.14, pytorch 2.14.1 (cuda134_mkl), pytorch_geometric 2.8.1, pytorch_cluster 1.6.3 (CUDA 13.4), triton 3.7.1, cuda-cudart-dev 13.5, uproot, awkward, numpy, scikit-learn, pyyaml; no ROOT. Lock `config/env/PNet_local_explicit.txt`. Compile test `ParticleNet/test/compile_test.py` (eager 0.40 s / compiled 0.32 s for 50 FP32 steps, 221 MB).

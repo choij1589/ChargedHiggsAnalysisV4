@@ -61,6 +61,24 @@ savings that change the stored format (user decisions). Nothing implemented yet.
 - **O4 replaced by a training-tree cap:** deterministic per-sample prescale of Train_<CH> (hash of the event number decorrelated from the event % 5 folds; weight_genpu x N, `prescale` field), N per sample in `HcToWA_Analyzers/data/TrainTreePrescale.yaml` (defaults 1); values set from the per-sample Train counts of the first KNU test. SR_* never prescaled.
 - O3, O5, O6, O7: not now.
 
+## Status (2026-11-28 evening)
+
+Implemented locally, one commit per step, compile check only (SKNano `HcToWA_Run3`, bcb270f..f45096c):
+`78d0ac2` Tier 0 (Sparse SR/Train writers, TriLepton lepton pre-check, MeasFakeRate PU NaN, opt-in SF
+maps, no TrigClosure); `58158f5` O2 (per-RNTuple ZSTD-5 via a framework SetCompression patch; skims
+were already ZSTD-5); `4447fa3` Tier 1 CPU (per-event caches: PU, lepton SFs, trigger SF with one nominal
+evaluation, b-tag weight; JetID seed list; trigger once per event; truth per lepton; nominal MET once;
+GenLeptonType raw pointers); `cdc519f` consolidation (into HcToWABase + TriLepHists.h / TnPCommon.h;
+electron sets named elLoosePt15 / elTightPt15; dead code removed; only expected delta: MeasFakeRate MET /
+MT / QCD region at rounding level); `513d070` QuantObj (16-bit eta / phi, half-precision masses; framework
+SetQuantized patch); `f45096c` Train prescale (`data/TrainTreePrescale.yaml`, all N = 1; splitmix64;
+`prescale` field; weight_genpu x N). Module 5767 -> 5983 lines (consolidation -241; caches and two
+documented headers added). Not done: HLT scalar handles (would bypass the framework trigger map;
+decision cached per event instead), TVector2 DeltaR in TriLepton / GenLeptonType kept (not bit-identical
+to the framework version; one shared copy), the staged Central-result reuse, RunIDCheck untouched.
+Validation: reference build bcb270f vs f45096c on the same files, bisect by commit on any difference
+(checklist in the agent report, `LOG_Computing.md`).
+
 ## Validation (on KNU after 11/30)
 
 Entry-by-entry comparison of every SR_* RNTuple and bin-by-bin histograms against the previous
