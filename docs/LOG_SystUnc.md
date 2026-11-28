@@ -4,6 +4,7 @@ Decisions and findings for the Systematic uncertainties section of AN-26-267: th
 
 
 ## 2026-11-28 night (AN SystUnc updated, an-writer)
+- **Follow-up (v2 impacts, an-writer):** `ssec:SystImpacts` re-read from the v2 impacts (21:35): luminosity impact 0.018-0.019 away from the Z (v1: 0.022-0.024), 0.051 at MA90; nonprompt_mu 0.0407 (MA30), 0.059 (MA110); nonprompt_el 0.10 at MA90; b/c tagging 0.084 at MA90; PDF / alpha_s <= 9e-5. The v1 sentence and the rerun TODO are removed; the four `*_noMCStat.png` (21:36) are recopied to `Figures/SystUnc/2024/`. The Open item "impacts on v2" is closed. SystUnc builds (rc 0).
 
 - **Luminosity** (`Sections/SystUnc.tex`, `tab:SystUncSummary` row and the "Integrated luminosity" paragraph of `ssec:ExpSyst`): 1.6%, `lumi_2024` lnN 1.016 on all simulated processes (`configs/systematics.2024.json#SR1E2Mu/SR3Mu.lumi_2024`; 828 entries 1.016 in the 69 v2 datacards), LUM POG preliminary, CERN-CMS-DP-2026-003; 109.82 /fb from PPD kept. The S6 user-decision TODO is replaced by a bibliography TODO (DP note) and a later-phase TODO (lumi_1/2/3 split for the combination, PLAN 6.2; brilcalc check of 109.82 vs 110.11 /fb).
 - **Impact ranking fixed** (`ssec:SystImpacts`): nonprompt mu first at MA60/90/110 (0.072, 0.18, 0.058); at MA30 the tt cross-section placeholder first (0.0437 vs 0.0405, `impacts_asimov/mc-signal/MHc130_MA30.Combined.impacts.json`). Stated that the impacts are from the v1 datacards (lumi 2.0%); TODO to rerun on v2.
