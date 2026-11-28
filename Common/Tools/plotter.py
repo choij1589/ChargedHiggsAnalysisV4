@@ -519,8 +519,8 @@ class EffCanvas:
         save(self.canv, path)
 
 
-LIMIT_68 = "#85D1FB"   # CMS expected-limit bands, CMS-logo set (cmsstyle kLimit68cms / kLimit95cms; user 2026-11-28)
-LIMIT_95 = "#FFDF7F"
+LIMIT_68 = "#FFDF7F"   # CMS expected-limit bands, CMS-logo colours as in B2G-25-013 (68% yellow, 95% light blue; user 2026-11-28)
+LIMIT_95 = "#85D1FB"
 
 
 def _graph_points(g):
@@ -550,7 +550,7 @@ class GraphCanvas:
          rTitle, rRange (lower pad), legend (x1, y1, x2, y2), legend_text, legend_columns,
          legend_header, legend_order, caption (lines), captionPos, captionSize, text (lines),
          textPos, textSize, hlines / rlines (y of dotted horizontal lines in the upper / lower pad),
-         vlines (x of dotted vertical lines in both pads), show_lumi (default True)
+         vlines (x of vertical lines in both pads; vlineColor, vlineStyle, vlineWidth, default grey dotted), show_lumi (default True)
     has_data: label choice (True: "Work in progress", False: "Simulation Work in progress").
     """
 
@@ -627,6 +627,8 @@ class GraphCanvas:
             self.pad.SetLogy()
         else:
             CMS.GetCmsCanvasHist(self.pad).GetYaxis().SetMaxDigits(3)
+        if cfg.get("yTitleSize"):  # long y titles (e.g. with units) that would be clipped at the top
+            CMS.GetCmsCanvasHist(self.pad).GetYaxis().SetTitleSize(cfg["yTitleSize"])
         self._keep = []
         for y in cfg.get("hlines", []):
             ln = ROOT.TLine(xmin, y, xmax, y)
@@ -634,7 +636,8 @@ class GraphCanvas:
             self._keep.append(ln)
         for x in cfg.get("vlines", []):
             ln = ROOT.TLine(x, ymin, x, ymax)
-            CMS.cmsDrawLine(ln, lcolor=ROOT.kGray + 2, lstyle=ROOT.kDotted, lwidth=2)
+            CMS.cmsDrawLine(ln, lcolor=color(cfg["vlineColor"]) if cfg.get("vlineColor") else ROOT.kGray + 2,
+                            lstyle=cfg.get("vlineStyle", ROOT.kDotted), lwidth=cfg.get("vlineWidth", 2))
             self._keep.append(ln)
         opts = [self._draw_item(it) for it in self.top]
         x1, y1, x2, y2 = cfg.get("legend", (0.50, 0.70, 0.93, 0.89))

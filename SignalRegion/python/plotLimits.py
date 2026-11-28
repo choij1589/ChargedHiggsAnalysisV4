@@ -32,10 +32,11 @@ LIM = common.SRS / "results" / "json" / "BR" / common.ERA
 PREV_ALL = common.PREV / "results" / "json" / "BR" / "All"
 PNET_WINDOW = (82.5, 97.5)
 QUANT = ["exp-2", "exp-1", "exp0", "exp+1", "exp+2"]
-Y_TITLE = "95% CL upper limit on #it{B}_{sig}"
+Y_TITLE = "95% CL upper limit on #it{B}_{sig} [10^{-6}]"
+SCALE = 1e6  # plotted in units of 1e-6, linear (as B2G-25-013 Fig. limits)
 TOP_TEXT = ["m_{H^{+}} = 130 GeV"]
 # shared layout: CMS label top left, caption block under it, legend top right, notes at the bottom
-LAYOUT = {"xTitle": MA_TITLE, "yTitle": Y_TITLE, "xRange": (15, 125), "logy": True, "yRange": (1e-7, 3e-4),
+LAYOUT = {"xTitle": MA_TITLE, "yTitle": Y_TITLE, "xRange": (15, 125), "logy": False, "yRange": (0., 14.), "yTitleSize": 0.042,
           "captionPos": (0.19, 0.765), "captionSize": 0.036, "legend_text": 0.033, "textSize": 0.027}
 
 
@@ -88,20 +89,20 @@ def at_ma(curve, ma):
     raise KeyError(f"B2G-25-013 curve has no {want} point at mA = {ma}")
 
 
-def brazil_items(lim, median_label="Median expected"):
+def brazil_items(lim, median_label="Expected"):
     mas = sorted(lim)
     n = len(mas)
     g95, g68, gmed = ROOT.TGraphAsymmErrors(n), ROOT.TGraphAsymmErrors(n), ROOT.TGraph(n)
     for i, m in enumerate(mas):
         q = lim[m]
         for g in (g95, g68):
-            g.SetPoint(i, m, q["exp0"])
-        g95.SetPointError(i, 0, 0, q["exp0"] - q["exp-2"], q["exp+2"] - q["exp0"])
-        g68.SetPointError(i, 0, 0, q["exp0"] - q["exp-1"], q["exp+1"] - q["exp0"])
-        gmed.SetPoint(i, m, q["exp0"])
+            g.SetPoint(i, m, SCALE * q["exp0"])
+        g95.SetPointError(i, 0, 0, SCALE * (q["exp0"] - q["exp-2"]), SCALE * (q["exp+2"] - q["exp0"]))
+        g68.SetPointError(i, 0, 0, SCALE * (q["exp0"] - q["exp-1"]), SCALE * (q["exp+1"] - q["exp0"]))
+        gmed.SetPoint(i, m, SCALE * q["exp0"])
     return [
-        {"obj": g95, "kind": "band", "color": plotter.LIMIT_95, "label": "95% expected"},
-        {"obj": g68, "kind": "band", "color": plotter.LIMIT_68, "label": "68% expected"},
+        {"obj": g95, "kind": "band", "color": plotter.LIMIT_95, "label": "95% CL expected"},
+        {"obj": g68, "kind": "band", "color": plotter.LIMIT_68, "label": "68% CL expected"},
         {"obj": gmed, "kind": "line", "color": "#000000", "style": ROOT.kDashed, "width": 3,
          "label": median_label},
     ]
@@ -117,7 +118,7 @@ def main():
     # (a) Brazil plots per channel
     for ch, lim in lims.items():
         items = brazil_items(lim)
-        cfg = dict(LAYOUT, caption=[CH_LABEL[ch]] + TOP_TEXT, legend=(0.56, 0.69, 0.93, 0.86),
+        cfg = dict(LAYOUT, caption=TOP_TEXT + [CH_LABEL[ch]], legend=(0.58, 0.69, 0.93, 0.86),
                    legend_order=[2, 1, 0])
         c = plotter.GraphCanvas(items, cfg, style=a.style).draw()
         common.save(c, a.style, "limits", f"brazil_{ch}")
@@ -126,12 +127,13 @@ def main():
     curve = published_curve()
     gprev = ROOT.TGraph(len(curve))
     for i, (m, v, _) in enumerate(curve):
-        gprev.SetPoint(i, m, v)
+        gprev.SetPoint(i, m, SCALE * v)
     items = brazil_items(lims["Combined"], "Expected (2024)")
     items.append({"obj": gprev, "kind": "line", "color": plotter.PALETTE_LONG[2], "width": 3,
                   "label": "B2G-25-013 expected"})
-    cfg = dict(LAYOUT, caption=TOP_TEXT, legend=(0.56, 0.65, 0.93, 0.86),
-               legend_order=[2, 1, 0, 3])
+    cfg = dict(LAYOUT, caption=TOP_TEXT + [CH_LABEL["Combined"]], legend=(0.58, 0.65, 0.93, 0.86),
+               legend_order=[2, 1, 0, 3],
+               vlines=list(PNET_WINDOW), vlineColor="#000000", vlineStyle=ROOT.kDashed, vlineWidth=1)
     c = plotter.GraphCanvas(items, cfg, style=a.style).draw()
     common.save(c, a.style, "limits", "compare_B2G25013")
 
@@ -141,7 +143,7 @@ def main():
                          ("SR3Mu", plotter.PALETTE_LONG[1], ROOT.kDashed)):
         g = ROOT.TGraph(len(lims[ch]))
         for i, m in enumerate(sorted(lims[ch])):
-            g.SetPoint(i, m, lims[ch][m]["exp0"])
+            g.SetPoint(i, m, SCALE * lims[ch][m]["exp0"])
         items.append({"obj": g, "kind": "line", "color": col, "style": sty, "width": 3,
                       "label": f"{CH_LABEL[ch]}"})
     cfg = dict(LAYOUT, caption=TOP_TEXT,
