@@ -54,6 +54,13 @@ savings that change the stored format (user decisions). Nothing implemented yet.
 | O6 | DiLepton: weight-lane histograms restricted to those used downstream; veto-map diagnostics behind a flag (allows a pre-check: 20-40% for DY jobs) | CPU | changes the diagnostic outputs |
 | O7 | One DiLepton job for DIMU + EMU + ZEE on shared samples (inputs, filters, JEC, IDs once) | I/O + CPU | outputs identical (verify) |
 
+## User decisions (2026-11-28)
+
+- **Implement Tier 0, Tier 1 and O2** (local, one commit per step, compile check; validation on KNU after 11/30).
+- **O1 as an option to compare:** TriLepton flag `QuantObj` (16-bit quantized / half-precision object eta, phi, mass); produce both after 11/30 and compare size and training.
+- **O4 replaced by a training-tree cap:** deterministic per-sample prescale of Train_<CH> (hash of the event number decorrelated from the event % 5 folds; weight_genpu x N, `prescale` field), N per sample in `HcToWA_Analyzers/data/TrainTreePrescale.yaml` (defaults 1); values set from the per-sample Train counts of the first KNU test. SR_* never prescaled.
+- O3, O5, O6, O7: not now.
+
 ## Validation (on KNU after 11/30)
 
 Entry-by-entry comparison of every SR_* RNTuple and bin-by-bin histograms against the previous
