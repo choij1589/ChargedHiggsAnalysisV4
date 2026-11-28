@@ -117,8 +117,13 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
   writes a score RNTuple per sample and lane (event key, list of (mA, 4 class scores)), joined by event
   key in SignalRegionStudy `sample_reader`. Score files go to our SKNanoOutput on /pnfs for the KNU
   chain (or the chain runs locally in the el9 container). No PyG in SKNano's environments.
-- **P10 environment:** a pinned local env `PNet` (torch with CUDA 12, PyG), exported to `config/env/`
-  (the local `Nano` env has torch 2.4.1+cu121 with CUDA but no PyG).
+- **P10 environment: decided (user, 2026-11-28): (b) PyTorch + PyG in `NanoV15`**, latest versions, and
+  check that the networks compile (`torch.compile`). Dry run (local, 2026-11-28): pytorch 2.14.1, PyG
+  2.8.1, pytorch_cluster 1.6.3 for py314; the unconstrained solve downgrades gcc 16.2 -> 7.5 (breaks
+  ROOT's JIT) and pairs CUDA 13.4 torch with a pytorch_cluster whose CUDA builds need cuda < 13 ->
+  re-solve with pinned gcc/gxx 16.2, cuda-version 12.9 and triton (for torch.compile on GPU).
+- **Hardware (user, 2026-11-28):** local RTX 2070 SUPER (8 GB). gamsa (RTX 3090, code under ~/Sync) is a
+  possible fallback but heavily used by another user: train on the local host.
 
 ## Steps (after the decisions)
 
