@@ -4,6 +4,10 @@ Decisions and findings for the ObjectID section of AN-26-267: lepton, jet, b-jet
 
 
 
+## 2026-11-28 (b-tag cross-check with the final TriLepton production)
+
+- **Cross-check (PLAN_Signal S1 (b))**: `BTagEff/python/makeBTagEff.py --crosscheck` on the final TriLepton production (`..._HcToWABTagEff`, BTagEffHists of the TriLepton preselection, 40 MC samples summed, signal and data excluded; gen x norm x PU), against the TTLL map, pT < 300 GeV (28 bins per flavour): b ratio TriLepton/TTLL median 0.99 (0.91-1.01); light median 1.00 (0.60-1.38, statistics); c median 0.75 (0.52-0.99): the c efficiency is sample dependent (c jets from W -> cs / gluon splitting in WZ, ttV vs tt). The map stays the TTLL one (S1 (a)); the c dependence is a candidate for an additional b-tag efficiency uncertainty (open, later phase). Table `BTagEff/results/2024/efficiencies.txt` (replaces the partial Val cross-check), plots `BTagEff/plots/AN/2024/eff_*_TriLepton.png`; the JSON is unchanged.
+
 ## 2026-11-28 (AN: b-tag efficiencies measured on TTLL, method 1a map)
 
 - **Written** (an-writer) in `docs/AN-26-267/Sections/ObjectID.tex` (`ssec:BJetID`, `ssec:BTagSFEffect`) and `Appendix/ObjectID.tex` (`appendix:BTaggingEfficiency`):
