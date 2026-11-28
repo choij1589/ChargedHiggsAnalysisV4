@@ -2,6 +2,33 @@
 
 Decisions and findings for the Results section of AN-26-267 (expected limits, Combine diagnostics). Newest entry first.
 
+## 2026-11-28 (B2G statistics recommendations vs the current chain)
+
+Source: `docs/CMS/B2G_StatisticsRecommendations.md` (B2GStatisticsRecommendations TWiki, provided by the user 2026-11-28). Tests the B2G Combine contact asks for at the object review, and where we stand:
+- **Nuisance pulls** (diffNuisances on FitDiagnostics): not yet (FitDiagnostics on Asimov running; on Asimov the pulls are 0 by construction, the constraints are informative).
+- **Impacts:** done on Asimov, MA30/60/90/110, r range symmetric (no physics bound, as recommended). Post-fit impacts on data at unblinding.
+- **GoF:** saturated algorithm (recommended), but on Asimov it is trivial (statistic 0). B2G blinded recipe: fit a measurement region (CR/sideband) with the SR masked (`--channel-masks`, `mask_<SR>=1`), generate toys from the MR post-fit with `--toysFrequentist --bypassFrequentistFit`, compare. Our datacards have no CR channel (nonprompt from the sideband, normalizations fixed) — to design (PLAN 6.1).
+- **Signal injection (bias) tests:** not done. B2G asks for 3 mass points x injected r in {0, -1 sigma, median, +1 sigma expected} = 12 tests, from a background-only data-like model (blinded: `--toysFrequentist --bypassFrequentistFit`), rMin < 0, fit_status == 0 (< 10% failures), report mean/width of r - r_inj and of the pull; for low-yield searches with a bias, rerun with the backgrounds x 10.
+- **F-test:** "ask the Combine contacts" — our F-test is for the polynomial orders of the signal mA interpolation (not a background function in the fit); to mention to the contact.
+- **Documentation items:** MC-statistics treatment (autoMCStats 5 = Barlow-Beeston lite; bins with stat error > 30% -> lnN fallback, in line with the "< 20-30%" check), vertical template morphing (shape?), profiling; +-1 sigma plots of all shape uncertainties (not yet), post-fit pulls and correlations (with FitDiagnostics), impacts for >= 2 mass points (done, 4). PDF/scale: acceptance effects in the limit (done: generator-level normalization keeps the acceptance effect), normalization quoted in the text (tt cross-section lnN, placeholder). Binning by resolution and no empty bins (done: sigma_eff binning, floor).
+
+## 2026-11-28 14:20 (AN Results section written, an-writer)
+
+- **Updated** `docs/AN-26-267/Sections/Result.tex` (skeleton replaced): method (AsymptoticLimits, Asimov, expected only, no observed values; the `obs` key of the JSONs is the Asimov value and is not used), B_sig definition and conversion (Eq. BsigConversion of TmpCnstrct, 923.6 pb; no rescaling vs B2G-25-013), placeholders lumi 2.0% / tt xsec 4.4% (LUM POG preliminary 1.6% exists, not applied); `ssec:Limits` with Table `tab:ExpLimits` (23 points: combined median, 68/95% intervals, per channel), Figs. `fig:ExpLimits` (3 brazil plots), `fig:ExpLimitsChannels`; `ssec:Impacts` (refers to SystUnc `ssec:SystImpacts`, GoF, FitDiagnostics status); `ssec:Feasibility` with Table `tab:CompareB2G25013` and Fig. `fig:CompareB2G25013`. Figures copied to `docs/AN-26-267/Figures/Result/2024/`. `Appendix/Result.tex` unchanged (skeleton). Section builds.
+- **Sources:** `SignalRegionStudy/results/json/BR/2024/limits.2024[.SR1E2Mu|.SR3Mu].Asymptotic.Baseline.json`; `SignalRegion/plots/AN/2024/limits/comparison.txt` and PNGs (14:02); `results/json/impacts_asimov/mc-signal/*.impacts.json`; `results/json/gof/mc-signal/*.gof.json`; binning.json of the local template copy; `configs/chain.json`, `configs/systematics.2024.json`, `scripts/run{Asymptotic,GoF,FitDiagnostics}.sh`.
+- **Numbers added:** 68% band +41-53% / -28-33% of the median; channels: e mu mu lower at MA20-70 and >= 100, mu mu mu at MA15 and 75-95; mu mu mu 3.2-4.6e-6 at MA >= 105. Ratio 2024 / B2G-25-013 (Baseline region) 1.06-1.65, median 1.25, 13 of 20 below sqrt(200/109.8) = 1.35; PN window 1.64-1.81; vs B2G-25-013 Baseline interp at MA85/90/95 (1.79, 4.89, 2.70e-6) 1.27/1.18/1.25. MA90 r interval 2.3-2.7 x the other three points.
+- **GoF (Asimov):** saturated, r frozen at 0, 500 toys: statistic 0 and p = 1 at all four points by construction (technical check only); toy medians 21.9 / 28.3 / 34.0 / 34.8 vs 21 / 28 / 34 / 34 bins (MA30/60/90/110).
+- **FitDiagnostics:** not available; condor cluster 2256079 (4 jobs) still running at 14:17, no output on /pnfs `combine_output/`. Stated as pending in the AN.
+- **Mismatch (SystUnc):** `Sections/SystUnc.tex` (ssec:SystImpacts, line ~198) says the nonprompt mu nuisance has the largest impact "at all four points"; at MA30 the tt cross-section placeholder is first (0.0437 vs 0.0405, `MHc130_MA30.Combined.impacts.json`). The Results text states the correct ranking; SystUnc not edited.
+- **Minor:** `SignalRegion/python/plotLimits.py` docstring says the brazil plots are "log y", the layout has `logy: False` (plots are linear).
+- **Open:**
+  - sigma(tt, 13.6 TeV) = 923.6 pb reference and its uncertainty (`chain.json#signal.ttbar_xsec_source` = TODO; lnN 1.044 placeholder) — user decision (PLAN 6.1).
+  - S6 2024 luminosity uncertainty in the datacards (placeholder 1.020; preliminary 1.6%) — user decision (PLAN 6.1).
+  - Uneven limits at MA25 / MA30 / MA40-45 (heavy-weight conversion events, five-core-bin floor) — PLAN 6.1.
+  - FitDiagnostics results (cluster 2256079) — PLAN 6.1.
+  - Fine-grid (interp-signal) limits after 2026-11-30 — PLAN 4.2, 6.1.
+  - Later phase: HybridNew check, signal injection, grouped uncertainty breakdown (PLAN 6.3), GoF on unblinded regions (decision on what to unblind), decomposition of the 2024 / B2G-25-013 ratio (luminosity, cross section, acceptance; PLAN 6.4), ParticleNet in the Z window (PLAN 5), combination (PLAN 6.2), feasibility verdict (PLAN 6.4).
+
 ## 2026-11-28 (plots of the 2024 Baseline results)
 
 - **Plots** (`SignalRegion/python/plotLimits.py`, `plotImpacts.py`; `Common/Tools/plotter.py` GraphCanvas / ImpactCanvas, 2026-11-28): `SignalRegion/plots/AN/2024/limits/{brazil_Combined,brazil_SR1E2Mu,brazil_SR3Mu,channels,compare_B2G25013}.{png,pdf}`, `comparison.txt`; `impacts/MHc130_MA{30,60,90,110}[_noMCStat]`.

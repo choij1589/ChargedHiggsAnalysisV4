@@ -2,6 +2,12 @@
 
 Decisions and findings for the Systematic uncertainties section of AN-26-267: the nuisance parameters of the datacards, their sources, sizes, correlation naming and impacts. Newest entry first.
 
+## 2026-11-28 (LUM recommendation, copy in docs/CMS)
+
+- **Source:** `docs/CMS/LUM_LumiRecommendationsRun3.md` (LumiRecommendationsRun3 TWiki, 2024 entry "updated Dec./2025", provided by the user 2026-11-28; identical to `docs/AN-26-267/docs/LumiRecommendationsRun3_CMS_TWiki.md`).
+- **2024 alone:** preliminary uncertainty 1.6% (cite CERN-CMS-DP-2026-003, cds 2952191); brilcalc with `normtag_PHYSICS.json`. For a 2024-only datacard: one `lumi_2024` lnN 1.016 (replaces the 1.020 placeholder). The lumi_1/2/3 split (2024: 1.0020 / 1.0068 / 1.0144; 2023+2024 scheme 1.0161) applies only to combinations with 2022/2023 (PLAN 6.2).
+- **Central value:** the LUM combination quotes 110.11 +- 1.77 /fb for the 2024 Golden JSON; we use 109.82 /fb (PPD table, `LOG_Dataset.md`), 0.26% lower. To check with brilcalc on our JSON (normtag_PHYSICS) before the final numbers (S6, user).
+
 ## 2026-11-28 (AN: first version of the section, an-writer)
 
 - **Written** in `docs/AN-26-267/Sections/SystUnc.tex`. The section was empty headers before this.

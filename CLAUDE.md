@@ -47,7 +47,7 @@ Analysis rules:
 - `docs/PLAN_<Milestone>.md`: the implementation plan of a milestone (what is reproduced, design, steps with gates, open decisions), e.g. `PLAN_DiLepton.md`.
 - `docs/LOG_<Section>.md`: dated decision and finding logs, newest entry first, one file per AN section (`Dataset`, `ObjectID`, `Trigger`, `EventSel`, `BkgEst`, `TmpCnstrct`, `SystUnc`, `Result`), plus `LOG_Computing.md` for infrastructure. Every decision, number source and open item goes here when it happens.
 - `docs/AN-26-267/`: the analysis note, a separate git repository (symlink to `~/Sync/Documents/AN/AN-26-267`) with its own `CLAUDE.md`. Scientific content is written by the `an-writer` agent; final edits are done in that repository.
-- `docs/CMS/`: copies of CMS recommendation pages behind CERN login (JME noise filters, JetID13p6TeV, JERC jet veto maps, PdmV Run 3 analysis), and POG slides in `docs/CMS/{MUO,EGM}/` (each with a README of the setup). Cite them in the logs instead of re-fetching.
+- `docs/CMS/`: copies of CMS recommendation pages behind CERN login (JME noise filters, JetID13p6TeV, JERC jet veto maps, PdmV Run 3 analysis, LUM Run 3 luminosity `LUM_LumiRecommendationsRun3.md`, B2G statistics `B2G_StatisticsRecommendations.md`), and POG slides in `docs/CMS/{MUO,EGM}/` (each with a README of the setup). Cite them in the logs instead of re-fetching.
 - `docs/previous_analysis/`: B2G-25-013 paper, AN-25-154, ChargedHiggsAnalysisV3, the old SKNanoAnalyzer. Read-only references.
 - `scripts/`, `config/`: our tools (sample metadata, input view) and their outputs. Each script's docstring states what it checks.
 
