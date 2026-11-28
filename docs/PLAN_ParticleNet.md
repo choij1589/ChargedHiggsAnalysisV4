@@ -117,11 +117,20 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
   writes a score RNTuple per sample and lane (event key, list of (mA, 4 class scores)), joined by event
   key in SignalRegionStudy `sample_reader`. Score files go to our SKNanoOutput on /pnfs for the KNU
   chain (or the chain runs locally in the el9 container). No PyG in SKNano's environments.
-- **P10 environment: decided (user, 2026-11-28): (b) PyTorch + PyG in `NanoV15`**, latest versions, and
-  check that the networks compile (`torch.compile`). Dry run (local, 2026-11-28): pytorch 2.14.1, PyG
-  2.8.1, pytorch_cluster 1.6.3 for py314; the unconstrained solve downgrades gcc 16.2 -> 7.5 (breaks
-  ROOT's JIT) and pairs CUDA 13.4 torch with a pytorch_cluster whose CUDA builds need cuda < 13 ->
-  re-solve with pinned gcc/gxx 16.2, cuda-version 12.9 and triton (for torch.compile on GPU).
+- **P10 environment: decided (user, 2026-11-28): (b) PyTorch + PyG in `NanoV15`, latest versions;
+  installed locally 2026-11-28:** pytorch 2.14.1 (cuda134_mkl), pytorch_geometric 2.8.1,
+  pytorch_cluster 1.6.3 (CUDA 13.4 build), triton 3.7.1, cuda-cudart-dev 13.5 (headers for triton);
+  driver 620.70 (CUDA 13.5). Lock `config/env/NanoV15_local_explicit.txt` (before: scratch copy).
+  - Side effects: triton needs gcc < 16, so the compiler / C++ headers go 16.2 -> 15.3 (runtime
+    libgcc/libstdcxx stay 16.2; ROOT 6.40.02 unchanged): ROOT's interpreter now prints "cannot
+    extract standard library include paths" and uses its fallback; RDataFrame JIT, gInterpreter.Declare,
+    test_plotter.py and plotLimits.py all work (to watch). BLAS openblas -> MKL.
+  - PyG 2.8 `DynamicEdgeConv` needs pyg-lib >= 0.6 (py314 builds only up to torch 2.12): the layer is
+    built as `torch_cluster.knn_graph` + PyG `EdgeConv` (same operation).
+  - `torch.compile` works with the k-NN call excluded from tracing (`torch.compiler.disable`; no
+    fake-tensor kernel for torch_cluster.knn) and GraphNorm / pooling given the batch size: eager 50 FP32
+    steps 0.41 s, compiled 0.32 s (x1.28), first step 14 s, 221 MB (`ParticleNet/test/compile_test.py`).
+  - KNU NanoV15: same packages to add later (CPU use only there; CLAUDE.md: same env on both sides).
 - **Hardware (user, 2026-11-28):** local RTX 2070 SUPER (8 GB). gamsa (RTX 3090, code under ~/Sync) is a
   possible fallback but heavily used by another user: train on the local host.
 
