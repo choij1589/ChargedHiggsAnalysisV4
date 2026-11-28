@@ -2,6 +2,11 @@
 
 Decisions and findings for the Results section of AN-26-267 (expected limits, Combine diagnostics). Newest entry first.
 
+## 2026-11-28 (comparison with B2G-25-013)
+
+- **B_sig conversion for 2024 uses the 13.6 TeV sigma(tt) = 923.6 pb (user).** B_sig is a branching ratio and does not depend on the ttbar cross section used for the conversion: the 2024 limits and the published B2G-25-013 limits are compared directly, without rescaling (B2G-25-013 converted its combined r with its own reference, 833.9 pb).
+- **Comparison plot (user):** one 1D plot vs mA at mH+ = 130 GeV, 2024 Baseline expected (median, +-1/2 sigma) with the B2G-25-013 Run2+Run3 published expected curve overlaid (ParticleNet in mA 82.5-97.5, Baseline elsewhere; `docs/previous_analysis/ChargedHiggsAnalysisV3/SignalRegionStudyV4/results/json/BR/All/`). The Run3-only previous limits exist only at MA90 and are not shown.
+
 ## 2026-11-28 (first Baseline expected limits, 2024)
 
 - **Inputs:** TriLepton production `Run1E2Mu_Run3Mu_SRTree_RunSyst_BTagEffHists_HcToWABTagEff` (HcToWA b-tag map), SignalRegionStudy 307225c, output tag `HcToWABTagEff_v1` (/pnfs `SKNanoOutput/SignalRegionStudy/2024/HcToWABTagEff_v1/`, local copy `SKNanoOutput/SignalRegionStudy/2024/`). Binned shape method of SignalRegionStudyV4, Asimov data_obs (SR blinded), CMSSW_16_0_0 + Combine v11.1.0 on x86_64-v3+ workers. JSONs `SignalRegionStudy/results/json/BR/2024/limits.2024[.SR1E2Mu|.SR3Mu].Asymptotic.Baseline.json`, per point `results/json/points/Baseline/mc-signal/`.
