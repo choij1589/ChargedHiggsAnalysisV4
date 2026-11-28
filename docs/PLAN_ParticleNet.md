@@ -73,9 +73,13 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
   object variations and the data Nonprompt lane) for the offline scoring.
 - **P2 node features: decided with P1 (user):** the previous 9 features (E, px, py, pz, charge, isMu,
   isE, isJet, isB); no b-tag score, no isolation.
-- **P3 mA parametrization:** (a) window-based assignment (recommended, above); (b) background mA
-  sampled from the signal mA distribution (Baldi et al.); (c) the reconstructed m(mu mu) as the
-  parameter.
+- **P3 mA parametrization: decided (user, 2026-11-28): (a) window-based.** Signal events carry their
+  generated mA. A background event enters with parameter mA_i for every signal point i whose template
+  window `[x0 - 10 sigma_eff, x0 + 10 sigma_eff]` (SignalRegionStudy binning, 23 points; the interpolated
+  grid later) contains its A-candidate mass; copies are weighted so that each mA_i sees the real
+  background mix of its window. Scoring: the template at mA_i scores every window event with mA_i.
+  Caveat: inside a window the network can learn |m(mu mu) - mA| from the muon 4-vectors (sculpting
+  towards the signal peak, partly double counting the fitted mass) -> mass decorrelation in P7.
 - **P4 classes:** (a) previous 4 classes; (b) + conversion (DYG / TTG / ZG) for the low-mA windows;
   (c) + ttW / ttH into ttX (the AN said so).
 - **P5 nonprompt sample:** (a) TTLL (+ TTLJ, DY) MC loose-not-tight with the 2024 fake rates
