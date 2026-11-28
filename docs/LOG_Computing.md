@@ -2,6 +2,11 @@
 
 Decisions and findings about the computing setup (KNU, SKNano, storage). Newest entry first. Each entry: date, what was decided or found, why, and where it is implemented.
 
+## 2026-11-28 afternoon (cleanup, user approvals)
+
+- **Deleted (user approval):** the PreBTagEff TriLepton outputs on /pnfs (10 data files + provenance, superseded by HcToWABTagEff; tag dir removed); on /d0 the damaged `envs/{Nano,NanoV15}_purged_20261128`, the damaged package cache `micromamba_envs/pkgs` (the repair used `pkgs_20261128`) and the empty failed run dir `2026_11_28_085515_DiLepton_...` (`hcto_prod/cleanup_20261128.sh`).
+- **FitDiagnostics** (MA30/60/90/110, cluster 2256079, robust Hesse, > 70 min): approved to run until 17:00, then removed if not finished (KNU downtime 20:00).
+
 ## 2026-11-28 morning (purge repair, final production; KNU downtime 11/28 20:00 - 11/30 20:00)
 
 - **KNU downtime** (T3_KR_KNU scheduled, 11/28 20:00 - 11/30 20:00): user, wrap up the KNU work before 18:00 and bring the outputs home.

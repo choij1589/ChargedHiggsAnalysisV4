@@ -2,10 +2,15 @@
 
 Decisions and findings for the Template construction section of AN-26-267 (signal modelling, binning, templates, mu mu mu A-candidate choice). Newest entry first.
 
+## 2026-11-28 (user decisions: interpolation gate and port choices)
+
+- **Interpolation gate passed** (user): interp-signal templates after the KNU downtime (after 11/30 20:00).
+- **Port choices kept** (user): minimum 10 good direct fits per shape parametrization (2 points per coefficient at degree 4; never binding: 20-21 points per category) and the 8% per-point yield error of the G fit (previous Run 3 value; a uniform error, so it does not move G, the F-test order or the LOO normalization uncertainty, only the G band and the yield-closure pulls).
+
 ## 2026-11-28 (mA interpolation gate on the final production)
 
 - **Chain** (`run_interpolation.sh all` = fits .. deltas, loo, export; condor 11:31-12:05; results `SignalRegionStudy/results/interpolation/`, SRS 307225c). Polynomial orders by the up-only F-test (user, 2026-11-28): SR1E2Mu x0 2, sigmaL 2, sigmaR 2, alphaL 1, alphaR 3; SR3Mu_lowM x0 4, sigmaL 4, sigmaR 2, alphaL 4, alphaR 2; SR3Mu_highM x0 3, sigmaL 2, sigmaR 3, alphaL 0, alphaR 3, fsig 3, c1 3, c2 2; G order 4 in both channels. SR3Mu_highM mA = 15 dropped (bad fit; outside its production range).
-- **Leave-one-out interpolation uncertainties** (`closure/loo_uncertainties.json`, production-restricted values = those that enter the datacards): norm (lnN) SR1E2Mu 1.028 / 1.014 / 1.017 (below / on / above Z), SR3Mu_lowM 1.041 (below Z; on / above Z unreachable), SR3Mu_highM 1.010 (floor) / 1.031 / 1.029; peak position |x0_pred - x0_direct| / sigma_eff: SR1E2Mu 0.036, SR3Mu_lowM 0.029, SR3Mu_highM 0.029; width |sigma_pred / sigma_direct - 1|: 0.015, 0.021, 0.019. Largest single LOO deviations: norm 5.4% (SR1E2Mu), 7.4% (SR3Mu_lowM); scale 0.07 / 0.04 / 0.07 sigma. All small compared with the signal-shape and normalization systematics: **gate for the user** (S2: interp-signal templates only if the modelling uncertainties are small; next steps `export-config`, `grid`, interp groups).
+- **Leave-one-out interpolation uncertainties** (`closure/loo_uncertainties.json`, production-restricted values = those that enter the datacards): norm (lnN) SR1E2Mu 1.028 / 1.014 / 1.017 (below / on / above Z), SR3Mu_lowM 1.041 (below Z; on / above Z unreachable), SR3Mu_highM 1.010 (floor) / 1.031 / 1.029; peak position |x0_pred - x0_direct| / sigma_eff: SR1E2Mu 0.036, SR3Mu_lowM 0.029, SR3Mu_highM 0.029; width |sigma_pred / sigma_direct - 1|: 0.015, 0.021, 0.019. Largest single LOO deviations: norm 5.4% (SR1E2Mu), 7.4% (SR3Mu_lowM); scale 0.07 / 0.04 / 0.07 sigma. All small compared with the signal-shape and normalization systematics. **Gate passed: approved by the user 2026-11-28** (interp-signal templates go ahead after the KNU downtime, i.e. after 11/30 20:00: `export-config`, `grid`, interp groups).
 
 ## 2026-11-28 (SignalRegionStudy port; first signal numbers)
 

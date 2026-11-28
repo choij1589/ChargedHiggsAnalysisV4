@@ -4,6 +4,12 @@ Decisions and findings for the ObjectID section of AN-26-267: lepton, jet, b-jet
 
 
 
+## 2026-11-28 (user decisions on the b-tag map follow-ups)
+
+- **No extra b-tag efficiency uncertainty** for the sample dependence of the c efficiency (TriLepton / TTLL median 0.77) (user).
+- **No SR yield / N_b comparison between the old and the new map** (user): the old framework map is the one of the Vcb analysis (semileptonic tt, other jet selection), not a reference for this analysis. PLAN 2.5 step 3 closed.
+- **Plots always with `Common/Tools/plotter.py`** (user): the BTagEff efficiency plots are redone with it; the EMU plot set made with the HcToWA map (`RunEMu_RunSyst_TrigDZ_HcToWABTagEff`) is kept permanently (production switch in `DiLepton/python/plot.py`, data from `RunEMu_RunSyst_TrigDZ`).
+
 ## 2026-11-28 (AN: TriLepton b-tag cross-check with each process once, 33 MC samples)
 
 - **Written** (an-writer), `Appendix/ObjectID.tex` `appendix:BTaggingEfficiency`, TriLepton cross-check only:
