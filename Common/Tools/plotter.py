@@ -519,8 +519,8 @@ class EffCanvas:
         save(self.canv, path)
 
 
-LIMIT_68 = "#607641"   # CMS expected-limit bands (cmsstyle kLimit68 / kLimit95)
-LIMIT_95 = "#F5BB54"
+LIMIT_68 = "#85D1FB"   # CMS expected-limit bands, CMS-logo set (cmsstyle kLimit68cms / kLimit95cms; user 2026-11-28)
+LIMIT_95 = "#FFDF7F"
 
 
 def _graph_points(g):

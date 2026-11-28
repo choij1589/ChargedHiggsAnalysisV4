@@ -33,8 +33,7 @@ PREV_ALL = common.PREV / "results" / "json" / "BR" / "All"
 PNET_WINDOW = (82.5, 97.5)
 QUANT = ["exp-2", "exp-1", "exp0", "exp+1", "exp+2"]
 Y_TITLE = "95% CL upper limit on #it{B}_{sig}"
-B_DEF = "#it{B}_{sig} = #it{B}(t #rightarrow H^{+}b) #it{B}(H^{+} #rightarrow W^{+}A) #it{B}(A #rightarrow #mu#mu)"
-TOP_TEXT = ["m_{H^{+}} = 130 GeV, Baseline", "Expected (Asimov)"]
+TOP_TEXT = ["m_{H^{+}} = 130 GeV"]
 # shared layout: CMS label top left, caption block under it, legend top right, notes at the bottom
 LAYOUT = {"xTitle": MA_TITLE, "yTitle": Y_TITLE, "xRange": (15, 125), "logy": True, "yRange": (1e-7, 3e-4),
           "captionPos": (0.19, 0.765), "captionSize": 0.036, "legend_text": 0.033, "textSize": 0.027}
@@ -89,7 +88,7 @@ def at_ma(curve, ma):
     raise KeyError(f"B2G-25-013 curve has no {want} point at mA = {ma}")
 
 
-def brazil_items(lim, label_suffix=""):
+def brazil_items(lim, median_label="Median expected"):
     mas = sorted(lim)
     n = len(mas)
     g95, g68, gmed = ROOT.TGraphAsymmErrors(n), ROOT.TGraphAsymmErrors(n), ROOT.TGraph(n)
@@ -101,10 +100,10 @@ def brazil_items(lim, label_suffix=""):
         g68.SetPointError(i, 0, 0, q["exp0"] - q["exp-1"], q["exp+1"] - q["exp0"])
         gmed.SetPoint(i, m, q["exp0"])
     return [
-        {"obj": g95, "kind": "band", "color": plotter.LIMIT_95, "label": f"95% expected{label_suffix}"},
-        {"obj": g68, "kind": "band", "color": plotter.LIMIT_68, "label": f"68% expected{label_suffix}"},
+        {"obj": g95, "kind": "band", "color": plotter.LIMIT_95, "label": "95% expected"},
+        {"obj": g68, "kind": "band", "color": plotter.LIMIT_68, "label": "68% expected"},
         {"obj": gmed, "kind": "line", "color": "#000000", "style": ROOT.kDashed, "width": 3,
-         "label": f"Median expected{label_suffix}"},
+         "label": median_label},
     ]
 
 
@@ -119,7 +118,7 @@ def main():
     for ch, lim in lims.items():
         items = brazil_items(lim)
         cfg = dict(LAYOUT, caption=[CH_LABEL[ch]] + TOP_TEXT, legend=(0.56, 0.69, 0.93, 0.86),
-                   legend_order=[2, 1, 0], text=[B_DEF], textPos=(0.40, 0.235))
+                   legend_order=[2, 1, 0])
         c = plotter.GraphCanvas(items, cfg, style=a.style).draw()
         common.save(c, a.style, "limits", f"brazil_{ch}")
 
@@ -128,15 +127,11 @@ def main():
     gprev = ROOT.TGraph(len(curve))
     for i, (m, v, _) in enumerate(curve):
         gprev.SetPoint(i, m, v)
-    items = brazil_items(lims["Combined"], " (2024)")
+    items = brazil_items(lims["Combined"], "Expected (2024)")
     items.append({"obj": gprev, "kind": "line", "color": plotter.PALETTE_LONG[2], "width": 3,
                   "label": "B2G-25-013 expected"})
-    cfg = dict(LAYOUT, caption=[CH_LABEL["Combined"]] + TOP_TEXT, legend=(0.50, 0.65, 0.93, 0.86),
-               legend_order=[2, 1, 0, 3],
-               text=["B2G-25-013: Run 2 + Run 3, 138 fb^{-1} (13 TeV) + 62 fb^{-1} (13.6 TeV),",
-                     "ParticleNet for 82.5 < m_{A} < 97.5 GeV, Baseline elsewhere",
-                     "2024: #sigma(t#bar{t}, 13.6 TeV) = 923.6 pb in the conversion of r"],
-               textPos=(0.22, 0.31), textSize=0.025)
+    cfg = dict(LAYOUT, caption=TOP_TEXT, legend=(0.56, 0.65, 0.93, 0.86),
+               legend_order=[2, 1, 0, 3])
     c = plotter.GraphCanvas(items, cfg, style=a.style).draw()
     common.save(c, a.style, "limits", "compare_B2G25013")
 
@@ -150,8 +145,7 @@ def main():
         items.append({"obj": g, "kind": "line", "color": col, "style": sty, "width": 3,
                       "label": f"{CH_LABEL[ch]}"})
     cfg = dict(LAYOUT, caption=TOP_TEXT,
-               captionSize=0.034, legend=(0.56, 0.69, 0.93, 0.86), legend_header="Median expected",
-               text=[B_DEF], textPos=(0.40, 0.235))
+               captionSize=0.034, legend=(0.56, 0.69, 0.93, 0.86), legend_header="Median expected")
     c = plotter.GraphCanvas(items, cfg, style=a.style).draw()
     common.save(c, a.style, "limits", "channels")
 
