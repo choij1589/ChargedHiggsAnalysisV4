@@ -1,0 +1,976 @@
+{
+ "checks": {
+  "C1_inputs": {
+   "pass": true,
+   "entries_vs_reference": {
+    "belowZ": {
+     "TTToHcToWAToMuMu-MHc130_MA15": [
+      1234,
+      1234
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA30": [
+      1240,
+      1240
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA55": [
+      1230,
+      1230
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA65": [
+      1218,
+      1218
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA85": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA90": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA105": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA120": [
+      0,
+      0
+     ],
+     "TTLL_powheg": [
+      519,
+      519
+     ],
+     "TTLJ_powheg": [
+      176,
+      176
+     ],
+     "DYto2E_2J_MLL10to50": [
+      46,
+      46
+     ],
+     "DYto2Mu_2J_MLL50toInf": [
+      93,
+      93
+     ],
+     "WZto3LNu": [
+      327,
+      327
+     ],
+     "ZZto4L": [
+      159,
+      159
+     ],
+     "ttZtoLL_MLL50toInf": [
+      313,
+      313
+     ],
+     "ttWtoLNu": [
+      277,
+      277
+     ],
+     "ttHtoNonbb_M125": [
+      162,
+      162
+     ],
+     "tZq": [
+      98,
+      98
+     ]
+    },
+    "onZ": {
+     "TTToHcToWAToMuMu-MHc130_MA15": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA30": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA55": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA65": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA85": [
+      1230,
+      1230
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA90": [
+      1197,
+      1197
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA105": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA120": [
+      0,
+      0
+     ],
+     "TTLL_powheg": [
+      222,
+      222
+     ],
+     "TTLJ_powheg": [
+      79,
+      79
+     ],
+     "DYto2E_2J_MLL10to50": [
+      15,
+      15
+     ],
+     "DYto2Mu_2J_MLL50toInf": [
+      42,
+      42
+     ],
+     "WZto3LNu": [
+      864,
+      864
+     ],
+     "ZZto4L": [
+      503,
+      503
+     ],
+     "ttZtoLL_MLL50toInf": [
+      472,
+      472
+     ],
+     "ttWtoLNu": [
+      111,
+      111
+     ],
+     "ttHtoNonbb_M125": [
+      77,
+      77
+     ],
+     "tZq": [
+      186,
+      186
+     ]
+    },
+    "aboveZ": {
+     "TTToHcToWAToMuMu-MHc130_MA15": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA30": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA55": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA65": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA85": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA90": [
+      0,
+      0
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA105": [
+      1241,
+      1241
+     ],
+     "TTToHcToWAToMuMu-MHc130_MA120": [
+      1232,
+      1232
+     ],
+     "TTLL_powheg": [
+      296,
+      296
+     ],
+     "TTLJ_powheg": [
+      91,
+      91
+     ],
+     "DYto2E_2J_MLL10to50": [
+      34,
+      34
+     ],
+     "DYto2Mu_2J_MLL50toInf": [
+      68,
+      68
+     ],
+     "WZto3LNu": [
+      617,
+      617
+     ],
+     "ZZto4L": [
+      341,
+      341
+     ],
+     "ttZtoLL_MLL50toInf": [
+      411,
+      411
+     ],
+     "ttWtoLNu": [
+      178,
+      178
+     ],
+     "ttHtoNonbb_M125": [
+      103,
+      103
+     ],
+     "tZq": [
+      167,
+      167
+     ]
+    }
+   },
+   "ttree_sample": "ZZto4L"
+  },
+  "C2_nodes": {
+   "pass": true,
+   "first_layer_deltaR_knn": true,
+   "max_rel_diff_p4": 1.7040833671664885e-07,
+   "max_rel_diff_pair_mass": 0.0005952327692534352
+  },
+  "C3_band_membership": {
+   "pass": true,
+   "belowZ": {
+    "bkg_in_union": true,
+    "one_entry_per_event": true,
+    "signal_generated_mA": true,
+    "drawn_mA_at_band_points": true,
+    "entries": 7092,
+    "bkg": 2170
+   },
+   "onZ": {
+    "bkg_in_union": true,
+    "one_entry_per_event": true,
+    "signal_generated_mA": true,
+    "drawn_mA_at_band_points": true,
+    "entries": 4998,
+    "bkg": 2571
+   },
+   "aboveZ": {
+    "bkg_in_union": true,
+    "one_entry_per_event": true,
+    "signal_generated_mA": true,
+    "drawn_mA_at_band_points": true,
+    "entries": 4779,
+    "bkg": 2306
+   },
+   "bkg_events_in_two_bands": {
+    "belowZ&onZ": {
+     "1E2MU": 0,
+     "3MU": 375
+    },
+    "onZ&aboveZ": {
+     "1E2MU": 485,
+     "3MU": 666
+    },
+    "belowZ&aboveZ": {
+     "1E2MU": 0,
+     "3MU": 334
+    }
+   },
+   "two_band_sets_equal_independent_union": true,
+   "1E2MU_belowZ_aboveZ_ranges_disjoint": true
+  },
+  "C3b_random_mA": {
+   "pass": true,
+   "reproducible_rebuild": true,
+   "hash_recomputed": true,
+   "fractions_within_4sigma": true,
+   "deltas": true,
+   "delta2_zero_for_1e2mu": true,
+   "fractions": {
+    "belowZ_1E2MU": {
+     "n": 772,
+     "prob": [
+      0.256,
+      0.251,
+      0.248,
+      0.246
+     ],
+     "frac": [
+      0.268,
+      0.282,
+      0.233,
+      0.216
+     ]
+    },
+    "belowZ_3MU": {
+     "n": 1398,
+     "prob": [
+      0.247,
+      0.252,
+      0.25,
+      0.251
+     ],
+     "frac": [
+      0.25,
+      0.24,
+      0.253,
+      0.258
+     ]
+    },
+    "onZ_1E2MU": {
+     "n": 1194,
+     "prob": [
+      0.507,
+      0.493
+     ],
+     "frac": [
+      0.513,
+      0.487
+     ]
+    },
+    "onZ_3MU": {
+     "n": 1377,
+     "prob": [
+      0.506,
+      0.494
+     ],
+     "frac": [
+      0.497,
+      0.503
+     ]
+    },
+    "aboveZ_1E2MU": {
+     "n": 854,
+     "prob": [
+      0.505,
+      0.495
+     ],
+     "frac": [
+      0.522,
+      0.478
+     ]
+    },
+    "aboveZ_3MU": {
+     "n": 1452,
+     "prob": [
+      0.501,
+      0.499
+     ],
+     "frac": [
+      0.494,
+      0.506
+     ]
+    }
+   }
+  },
+  "C4_weights": {
+   "pass": true,
+   "belowZ_net0_train": {
+    "target": 1069.0,
+    "class_totals": [
+     1069.0,
+     1069.0000000000007,
+     1069.0,
+     1069.0
+    ],
+    "n": 4276
+   },
+   "belowZ_net0_es": {
+    "target": 353.5,
+    "class_totals": [
+     353.5,
+     353.5,
+     353.49999999999994,
+     353.5
+    ],
+    "n": 1414
+   },
+   "belowZ_net0_test": {
+    "target": 350.5,
+    "class_totals": [
+     350.5,
+     350.49999999999994,
+     350.5,
+     350.5
+    ],
+    "n": 1402
+   },
+   "onZ_net0_train": {
+    "target": 746.75,
+    "class_totals": [
+     746.75,
+     746.7500000000002,
+     746.75,
+     746.75
+    ],
+    "n": 2987
+   },
+   "onZ_net0_es": {
+    "target": 252.75,
+    "class_totals": [
+     252.74999999999997,
+     252.75000000000006,
+     252.75,
+     252.75
+    ],
+    "n": 1011
+   },
+   "onZ_net0_test": {
+    "target": 250.0,
+    "class_totals": [
+     250.0,
+     249.99999999999997,
+     250.0,
+     250.0
+    ],
+    "n": 1000
+   },
+   "aboveZ_net0_train": {
+    "target": 709.5,
+    "class_totals": [
+     709.5,
+     709.5,
+     709.5,
+     709.5
+    ],
+    "n": 2838
+   },
+   "aboveZ_net0_es": {
+    "target": 245.25,
+    "class_totals": [
+     245.25,
+     245.25,
+     245.25,
+     245.25
+    ],
+    "n": 981
+   },
+   "aboveZ_net0_test": {
+    "target": 240.0,
+    "class_totals": [
+     240.0,
+     240.0000000000001,
+     240.0,
+     240.0
+    ],
+    "n": 960
+   }
+  },
+  "C5_disco_mask": {
+   "pass": true,
+   "dcor2": 0.22446148097515106,
+   "dcor2_emm_noise": 0.22446148097515106,
+   "dcor2_numpy_3mu_bkg_only": 0.22446144161254764,
+   "dcor1": 0.11386500298976898,
+   "dcor1_signal_noise": 0.11386500298976898,
+   "dcor1_numpy_bkg_only": 0.1138650014202439,
+   "max_grad_emm_logits": 0.0,
+   "max_grad_3mu_logits": 0.034006111323833466,
+   "n_emm": 236,
+   "n_3mu_bkg": 138
+  },
+  "C6_compile": {
+   "pass": true,
+   "max_abs_logit_diff_eager_vs_compiled": 2.2202730178833008e-06,
+   "graph_breaks_compiled": {
+    "Skip calling `torch.compiler.disable()`d function\n  Explanation: Skip calling function `<function dropout_given_edges at 0x7fb08b46c930>` since it was wrapped with `torch.compiler.disable` (reason: None)\n  Hint: Remove the `torch.compiler.disable` call\n\n  Developer debug context: <function dropout_given_edges at 0x7fb08b46c930>\n\n For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html": 4,
+    "Skip calling `torch.compiler.disable()`d function\n  Explanation: Skip calling function `<function knn_dropout_edges at 0x7fb08bf01a60>` since it was wrapped with `torch.compiler.disable` (reason: None)\n  Hint: Remove the `torch.compiler.disable` call\n\n  Developer debug context: <function knn_dropout_edges at 0x7fb08bf01a60>\n\n For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html": 6
+   }
+  },
+  "C7a_scores_vs_training_heldout": {
+   "pass": true,
+   "max_abs_diff": 2.980232238769531e-07,
+   "window_entries_compared": 17591,
+   "all_from_test_split": true,
+   "rows_aligned_with_input_entries": true,
+   "signal_entries_vs_distinct_keys": {
+    "MHc130_MA15_1E2MU": [
+     675,
+     163
+    ],
+    "MHc130_MA15_3MU": [
+     825,
+     202
+    ],
+    "MHc130_MA30_1E2MU": [
+     675,
+     165
+    ],
+    "MHc130_MA30_3MU": [
+     825,
+     203
+    ],
+    "MHc130_MA55_1E2MU": [
+     675,
+     163
+    ],
+    "MHc130_MA55_3MU": [
+     825,
+     203
+    ]
+   }
+  },
+  "C7b_scores_sr_lanes_mc_grid": {
+   "pass": true,
+   "rows_and_order": true,
+   "score_mA_equals_windows": true,
+   "own_band_fold_network_matches": true,
+   "max_abs_diff_own": 1.7881393432617188e-07,
+   "min_abs_diff_other_14_networks": 0.0018132328987121582,
+   "median_abs_diff_other": 0.03891459107398987,
+   "n_other_within_2em6": 0,
+   "events_rescored": 1812,
+   "grid_routing": {
+    "MHc130_MA30": "belowZ",
+    "MHc130_MA25": "belowZ",
+    "MHc130_MA15": "belowZ",
+    "MHc130_MA45": "belowZ",
+    "MHc130_MA50": "belowZ",
+    "MHc130_MA75": "belowZ",
+    "MHc130_MA80": "onZ",
+    "MHc130_MA85": "onZ",
+    "MHc130_MA90": "onZ",
+    "MHc130_MA95": "onZ",
+    "MHc130_MA55": "belowZ",
+    "MHc130_MA20": "belowZ",
+    "MHc130_MA65": "belowZ",
+    "MHc130_MA70": "belowZ",
+    "MHc130_MA100": "aboveZ",
+    "MHc130_MA105": "aboveZ",
+    "MHc130_MA110": "aboveZ",
+    "MHc130_MA115": "aboveZ",
+    "MHc130_MA120": "aboveZ",
+    "MHc130_MA125": "aboveZ",
+    "MHc130_MA60": "belowZ",
+    "MHc130_MA40": "belowZ",
+    "MHc130_MA35": "belowZ"
+   }
+  },
+  "C7c_scores_interpolated_grid": {
+   "pass": true,
+   "rows_and_order": true,
+   "score_mA_equals_windows": true,
+   "own_band_fold_network_matches": true,
+   "max_abs_diff_own": 1.1920928955078125e-07,
+   "min_abs_diff_other_14_networks": 0.008888110518455505,
+   "median_abs_diff_other": 0.037911415100097656,
+   "n_other_within_2em6": 0,
+   "events_rescored": 225,
+   "grid_routing": {
+    "MHc130_MA79p5": "belowZ",
+    "MHc130_MA80": "onZ",
+    "MHc130_MA99p5": "onZ",
+    "MHc130_MA100": "aboveZ",
+    "MHc130_MA62p5": "belowZ",
+    "MHc130_MA122": "aboveZ",
+    "MHc130_MA17p5": "belowZ"
+   }
+  }
+ },
+ "times_s": {
+  "make_trees": 1.912916898727417,
+  "build": 1.2922396659851074,
+  "train_15nets": 24.627374410629272,
+  "score_mc_grid": 13.030509233474731,
+  "score_interp_grid": 4.426974296569824
+ },
+ "dataset": {
+  "bands": {
+   "belowZ": {
+    "points": [
+     "MHc130_MA15",
+     "MHc130_MA30",
+     "MHc130_MA55",
+     "MHc130_MA65"
+    ],
+    "entries": {
+     "signal": 4922,
+     "nonprompt": 834,
+     "diboson": 486,
+     "ttX": 850
+    },
+    "mass_range": {
+     "1E2MU": {
+      "mass1": [
+       [
+        13.597210352503978,
+        16.398300216249535
+       ],
+       [
+        27.165604462835823,
+        32.84441454037926
+       ],
+       [
+        49.02341236320917,
+        72.28837334279163
+       ]
+      ]
+     },
+     "3MU": {
+      "low": [
+       [
+        13.54570097793699,
+        16.455078453857144
+       ],
+       [
+        26.986248968063002,
+        32.984910441939
+       ],
+       [
+        48.755546372003764,
+        61.1984747914633
+       ]
+      ],
+      "high": [
+       [
+        57.55378268386698,
+        72.27985769690045
+       ]
+      ]
+     }
+    }
+   },
+   "onZ": {
+    "points": [
+     "MHc130_MA85",
+     "MHc130_MA90"
+    ],
+    "entries": {
+     "signal": 2427,
+     "nonprompt": 358,
+     "diboson": 1367,
+     "ttX": 846
+    },
+    "mass_range": {
+     "1E2MU": {
+      "mass1": [
+       [
+        74.68434580614857,
+        100.60593450655215
+       ]
+      ]
+     },
+     "3MU": {
+      "high": [
+       [
+        74.63312315858991,
+        100.84495558714946
+       ]
+      ]
+     }
+    }
+   },
+   "aboveZ": {
+    "points": [
+     "MHc130_MA105",
+     "MHc130_MA120"
+    ],
+    "entries": {
+     "signal": 2473,
+     "nonprompt": 489,
+     "diboson": 958,
+     "ttX": 859
+    },
+    "mass_range": {
+     "1E2MU": {
+      "mass1": [
+       [
+        91.29561187802997,
+        136.11478254570847
+       ]
+      ]
+     },
+     "3MU": {
+      "high": [
+       [
+        91.01846901277936,
+        136.10334608067558
+       ]
+      ]
+     }
+    }
+   }
+  },
+  "input_dir": "/tmp/claude-1000/-home-choij-Sync-workspace-ChargedHiggsAnalysisV4/66fa0647-7a62-4520-94e8-a34ad7f30aa1/scratchpad/bench/trees",
+  "background_band_membership": {
+   "events": 8148,
+   "in_two_bands": 1526,
+   "in_no_band": 2794
+  }
+ },
+ "timing": {
+  "batch_size": 512,
+  "steps": 200,
+  "eager": {
+   "t_first_step_s": 0.3177011013031006,
+   "t_train_step_ms": 22.07557201385498,
+   "t_eval_step_ms": 10.376300811767578,
+   "max_mem_MB": 394.9814453125,
+   "graph_breaks": {}
+  },
+  "compiled": {
+   "t_first_step_s": 8.155177354812622,
+   "t_train_step_ms": 17.624964714050293,
+   "t_eval_step_ms": 6.8926918506622314,
+   "max_mem_MB": 294.80517578125,
+   "graph_breaks": {
+    "Skip calling `torch.compiler.disable()`d function\n  Explanation: Skip calling function `<function dropout_given_edges at 0x7fb08b46c930>` since it was wrapped with `torch.compiler.disable` (reason: None)\n  Hint: Remove the `torch.compiler.disable` call\n\n  Developer debug context: <function dropout_given_edges at 0x7fb08b46c930>\n\n For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html": 4,
+    "Skip calling `torch.compiler.disable()`d function\n  Explanation: Skip calling function `<function knn_dropout_edges at 0x7fb08bf01a60>` since it was wrapped with `torch.compiler.disable` (reason: None)\n  Hint: Remove the `torch.compiler.disable` call\n\n  Developer debug context: <function knn_dropout_edges at 0x7fb08bf01a60>\n\n For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html": 6
+   }
+  },
+  "bench_store_MB": 1.6153564453125,
+  "mean_nodes_per_graph": 7.702280912364946,
+  "num_hidden": 256
+ },
+ "training": {
+  "belowZ_net0": {
+   "epochs": 5,
+   "t_epoch_train_s": 1.2334291458129882,
+   "t_epoch_es_s": 0.5906750202178955,
+   "max_mem_MB": 888.02392578125,
+   "n_split": [
+    4276,
+    1414,
+    1402
+   ],
+   "auc_table_test": 0.5039535972160862,
+   "auc_window_test": {
+    "MHc130_MA15": 0.5626722799014018,
+    "MHc130_MA30": 0.5182021531017464,
+    "MHc130_MA55": 0.4643585595133172,
+    "MHc130_MA65": 0.5576935367494467
+   }
+  },
+  "belowZ_net1": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.11995148658752441,
+   "t_epoch_es_s": 0.02106318473815918,
+   "max_mem_MB": 887.94091796875,
+   "n_split": [
+    4268,
+    1410,
+    1414
+   ],
+   "auc_table_test": 0.5568450653130075,
+   "auc_window_test": {
+    "MHc130_MA15": 0.4670676323587589,
+    "MHc130_MA30": 0.5931019463752185,
+    "MHc130_MA55": 0.5242110076935473,
+    "MHc130_MA65": 0.5988362561018624
+   }
+  },
+  "belowZ_net2": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.12627053260803223,
+   "t_epoch_es_s": 0.02141122817993164,
+   "max_mem_MB": 887.94091796875,
+   "n_split": [
+    4208,
+    1474,
+    1410
+   ],
+   "auc_table_test": 0.4706709918094685,
+   "auc_window_test": {
+    "MHc130_MA15": 0.5585971738937394,
+    "MHc130_MA30": 0.44321644705513824,
+    "MHc130_MA55": 0.5309871762283973,
+    "MHc130_MA65": 0.4674707125454758
+   }
+  },
+  "belowZ_net3": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.12439141273498536,
+   "t_epoch_es_s": 0.020713949203491212,
+   "max_mem_MB": 887.9404296875,
+   "n_split": [
+    4226,
+    1392,
+    1474
+   ],
+   "auc_table_test": 0.5128254899284113,
+   "auc_window_test": {
+    "MHc130_MA15": 0.5804185224277186,
+    "MHc130_MA30": 0.44371202801224696,
+    "MHc130_MA55": 0.49454438042986987,
+    "MHc130_MA65": 0.5013130533833543
+   }
+  },
+  "belowZ_net4": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.12444348335266113,
+   "t_epoch_es_s": 0.0213315486907959,
+   "max_mem_MB": 887.94091796875,
+   "n_split": [
+    4298,
+    1402,
+    1392
+   ],
+   "auc_table_test": 0.503599395115321,
+   "auc_window_test": {
+    "MHc130_MA15": 0.639223998306702,
+    "MHc130_MA30": 0.5194231546587122,
+    "MHc130_MA55": 0.4167813226246068,
+    "MHc130_MA65": 0.4703730750754925
+   }
+  },
+  "onZ_net0": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.07531218528747559,
+   "t_epoch_es_s": 0.014705848693847657,
+   "max_mem_MB": 833.65966796875,
+   "n_split": [
+    2987,
+    1011,
+    1000
+   ],
+   "auc_table_test": 0.544295105775272,
+   "auc_window_test": {
+    "MHc130_MA85": 0.5801323924889548,
+    "MHc130_MA90": 0.5227132094646695
+   }
+  },
+  "onZ_net1": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.07546844482421874,
+   "t_epoch_es_s": 0.014492225646972657,
+   "max_mem_MB": 833.65966796875,
+   "n_split": [
+    3040,
+    947,
+    1011
+   ],
+   "auc_table_test": 0.4985982042745149,
+   "auc_window_test": {
+    "MHc130_MA85": 0.4814829844403897,
+    "MHc130_MA90": 0.48514283177849593
+   }
+  },
+  "onZ_net2": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.07289252281188965,
+   "t_epoch_es_s": 0.014524173736572266,
+   "max_mem_MB": 833.66015625,
+   "n_split": [
+    3032,
+    1019,
+    947
+   ],
+   "auc_table_test": 0.5255075639565903,
+   "auc_window_test": {
+    "MHc130_MA85": 0.5267317465889774,
+    "MHc130_MA90": 0.5178817359367216
+   }
+  },
+  "onZ_net3": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.07377915382385254,
+   "t_epoch_es_s": 0.014604902267456055,
+   "max_mem_MB": 833.65966796875,
+   "n_split": [
+    2958,
+    1021,
+    1019
+   ],
+   "auc_table_test": 0.5688441337857559,
+   "auc_window_test": {
+    "MHc130_MA85": 0.5475019165897352,
+    "MHc130_MA90": 0.5710098635040716
+   }
+  },
+  "onZ_net4": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.07334237098693848,
+   "t_epoch_es_s": 0.01455683708190918,
+   "max_mem_MB": 833.65966796875,
+   "n_split": [
+    2977,
+    1000,
+    1021
+   ],
+   "auc_table_test": 0.5639749101993046,
+   "auc_window_test": {
+    "MHc130_MA85": 0.5527964052476975,
+    "MHc130_MA90": 0.5645478945504502
+   }
+  },
+  "aboveZ_net0": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.07591099739074707,
+   "t_epoch_es_s": 0.01456298828125,
+   "max_mem_MB": 846.4140625,
+   "n_split": [
+    2838,
+    981,
+    960
+   ],
+   "auc_table_test": 0.4714361757505886,
+   "auc_window_test": {
+    "MHc130_MA105": 0.49352019800113833,
+    "MHc130_MA120": 0.4652224683652805
+   }
+  },
+  "aboveZ_net1": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.07498011589050294,
+   "t_epoch_es_s": 0.014124631881713867,
+   "max_mem_MB": 846.41357421875,
+   "n_split": [
+    2871,
+    927,
+    981
+   ],
+   "auc_table_test": 0.4461618309947984,
+   "auc_window_test": {
+    "MHc130_MA105": 0.4253115919179327,
+    "MHc130_MA120": 0.40827052394247615
+   }
+  },
+  "aboveZ_net2": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.0752336025238037,
+   "t_epoch_es_s": 0.014546585083007813,
+   "max_mem_MB": 846.41455078125,
+   "n_split": [
+    2886,
+    966,
+    927
+   ],
+   "auc_table_test": 0.5527797723207857,
+   "auc_window_test": {
+    "MHc130_MA105": 0.5323094637547203,
+    "MHc130_MA120": 0.5380132247109848
+   }
+  },
+  "aboveZ_net3": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.08056392669677734,
+   "t_epoch_es_s": 0.015483808517456055,
+   "max_mem_MB": 846.41357421875,
+   "n_split": [
+    2868,
+    945,
+    966
+   ],
+   "auc_table_test": 0.5614872166832316,
+   "auc_window_test": {
+    "MHc130_MA105": 0.5380748450834406,
+    "MHc130_MA120": 0.5870734614575339
+   }
+  },
+  "aboveZ_net4": {
+   "epochs": 5,
+   "t_epoch_train_s": 0.08672661781311035,
+   "t_epoch_es_s": 0.015748357772827147,
+   "max_mem_MB": 846.41357421875,
+   "n_split": [
+    2874,
+    960,
+    945
+   ],
+   "auc_table_test": 0.550854988249417,
+   "auc_window_test": {
+    "MHc130_MA105": 0.5752241454332286,
+    "MHc130_MA120": 0.546122189101164
+   }
+  }
+ },
+ "all_pass": true
+}

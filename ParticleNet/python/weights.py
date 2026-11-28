@@ -3,14 +3,14 @@
 Splits of network j (P8): test = fold j (never seen), early stopping (ES) = fold (j + 1) % 5, training =
 the other three folds; fold = event % 5.
 
-Training weights (P11): the physical weight of each pair (weight_genpu [x weight_fake], incl. the
-prescale N) rescaled per (split, mA window, class) cell so that every cell of a split has the same total
-T_s, i.e. in every window the signal and each background class have equal totals and every window has
-the same total (P11 (2) (ii): the Z-peak windows have ~10x the background of the low-mA ones). Inside a
-cell the relative weights stay physical (sample composition by xsec x acceptance, the background mix of
-the window). T_s = N_s / n_cells_s (N_s pairs in the split, n_cells_s non-empty cells), so the mean
-training weight per pair is ~1 (the loss is normalised by sum |w|, the scale only fixes the numerics).
-Cells with no pairs or a non-positive weight sum get no weight (reported in the returned table).
+Training weights (P11, user decision 2026-11-28 for the band networks): the physical weight of each entry
+(weight_genpu [x weight_fake], incl. the prescale N) rescaled per (split, class) cell of a band network so
+that signal and every background class have the same total T_s in each split (train.py calls rescale with
+one window, win = 0). Inside a cell the relative weights stay physical (signal points by acceptance, the
+background composition by xsec x acceptance and the band's mass range). T_s = N_s / n_cells_s (N_s entries
+in the split, n_cells_s non-empty cells), so the mean training weight is ~1 (the loss is normalised by
+sum |w|, the scale only fixes the numerics). The function also supports per-window cells (win > 0).
+Cells with no entries or a non-positive weight sum get no weight (reported in the returned table).
 """
 import numpy as np
 

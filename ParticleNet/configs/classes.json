@@ -1,10 +1,9 @@
 {
- "_doc": "Training classes of the 2024 ParticleNet (docs/PLAN_ParticleNet.md P4-P6, P11). Read by python/build_dataset.py. Samples are the analyzer sample names without the Skim_TriLep_ prefix; the input file is <input_dir>/<file_pattern>. selection: passSR = Train_<CH> field passSR (all tight, conversion filter, N_b >= 1, = SR_<CH>_Central); lnt_b = not allTight and nBJets >= 1 (the SR selection with >= 1 loose-not-tight lepton). weight: genpu = weight_genpu (gen x xsec x lumi x PU x prescale N, as stored); genpu_fake = weight_genpu x weight_fake. drop_nonpositive: events with weight <= 0 are not used (P5: two loose-not-tight leptons). categories: null = all truth categories; a list keeps only those (the conversion-sample filter is not applied in Train_<CH>: open item of PLAN Step 1). The signal class takes the sample signal_pattern for every mass point of configs/windows.json present in the input.",
+ "_doc": "Training classes of the 2024 ParticleNet (docs/PLAN_ParticleNet.md P4-P6, P11). Read by python/build_dataset.py. Samples are the analyzer sample names without the Skim_TriLep_ prefix; the input file is <input_dir>/<file_pattern>. selection: passSR = Train_<CH> field passSR (all tight, conversion filter, N_b >= 1, = SR_<CH>_Central); lnt_b = not allTight and nBJets >= 1 (the SR selection with >= 1 loose-not-tight lepton). weight: genpu = weight_genpu (gen x xsec x lumi x PU x prescale N, as stored); genpu_fake = weight_genpu x weight_fake. drop_nonpositive: events with weight <= 0 are not used (P5: two loose-not-tight leptons). categories: null = all truth categories; a list keeps only those (the conversion-sample filter is not applied in Train_<CH>: open item of PLAN Step 1). The signal class takes the sample signal_pattern for every mass point of configs/windows.json present in the input: all its passSR events enter the network of the band of the point (no window requirement, user decision 2026-11-28).",
  "file_pattern": "Skim_TriLep_{sample}.root",
  "ntuple_pattern": "Train_{ch}",
  "channels": ["1E2MU", "3MU"],
  "signal_pattern": "TTToHcToWAToMuMu-{masspoint}",
- "signal_in_window": true,
  "classes": [
   {"name": "signal", "label": 0, "samples": "signal", "selection": "passSR", "weight": "genpu",
    "drop_nonpositive": false, "categories": null},

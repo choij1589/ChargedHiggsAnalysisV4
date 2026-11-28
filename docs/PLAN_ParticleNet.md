@@ -205,7 +205,18 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
     grid mA, events in that grid point's template window.
   - **Jet charge:** none, as before: the previous SKNano also set it to 0 for every jet (`AnalyzerCore.cc:942`,
     "Jets have no charge information in NanoAOD"), so the 9 features are unchanged in practice.
-  - Code rework under way (2026-11-28 evening, synthetic bench).
+  - **Implemented (2026-11-28 night, synthetic bench, all checks pass:** `test/results/synthetic_bench_bands_20261128.json`):
+    `configs/bands.json`, `configs/windows_grid.json` (376 grid windows, x0 / sigma_eff linear between the MC points),
+    `python/bands.py`; 15 networks; background mA drawn per channel over the band's points with probability proportional
+    to the point's signal weight (hash of sample, channel, entry, event, band: reproducible, independent per band); scoring
+    routed by band (79.5 -> belowZ, 80 / 99.5 -> onZ, 100 -> aboveZ). Cost for 15 trainings (no replication; band shares
+    from the real SR): 3.3-6.2 h at 40 epochs, 10-19 h at 120 epochs for 0.4-2M nonprompt, < 1.1 GB GPU
+    (`test/results/cost_estimate_bands_20261128.json`; toy graphs, real ones slower).
+  - **Band mass ranges** (union of the 23 MC windows): belowZ 1E2MU [13.6, 83.5] with gaps 16.4-18.15 and 21.8-22.6
+    (3MU low pair alike); onZ [70.3, 106.6]; aboveZ [87.6, 141.5]; no gaps between bands, overlaps 70-84 and 88-107
+    (3MU may also be in belowZ and aboveZ through its two pairs). Real SR: in two bands 39-57%, in no band 9-26%.
+  - **Open (user):** close the low-mA gaps (band range = hull of its windows, or the union of the 376 grid windows);
+    clipping of Delta_k (unclipped: up to ~(83 - 15) / 0.14 in belowZ since the background mA is drawn across the band).
 
 ## Steps (after the decisions)
 

@@ -1,29 +1,38 @@
-"""End-to-end synthetic bench of the 2024 ParticleNet chain (docs/PLAN_ParticleNet.md steps 2-4).
+"""End-to-end synthetic bench of the 2024 ParticleNet chain: three band networks x 5 folds
+(docs/PLAN_ParticleNet.md steps 2-4; user decisions 2026-11-28).
 
-Runs on the local GPU (micromamba run -n PNet): synthetic trees (test/make_synthetic_trees.py) -> dataset
-(python/build_dataset.py) -> 5-fold training for a few epochs (python/train.py) -> offline scoring of the
-SR_ and Train_ RNTuples (python/score.py), and checks:
-  C1 inputs: per class and sample the selected event counts / weight sums equal an independent uproot
-     selection of the trees (passSR; not allTight and nBJets >= 1 with weight_genpu x weight_fake > 0);
-     RNTuple and TTree inputs both read (ZZto4L is a TTree); fold = event % 5.
-  C2 nodes: E, px, py, pz of every node recomputed from the tree fields; m(mu mu) from the first two lepton
-     nodes = mass1 for 1E2MU; the 3MU OS-pair masses from the nodes = (mass1, mass2).
-  C3 window assignment: every pair lies in its window (template pairing); every background event is in
-     exactly the windows containing it; every signal event only in its own window (and inside it);
-     Delta_1, Delta_2 recomputed.
-  C4 weights (P11): for every network and split, every non-empty (window, class) cell sums to the same
-     target T_s (signal = each background class in each window, every window equal), T_s x n_cells = N_s,
-     the factor is constant inside a cell (physical weights kept), and the splits follow P8.
+Runs on the local GPU (micromamba run -n PNet): synthetic trees with signal points in all three bands
+(test/make_synthetic_trees.py; signal with run = lumi = 1 and repeated event numbers) -> band data sets
+(python/build_dataset.py, twice for the reproducibility check) -> 5-fold training of every band for a few
+epochs (python/train.py) -> offline scoring of the SR_ and Train_ RNTuples at the MC grid and at a few
+interpolated grid points (python/score.py), and checks:
+  C1 inputs: per band and sample the entries / weight sums equal an independent selection of the trees
+     (signal: passSR of the band's points; background: the class selection and the A-candidate mass in one of
+     the band's windows); RNTuple and TTree inputs; fold = event % 5; nonprompt weights > 0.
+  C2 nodes (onZ band): E, px, py, pz recomputed from the tree fields, the flags, the pair masses from the
+     nodes = mass1 / mass2; first-layer edges = brute-force Delta R 4-NN.
+  C3 band membership: every background entry lies in the union of its band's windows, every selected
+     background event in that union is present once per band; the events in two bands are exactly the
+     band-a entries inside band b's union (per channel; 3MU can be in belowZ and aboveZ through its two
+     pairings, 1E2MU not when the ranges are disjoint); every signal
+     event of the band's points present once with its generated mA; drawn mA only at the band's points.
+  C3b random mA: a second build gives identical drawn mA and uniforms; the uniforms equal an independent
+     recomputation of the hash; the drawn-mA fractions per channel agree with the draw probabilities
+     (signal weight totals per point) within 4 sigma; Delta_k = (m_k - mA) / sigma_eff(mA) recomputed with an
+     independent linear interpolation; Delta_2 = 0 for 1E2MU.
+  C4 weights (P11): for every band, network and split the four class totals are equal (T_s), T_s x n_cells =
+     N_s, the factor is constant within a class (physical weights kept), the splits follow P8.
   C5 DisCo mask: the Delta_2 term is unchanged when the e mu mu Delta_2 values are replaced by noise, its
      gradient w.r.t. the e mu mu logits is zero, it equals the weighted dCor over the mu mu mu background
-     events alone, and the Delta_1 term ignores the signal events.
-  C6 torch.compile: compiled vs eager model outputs (eval) agree, a compiled training step runs, graph breaks.
-  C7 scoring (score rows aligned with the input entries; the synthetic signal has run = lumi = 1 and
-     repeated event numbers, as the 2024 signal, so the event key is not unique): every scored Train_ event
-     (found by entry index) got, at every window containing it, the score of the network of its
-     fold, equal to that network's held-out (test-split) score of the training job; a sample of SR events
-     re-scored with all 5 networks matches only its own fold's network; score_mA = the grid windows
-     containing the event; one row per input row in input order; data Nonprompt files scored.
+     alone; the Delta_1 term ignores the signal events.
+  C6 torch.compile: compiled vs eager outputs agree, graph breaks; timing (T).
+  C7a scoring vs training: every template-window entry of every band (window_scores.npz of the training,
+     background + the point's signal at mA_i) is found by entry index in the Train_ score files at mA_i with
+     the score of the network of its band and fold, which is that network's held-out (test) score; score rows
+     aligned with the input entries; signal keys repeated.
+  C7b SR lanes: rows and order, score_mA = the grid windows containing the event, re-scoring with all 15
+     networks matches only the network of (band of the grid mA, fold).
+  C7c interpolated grid (configs/windows_grid.json, points across the band edges): band routing as C7b.
   T  timing / memory: time per training step and per evaluation step at batch 512 (eager and compiled),
      peak GPU memory, epoch times of the bench training.
 Results: <work_dir>/bench_results.json (and printed).
@@ -55,8 +64,13 @@ from model import ParticleNet  # noqa: E402
 from score import load_networks  # noqa: E402
 from train import load_dataset, predict  # noqa: E402
 from windows import Windows  # noqa: E402
+from bands import Bands, uniform_hash  # noqa: E402
 
-POINTS = ["MHc130_MA15", "MHc130_MA30", "MHc130_MA55", "MHc130_MA65", "MHc130_MA90", "MHc130_MA120"]
+POINTS = ["MHc130_MA15", "MHc130_MA30", "MHc130_MA55", "MHc130_MA65", "MHc130_MA85", "MHc130_MA90",
+          "MHc130_MA105", "MHc130_MA120"]
+GRID_EXTRA = ["MHc130_MA17p5", "MHc130_MA62p5", "MHc130_MA79p5", "MHc130_MA80", "MHc130_MA99p5", "MHc130_MA100",
+              "MHc130_MA122"]
+BANDS = ("belowZ", "onZ", "aboveZ")
 RES = {"checks": {}}
 
 
@@ -72,45 +86,39 @@ def sh(args):
     return time.time() - t
 
 
-def c1_inputs(trees, data, meta, ccfg):
+def c1_inputs(trees, D, ccfg):
     ok, info = True, {}
-    for si, s in enumerate(meta["samples"]):
-        cls = next(c for c in ccfg["classes"] if (c["samples"] == "signal" and s.startswith("TTToHcToWA"))
-                   or (isinstance(c["samples"], list) and s in c["samples"]))
-        f = os.path.join(trees, f"Skim_TriLep_{s}.root")
-        n_ref = sw_ref = 0
-        with uproot.open(f) as fo:
-            for ch in ("1E2MU", "3MU"):
-                a = fo[f"Train_{ch}"].arrays(["passSR", "allTight", "nBJets", "weight_genpu", "weight_fake",
-                                              "mass1", "mass2", "event"], library="np")
-                if cls["selection"] == "passSR":
-                    m = a["passSR"].astype(bool)
-                    w = a["weight_genpu"].astype(np.float64)
-                else:
-                    w = a["weight_genpu"].astype(np.float64) * a["weight_fake"]
-                    m = ~a["allTight"].astype(bool) & (a["nBJets"] >= 1) & (w > 0)
-                if cls["samples"] == "signal":  # in own window (signal_in_window)
-                    win = Windows(meta["windows_file"], meta["points"])
-                    ip = meta["points"].index(s.split("-")[1])
-                    m &= win.in_window(ch, ip, a["mass1"], a["mass2"])
-                else:
-                    win = Windows(meta["windows_file"], meta["points"])
-                    anyw = np.zeros(len(m), bool)
-                    for i in range(win.n):
-                        anyw |= win.in_window(ch, i, a["mass1"], a["mass2"])
-                    m &= anyw
-                n_ref += int(m.sum())
-                sw_ref += float(w[m].sum())
-        sel = data["ev_sample"] == si
-        n, sw = int(sel.sum()), float(data["ev_weight"][sel].sum())
-        good = n == n_ref and abs(sw - sw_ref) <= 1e-6 * max(1.0, abs(sw_ref))
-        ok &= good
-        info[s] = [n, n_ref]
-    folds_ok = np.array_equal(data["ev_fold"], (data["ev_event"] % np.uint64(5)).astype(np.int8))
-    nonneg = bool((data["ev_weight"][data["ev_label"] == 1] > 0).all())
-    check("C1_inputs", ok and folds_ok and nonneg, n_events_vs_reference=info, fold_rule=folds_ok,
-          nonprompt_weights_positive=nonneg, ttree_sample="ZZto4L" in meta["samples"])
-
+    for bn, (data, meta) in D.items():
+        win = Windows(meta["windows_file"], meta["points"])  # the band's points
+        for si, s in enumerate(meta["samples"]):
+            cls = next(c for c in ccfg["classes"] if (c["samples"] == "signal" and s.startswith("TTToHcToWA"))
+                       or (isinstance(c["samples"], list) and s in c["samples"]))
+            if cls["samples"] == "signal" and s.split("-")[1] not in meta["points"]:
+                ref_n = ref_w = 0
+            else:
+                ref_n = ref_w = 0
+                with uproot.open(os.path.join(trees, f"Skim_TriLep_{s}.root")) as fo:
+                    for ch in ("1E2MU", "3MU"):
+                        a = fo[f"Train_{ch}"].arrays(["passSR", "allTight", "nBJets", "weight_genpu", "weight_fake",
+                                                      "mass1", "mass2"], library="np")
+                        if cls["selection"] == "passSR":
+                            m, w = a["passSR"].astype(bool), a["weight_genpu"].astype(np.float64)
+                        else:
+                            w = a["weight_genpu"].astype(np.float64) * a["weight_fake"]
+                            m = ~a["allTight"].astype(bool) & (a["nBJets"] >= 1) & (w > 0)
+                        if cls["samples"] != "signal":
+                            inb = np.zeros(len(m), bool)
+                            for i in range(win.n):
+                                inb |= win.in_window(ch, i, a["mass1"], a["mass2"])
+                            m &= inb
+                        ref_n += int(m.sum()); ref_w += float(w[m].sum())
+            sel = data["ev_sample"] == si
+            n, sw = int(sel.sum()), float(data["ev_weight"][sel].sum())
+            ok &= n == ref_n and abs(sw - ref_w) <= 1e-6 * max(1.0, abs(ref_w))
+            info.setdefault(bn, {})[s] = [n, ref_n]
+        ok &= np.array_equal(data["ev_fold"], (data["ev_event"] % np.uint64(5)).astype(np.int8))
+        ok &= bool((data["ev_weight"][data["ev_label"] == 1] > 0).all())
+    check("C1_inputs", ok, entries_vs_reference=info, ttree_sample="ZZto4L")
 
 def c2_nodes(trees, data, meta):
     """Recompute the nodes of every event of two samples (one RNTuple, one TTree) from the tree fields."""
@@ -174,82 +182,126 @@ def c2_nodes(trees, data, meta):
           max_rel_diff_p4=maxdiff, max_rel_diff_pair_mass=mdiff)
 
 
-def c3_windows(data, meta):
-    win = Windows(meta["windows_file"], meta["points"])
-    chn = ("1E2MU", "3MU")
-    pe, pw = data["p_ev"], data["p_win"].astype(np.int64)
-    ch = data["ev_channel"][pe]
-    m1, m2 = data["ev_mass1"][pe], data["ev_mass2"][pe]
-    inside = np.zeros(len(pe), bool)
-    for c in (0, 1):
-        for i in range(win.n):
-            s = (ch == c) & (pw == i)
-            inside[s] = win.in_window(chn[c], i, m1[s], m2[s])
-    # completeness for background, own window for signal
-    nev = len(data["ev_label"])
-    W = np.zeros((nev, win.n), bool)
-    W[pe, pw] = True
-    ref = np.zeros((nev, win.n), bool)
-    for c in (0, 1):
-        s = data["ev_channel"] == c
-        for i in range(win.n):
-            ref[s, i] = win.in_window(chn[c], i, data["ev_mass1"][s], data["ev_mass2"][s])
-    bkg = data["ev_label"] != 0
-    bkg_ok = np.array_equal(W[bkg], ref[bkg])
-    sig = ~bkg
-    own = np.zeros_like(ref)
-    own[np.nonzero(sig)[0], data["ev_point"][sig]] = True
-    sig_ok = np.array_equal(W[sig], own[sig]) and bool(ref[sig][own[sig]].all())
-    dup = len(np.unique(pe * 100 + pw)) == len(pe)
-    d1 = np.zeros(len(pe)); d2 = np.zeros(len(pe))
-    for c in (0, 1):
-        s = ch == c
-        d1[s], d2[s] = win.deltas(chn[c], pw[s], m1[s], m2[s])
-    dok = np.allclose(d1, data["p_d1"], atol=1e-5) and np.allclose(d2, data["p_d2"], atol=1e-5)
-    dmask = bool((data["p_d2"][~data["p_is3mu"]] == 0).all())
-    per_win = {wn: int((pw == i).sum()) for i, wn in enumerate(win.names)}
-    check("C3_windows", bool(inside.all()) and bkg_ok and sig_ok and dup and dok and dmask,
-          pairs_in_window=bool(inside.all()), background_complete=bkg_ok, signal_own_window=sig_ok,
-          no_duplicate_pairs=dup, deltas=dok, delta2_zero_for_1e2mu=dmask, pairs_per_window=per_win,
-          replication={n: float(((data["p_label"] == l).sum()) / max(1, (data["ev_label"] == l).sum()))
-                       for l, n in enumerate(meta["classes"])})
+def c3_bands(D, D2, meta_all):
+    chn = {0: "1E2MU", 1: "3MU"}
+    ok, info, keysets = True, {}, {}
+    for bn, (data, meta) in D.items():
+        win = Windows(meta["windows_file"], meta["points"])
+        bkg = data["ev_label"] != 0
+        inb = np.zeros(len(bkg), bool)
+        for c, ch in chn.items():
+            sc = data["ev_channel"] == c
+            for i in range(win.n):
+                inb[sc] |= win.in_window(ch, i, data["ev_mass1"][sc], data["ev_mass2"][sc])
+        in_union = bool(inb[bkg].all())
+        keys = data["ev_sample"].astype(np.int64) * 10 ** 12 + data["ev_channel"].astype(np.int64) * 10 ** 11 \
+            + data["ev_entry"]
+        once = len(np.unique(keys)) == len(keys)
+        keysets[bn] = set(keys[bkg].tolist())
+        sig = ~bkg
+        sig_mA = bool(np.allclose(data["p_mA"][sig], win.mA[data["ev_point"][sig]]))
+        drawn_ok = bool(np.isin(np.round(data["p_mA"][bkg], 4), np.round(win.mA, 4)).all())
+        ok &= in_union and once and sig_mA and drawn_ok
+        info[bn] = {"bkg_in_union": in_union, "one_entry_per_event": once, "signal_generated_mA": sig_mA,
+                    "drawn_mA_at_band_points": drawn_ok, "entries": int(len(keys)), "bkg": int(bkg.sum())}
+    # two-band events: the background entries of band a whose masses also lie in band b's union must be exactly
+    # the events present in both data sets (the 3MU low / high pairings allow belowZ & aboveZ events; for 1E2MU
+    # (one pairing) none when the two ranges are disjoint)
+    def union(data, meta_b, sel):
+        wb = Windows(meta_b["windows_file"], meta_b["points"])
+        m = np.zeros(len(sel), bool)
+        for c, ch in chn.items():
+            sc = sel & (data["ev_channel"] == c)
+            for i in range(wb.n):
+                m[sc] |= wb.in_window(ch, i, data["ev_mass1"][sc], data["ev_mass2"][sc])
+        return m
+    two, two_ok = {}, True
+    for a, b in (("belowZ", "onZ"), ("onZ", "aboveZ"), ("belowZ", "aboveZ")):
+        da, ma = D[a]
+        keys_a = da["ev_sample"].astype(np.int64) * 10 ** 12 + da["ev_channel"].astype(np.int64) * 10 ** 11 \
+            + da["ev_entry"]
+        exp = union(da, D[b][1], da["ev_label"] != 0)
+        got = keysets[a] & keysets[b]
+        two_ok &= set(keys_a[exp].tolist()) == got
+        two[f"{a}&{b}"] = {ch: int((exp & (da["ev_channel"] == c)).sum()) for c, ch in chn.items()}
+    wb_lo, wb_hi = (Windows(D[x][1]["windows_file"], D[x][1]["points"]) for x in ("belowZ", "aboveZ"))
+    disjoint_1e2mu = wb_lo.ch["1E2MU"]["hi"].max() < wb_hi.ch["1E2MU"]["lo"].min()
+    if disjoint_1e2mu:
+        two_ok &= two["belowZ&aboveZ"]["1E2MU"] == 0
+    info["bkg_events_in_two_bands"] = two
+    info["two_band_sets_equal_independent_union"] = bool(two_ok)
+    info["1E2MU_belowZ_aboveZ_ranges_disjoint"] = bool(disjoint_1e2mu)
+    ok &= two_ok and two["belowZ&onZ"]["1E2MU"] + two["belowZ&onZ"]["3MU"] > 0
+    check("C3_band_membership", ok, **info)
+    # random mA: reproducibility, hash, fractions, deltas
+    rep, hashok, frac_ok, dok, dmask, fr = True, True, True, True, True, {}
+    for b, (bn, (data, meta)) in enumerate(D.items()):
+        d2 = D2[bn][0]
+        rep &= np.array_equal(data["p_mA"], d2["p_mA"]) and np.array_equal(data["ev_u"], d2["ev_u"])
+        bkg = data["ev_label"] != 0
+        bi = Bands(meta["bands_file"]).names.index(bn)
+        for si, sname in enumerate(meta["samples"]):
+            for c in (0, 1):
+                m = bkg & (data["ev_sample"] == si) & (data["ev_channel"] == c)
+                if m.any():
+                    u = uniform_hash(sname, c, data["ev_entry"][m], data["ev_event"][m], bi)
+                    hashok &= np.array_equal(u, data["ev_u"][m])
+        win = Windows(meta["windows_file"], meta["points"])
+        for c, ch in chn.items():
+            m = bkg & (data["ev_channel"] == c)
+            prob = np.asarray(meta["draw_prob"][ch])
+            f = np.array([np.isclose(data["p_mA"][m], v).mean() for v in win.mA])
+            tol = 4 * np.sqrt(prob * (1 - prob) / max(1, m.sum())) + 1e-9
+            frac_ok &= bool((np.abs(f - prob) <= tol).all())
+            fr[f"{bn}_{ch}"] = {"n": int(m.sum()), "prob": [round(x, 3) for x in prob], "frac": [round(x, 3) for x in f]}
+            # deltas, independent interpolation (sorted points)
+            sc = data["ev_channel"] == c
+            xs, ys = Windows(meta["windows_file"]).mA, Windows(meta["windows_file"]).ch[ch]["sigma"]
+            o = np.argsort(xs)
+            sg = np.interp(data["p_mA"][sc].astype(np.float64), xs[o], ys[o])
+            r1 = (data["ev_mass1"][sc] - data["p_mA"][sc].astype(np.float64)) / sg
+            dok &= bool(np.allclose(r1, data["p_d1"][sc], rtol=1e-5, atol=1e-4))
+            if ch == "3MU":
+                r2 = (data["ev_mass2"][sc] - data["p_mA"][sc].astype(np.float64)) / sg
+                dok &= bool(np.allclose(r2, data["p_d2"][sc], rtol=1e-5, atol=1e-4))
+            else:
+                dmask &= bool((data["p_d2"][sc] == 0).all())
+    check("C3b_random_mA", rep and hashok and frac_ok and dok and dmask, reproducible_rebuild=rep,
+          hash_recomputed=hashok, fractions_within_4sigma=frac_ok, deltas=dok, delta2_zero_for_1e2mu=dmask,
+          fractions=fr)
 
-
-def c4_weights(data, meta):
-    nC, nW = 4, len(meta["points"])
+def c4_weights(D):
     ok, info = True, {}
-    for net in range(5):
-        split = wmod.split_of(data["p_fold"], net)
-        f = data["p_fold"].astype(int)
-        sp_ok = bool((split[f == net] == 2).all() and (split[f == (net + 1) % 5] == 1).all()
-                     and (split[(f != net) & (f != (net + 1) % 5)] == 0).all())
-        wt, table = wmod.rescale(data["p_weight"], data["p_label"], data["p_win"], split, nC, nW)
-        for s in range(3):
-            m = split == s
-            T = table[wmod.SPLITS[s]]["target"]
-            tots, n_cells = [], 0
-            for i in range(nW):
-                for c in range(nC):
-                    cm = m & (data["p_win"] == i) & (data["p_label"] == c)
+    for bn, (data, meta) in D.items():
+        for net in range(5):
+            split = wmod.split_of(data["p_fold"], net)
+            f = data["p_fold"].astype(int)
+            ok &= bool((split[f == net] == 2).all() and (split[f == (net + 1) % 5] == 1).all()
+                       and (split[(f != net) & (f != (net + 1) % 5)] == 0).all())
+            wt, table = wmod.rescale(data["p_weight"], data["p_label"], np.zeros(len(split), np.int64), split, 4, 1)
+            for s in range(3):
+                m = split == s
+                T = table[wmod.SPLITS[s]]["target"]
+                tots = []
+                for c in range(4):
+                    cm = m & (data["p_label"] == c)
                     if cm.sum() == 0:
                         continue
-                    n_cells += 1
                     tots.append(wt[cm].sum())
                     r = wt[cm] / data["p_weight"][cm]
                     ok &= bool(np.allclose(r, r[0], rtol=1e-9))
-            tots = np.array(tots)
-            ok &= sp_ok and bool(np.allclose(tots, T, rtol=1e-9)) and abs(T * n_cells - m.sum()) < 1e-6 * m.sum()
-            ok &= not table[wmod.SPLITS[s]]["bad_cells"]
-            info[f"net{net}_{wmod.SPLITS[s]}"] = {"target": T, "n_cells": n_cells, "n_pairs": int(m.sum()),
-                                                  "min_cell": float(tots.min()), "max_cell": float(tots.max())}
-    check("C4_weights", ok, **{k: v for k, v in info.items() if k.startswith("net0")})
-
+                tots = np.array(tots)
+                ok &= bool(np.allclose(tots, T, rtol=1e-9)) and abs(T * len(tots) - m.sum()) < 1e-6 * m.sum()
+                ok &= len(tots) == 4 and not table[wmod.SPLITS[s]]["bad_cells"]
+                if net == 0:
+                    info[f"{bn}_net0_{wmod.SPLITS[s]}"] = {"target": T, "class_totals": tots.tolist(),
+                                                          "n": int(m.sum())}
+    check("C4_weights", ok, **info)
 
 def c5_disco(data, meta, device):
     torch.manual_seed(0)
-    nC, nW = 4, len(meta["points"])
     split = wmod.split_of(data["p_fold"], 0)
-    wt, _ = wmod.rescale(data["p_weight"], data["p_label"], data["p_win"], split, nC, nW)
+    wt, _ = wmod.rescale(data["p_weight"], data["p_label"], np.zeros(len(split), np.int64), split, 4, 1)
     rng = np.random.default_rng(1)
     idx = rng.choice(len(wt), 512, replace=False)
     T = lambda a, dt=torch.float32: torch.as_tensor(np.ascontiguousarray(a), dtype=dt, device=device)
@@ -286,8 +338,8 @@ def c6_compile_and_timing(data, meta, cfg, device, n_steps=200):
     k = mcfg["k"]
     store = GraphStore(data["x"], data["etaphi"], data["counts"], data["offsets"], device)
     split = wmod.split_of(data["p_fold"], 0)
-    wt, _ = wmod.rescale(data["p_weight"], data["p_label"], data["p_win"], split, 4, len(meta["points"]))
-    mA = np.asarray(meta["mA"])[data["p_win"]] / mcfg["mA_scale"]
+    wt, _ = wmod.rescale(data["p_weight"], data["p_label"], np.zeros(len(split), np.int64), split, 4, 1)
+    mA = data["p_mA"] / mcfg["mA_scale"]
     T = lambda a, dt=torch.float32: torch.as_tensor(np.ascontiguousarray(a), dtype=dt, device=device)
     p_ev, p_mA, p_y, p_w = T(data["p_ev"], torch.int64), T(mA), T(data["p_label"], torch.int64), T(wt)
     p_d1, p_d2, p_3 = T(data["p_d1"]), T(data["p_d2"]), T(data["p_is3mu"], torch.bool)
@@ -363,51 +415,59 @@ def c6_compile_and_timing(data, meta, cfg, device, n_steps=200):
     print(json.dumps(RES["timing"], indent=1, default=float))
 
 
-def c7_scores(trees, data, meta, model_dir, score_dir, device):
-    win = Windows(meta["windows_file"], meta["points"])
-    nets, ck = load_networks(model_dir, device)
-    sc = [dict(np.load(os.path.join(model_dir, f"net{j}", "scores.npz"))) for j in range(5)]
-    # (1) Train_ trees: score files vs held-out scores of the training jobs
-    maxd, n_cmp, own_test, key_ok = 0.0, 0, True, True
-    dup = {}  # signal: entries sharing a (run, lumi, event) key
-    for si, s in enumerate(meta["samples"]):
-        fs = os.path.join(score_dir, f"Skim_TriLep_{s}.root")
-        with uproot.open(fs) as fo:
-            for ch, cid in (("1E2MU", 0), ("3MU", 1)):
-                a = fo[f"Train_{ch}"].arrays()
+def _scores_row(a, row):
+    mAs = np.asarray(a["score_mA"][row])
+    sco = np.stack([np.asarray(a[f][row]) for f in ("score_signal", "score_nonprompt", "score_diboson", "score_ttX")], 1)
+    return mAs, sco
+
+
+def c7_scores(trees, D, model_dir, score_dir, device):
+    nets, bands, ck = load_networks(model_dir, device)
+    # (a) template-window entries of the training jobs vs the Train_ score files (by entry index)
+    maxd, n_cmp, own_test, key_ok, dup = 0.0, 0, True, True, {}
+    cache = {}
+    for bn, (data, meta) in D.items():
+        win = Windows(meta["windows_file"], meta["points"])
+        ws = [dict(np.load(os.path.join(model_dir, bn, f"net{j}", "window_scores.npz"))) for j in range(5)]
+        assert all(np.array_equal(ws[0]["ev"], w["ev"]) and np.array_equal(ws[0]["point"], w["point"]) for w in ws)
+        ev, pt = ws[0]["ev"], ws[0]["point"]
+        for q in range(len(ev)):
+            e = ev[q]
+            s = meta["samples"][data["ev_sample"][e]]
+            ch = "1E2MU" if data["ev_channel"][e] == 0 else "3MU"
+            if (s, ch) not in cache:
+                with uproot.open(os.path.join(score_dir, f"Skim_TriLep_{s}.root")) as fo:
+                    a = fo[f"Train_{ch}"].arrays()
                 with uproot.open(os.path.join(trees, f"Skim_TriLep_{s}.root")) as fi:
                     a_in = fi[f"Train_{ch}"].arrays(["run", "lumi", "event"], library="np")
-                # score rows are aligned with the input entries (friend by entry index)
                 key_ok &= len(a) == len(a_in["event"]) and all(
                     np.array_equal(ak.to_numpy(a[f]), a_in[f]) for f in ("run", "lumi", "event"))
-                keys = np.stack([a_in["run"].astype(np.int64), a_in["lumi"].astype(np.int64),
-                                 a_in["event"].astype(np.int64)], 1)
-                nuniq = len(np.unique(keys, axis=0))
                 if s.startswith("TTToHcToWA"):
-                    dup[f"{s.split('-')[1]}_{ch}"] = [int(len(keys)), int(nuniq)]
-                ev = np.nonzero((data["ev_sample"] == si) & (data["ev_channel"] == cid))[0]
-                for e in ev:
-                    row = int(data["ev_entry"][e])
-                    assert int(a["event"][row]) == int(data["ev_event"][e])
-                    fold = int(data["ev_fold"][e])
-                    assert int(a["fold"][row]) == fold
-                    pi = np.nonzero(data["p_ev"] == e)[0]
-                    mAs = np.asarray(a["score_mA"][row])
-                    sco = np.stack([np.asarray(a[f][row]) for f in
-                                    ("score_signal", "score_nonprompt", "score_diboson", "score_ttX")], 1)
-                    for p in pi:
-                        j = int(np.nonzero(np.isclose(mAs, win.mA[data["p_win"][p]]))[0][0])
-                        own_test &= bool(sc[fold]["split"][p] == 2)
-                        maxd = max(maxd, float(np.abs(sco[j] - sc[fold]["probs"][p]).max()))
-                        n_cmp += 1
-    has_dup = all(v[1] < v[0] for v in dup.values())
-    check("C7a_scores_own_fold_heldout", maxd < 1e-4 and own_test and n_cmp == len(data["p_ev"]) and key_ok
-          and has_dup, max_abs_diff_vs_training_heldout=maxd, pairs_compared=n_cmp, n_pairs=int(len(data["p_ev"])),
-          all_from_test_split=own_test, rows_aligned_with_input_entries=key_ok,
-          signal_entries_vs_distinct_keys=dup)
-    # (2) SR lanes: rows, order, windows, and re-scoring with every network
-    rows_ok, mA_ok, only_own, n_ev, min_other, n_ambig, max_own = True, True, True, 0, [], 0, 0.0
-    files = sorted(f for f in os.listdir(trees) if f.endswith(".root"))
+                    keys = np.stack([a_in[f].astype(np.int64) for f in ("run", "lumi", "event")], 1)
+                    dup[f"{s.split('-')[1]}_{ch}"] = [int(len(keys)), int(len(np.unique(keys, axis=0)))]
+                cache[(s, ch)] = a
+            a = cache[(s, ch)]
+            row = int(data["ev_entry"][e])
+            assert int(a["event"][row]) == int(data["ev_event"][e])
+            fold = int(data["ev_fold"][e])
+            mAs, sco = _scores_row(a, row)
+            j = int(np.nonzero(np.isclose(mAs, win.mA[pt[q]]))[0][0])
+            own_test &= bool(ws[fold]["split"][q] == 2)
+            maxd = max(maxd, float(np.abs(sco[j] - ws[fold]["probs"][q]).max()))
+            n_cmp += 1
+    has_dup = bool(dup) and all(v[1] < v[0] for v in dup.values())
+    check("C7a_scores_vs_training_heldout", maxd < 1e-4 and own_test and key_ok and has_dup and n_cmp > 0,
+          max_abs_diff=maxd, window_entries_compared=n_cmp, all_from_test_split=own_test,
+          rows_aligned_with_input_entries=key_ok, signal_entries_vs_distinct_keys=dict(list(dup.items())[:6]))
+
+
+def rescore_check(name, trees, score_dir, windows_file, grid, model_dir, device, files=None):
+    """Rows, order, score_mA = windows, and only the (band, fold) network reproduces the stored scores."""
+    nets, bands, ck = load_networks(model_dir, device)
+    win = Windows(windows_file, grid)
+    gband = bands.band_of(win.mA)
+    rows_ok, mA_ok, only_own, n_ev, min_other, n_ambig, max_own, routed = True, True, True, 0, [], 0, 0.0, {}
+    files = files or sorted(f for f in os.listdir(trees) if f.endswith(".root"))
     for fn in files:
         fi, fs = os.path.join(trees, fn), os.path.join(score_dir, fn)
         for nm in pnet_io.list_ntuples(fi, "SR_"):
@@ -417,33 +477,33 @@ def c7_scores(trees, data, meta, model_dir, score_dir, device):
             rows_ok &= len(a_in) == len(a_out) and np.array_equal(ak.to_numpy(a_in["event"]), ak.to_numpy(a_out["event"]))
             ch = nm.split("_")[1]
             m1, m2 = ak.to_numpy(a_in["mass1"]), ak.to_numpy(a_in["mass2"])
-            ref = [win.mA[[i for i in range(win.n) if win.in_window(ch, i, m1[r:r + 1], m2[r:r + 1])[0]]]
-                   for r in range(len(a_in))]
-            mA_ok &= all(np.allclose(np.asarray(a_out["score_mA"][r]), ref[r]) for r in range(len(a_in)))
-            # re-score 40 events with every network
+            inw = np.stack([win.in_window(ch, i, m1, m2) for i in range(win.n)], 1)
+            mA_ok &= all(np.allclose(np.asarray(a_out["score_mA"][r]), win.mA[inw[r]]) for r in range(len(a_in)))
             x, ep, cnt = pnet_io.build_nodes(a_in)
             store = GraphStore(x, ep, cnt, np.cumsum(cnt, dtype=np.int64) - cnt, device)
-            take = [r for r in range(len(a_in)) if len(ref[r])][:40]
+            take = [r for r in range(len(a_in)) if inw[r].any()][:25]
             for r in take:
-                ev_t = torch.full((len(ref[r]),), r, dtype=torch.int64, device=device)
-                mA_t = torch.as_tensor(ref[r] / ck["model"]["mA_scale"], dtype=torch.float32, device=device)
-                got = np.stack([np.asarray(a_out[f][r]) for f in
-                                ("score_signal", "score_nonprompt", "score_diboson", "score_ttX")], 1)
+                gi = np.nonzero(inw[r])[0]
+                mAs, got = _scores_row(a_out, r)
                 fold = int(a_out["fold"][r])
-                d = [float(np.abs(predict(net, store, ev_t, mA_t, ck["model"]["k"]) - got).max()) for net in nets]
-                only_own &= d[fold] < 2e-6
-                max_own = max(max_own, d[fold])
-                mo = min(d[j] for j in range(5) if j != fold)
-                min_other.append(mo)
-                n_ambig += mo < 2e-6  # another network reproduces the stored scores as well
+                for q, g in enumerate(gi):
+                    ev_t = torch.full((1,), r, dtype=torch.int64, device=device)
+                    mA_t = torch.as_tensor([win.mA[g] / ck["model"]["mA_scale"]], dtype=torch.float32, device=device)
+                    d = {(b, j): float(np.abs(predict(n, store, ev_t, mA_t, ck["model"]["k"])[0] - got[q]).max())
+                         for b, lst in nets.items() for j, n in enumerate(lst)}
+                    own = (int(gband[g]), fold)
+                    only_own &= d[own] < 2e-6
+                    max_own = max(max_own, d[own])
+                    mo = min(v for kk, v in d.items() if kk != own)
+                    min_other.append(mo)
+                    n_ambig += mo < 2e-6
+                    routed[win.names[g]] = bands.names[gband[g]]
                 n_ev += 1
-    check("C7b_scores_sr_lanes", rows_ok and mA_ok and only_own and n_ambig == 0,
-          rows_and_order=rows_ok, score_mA_equals_windows=mA_ok, own_fold_network_matches=only_own,
-          max_abs_diff_own_network=max_own, min_abs_diff_other_networks=float(np.min(min_other)),
-          median_abs_diff_other_networks=float(np.median(min_other)), n_events_other_network_within_2em6=n_ambig,
-          events_rescored=n_ev,
-          data_nonprompt_scored=[f for f in files if f.startswith("Skim_TriLep_Muon")])
-
+    check(name, rows_ok and mA_ok and only_own and n_ambig == 0 and n_ev > 0,
+          rows_and_order=rows_ok, score_mA_equals_windows=mA_ok, own_band_fold_network_matches=only_own,
+          max_abs_diff_own=max_own, min_abs_diff_other_14_networks=float(np.min(min_other)),
+          median_abs_diff_other=float(np.median(min_other)), n_other_within_2em6=n_ambig,
+          events_rescored=n_ev, grid_routing=routed)
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
@@ -454,43 +514,55 @@ def main():
     args = ap.parse_args()
     device = torch.device("cuda")
     wd = args.work_dir
-    trees, dset, mdir, sdir = (os.path.join(wd, d) for d in ("trees", "dataset", "train", "scores"))
+    trees, dset, dset2, mdir, sdir, sdir2 = (os.path.join(wd, d) for d in
+                                             ("trees", "dataset", "dataset_rebuild", "train", "scores", "scores_grid"))
     py = os.path.join(PNET, "python")
     RES["times_s"] = {}
     RES["times_s"]["make_trees"] = sh([os.path.join(HERE, "make_synthetic_trees.py"), "--out-dir", trees,
                                        "--points", *POINTS])
     RES["times_s"]["build"] = sh([os.path.join(py, "build_dataset.py"), "--input-dir", trees, "--out-dir", dset,
                                   "--points", *POINTS])
-    data, meta = load_dataset(dset)
+    sh([os.path.join(py, "build_dataset.py"), "--input-dir", trees, "--out-dir", dset2, "--points", *POINTS])
+    D = {b: load_dataset(os.path.join(dset, b)) for b in BANDS}
+    D2 = {b: load_dataset(os.path.join(dset2, b)) for b in BANDS}
     ccfg = json.load(open(os.path.join(PNET, "configs", "classes.json")))
-    RES["dataset"] = json.load(open(os.path.join(dset, "stats.json")))["classes"]
-    c1_inputs(trees, data, meta, ccfg)
-    c2_nodes(trees, data, meta)
-    c3_windows(data, meta)
-    c4_weights(data, meta)
-    c5_disco(data, meta, device)
+    RES["dataset"] = json.load(open(os.path.join(dset, "summary.json")))
+    c1_inputs(trees, D, ccfg)
+    c2_nodes(trees, *D["onZ"])
+    c3_bands(D, D2, None)
+    c4_weights(D)
+    c5_disco(*D["onZ"], device)
     cfg = json.load(open(os.path.join(PNET, "configs", "training.json")))
-    c6_compile_and_timing(data, meta, cfg, device)
+    c6_compile_and_timing(*D["onZ"], cfg, device)
     bcfg = copy.deepcopy(cfg)
     bcfg["optimizer"]["initLR"] = args.lr
     os.makedirs(wd, exist_ok=True)
     cpath = os.path.join(wd, "training_bench.json")
     json.dump(bcfg, open(cpath, "w"), indent=1)
     if not args.skip_train:
-        RES["times_s"]["train_5nets"] = sh([os.path.join(py, "train.py"), "--dataset", dset, "--out-dir", mdir,
-                                            "--config", cpath, "--net", "all", "--max-epochs", str(args.epochs)])
+        RES["times_s"]["train_15nets"] = sh([os.path.join(py, "train.py"), "--dataset", dset, "--out-dir", mdir,
+                                             "--config", cpath, "--net", "all", "--max-epochs", str(args.epochs)])
     files = sorted(os.path.join(trees, f) for f in os.listdir(trees) if f.endswith(".root"))
-    RES["times_s"]["score"] = sh([os.path.join(py, "score.py"), "--model-dir", mdir, "--out-dir", sdir,
-                                  "--prefixes", "SR_", "Train_", "--", *files])
-    c7_scores(trees, data, meta, mdir, sdir, device)
-    tr = []
-    for j in range(5):
-        mt = json.load(open(os.path.join(mdir, f"net{j}", "metrics.json")))
-        tr.append({"net": j, "epochs": mt["epochs"], "t_epoch_train_s": mt["t_epoch_train_mean_s"],
-                   "t_epoch_es_s": mt["t_epoch_es_mean_s"], "max_mem_MB": mt["max_mem_MB"],
-                   "n_pairs_split": mt["n_pairs_split"], "auc_test_all": mt["auc"]["test"]["all"]["all_bkg"],
-                   "auc_test_per_window": {w: v["all_bkg"] for w, v in mt["auc"]["test"].items()},
-                   "dcor_es": mt["dcor_es"]})
+    RES["times_s"]["score_mc_grid"] = sh([os.path.join(py, "score.py"), "--model-dir", mdir, "--out-dir", sdir,
+                                          "--prefixes", "SR_", "Train_", "--", *files])
+    gfile = os.path.join(PNET, "configs", "windows_grid.json")
+    few = [f for f in files if os.path.basename(f) in ("Skim_TriLep_WZto3LNu.root", "Skim_TriLep_TTLL_powheg.root",
+                                                       "Skim_TriLep_Muon0_C.root")]
+    RES["times_s"]["score_interp_grid"] = sh([os.path.join(py, "score.py"), "--model-dir", mdir, "--out-dir", sdir2,
+                                              "--windows", gfile, "--grid", *GRID_EXTRA, "--", *few])
+    c7_scores(trees, D, mdir, sdir, device)
+    rescore_check("C7b_scores_sr_lanes_mc_grid", trees, sdir, os.path.join(PNET, "configs", "windows.json"), None,
+                  mdir, device)
+    rescore_check("C7c_scores_interpolated_grid", trees, sdir2, gfile, GRID_EXTRA, mdir, device,
+                  [os.path.basename(f) for f in few])
+    tr = {}
+    for bn in BANDS:
+        for j in range(5):
+            mt = json.load(open(os.path.join(mdir, bn, f"net{j}", "metrics.json")))
+            tr[f"{bn}_net{j}"] = {"epochs": mt["epochs"], "t_epoch_train_s": mt["t_epoch_train_mean_s"],
+                                  "t_epoch_es_s": mt["t_epoch_es_mean_s"], "max_mem_MB": mt["max_mem_MB"],
+                                  "n_split": mt["n_pairs_split"], "auc_table_test": mt["auc_table"]["test"],
+                                  "auc_window_test": {w: v["all_bkg"] for w, v in mt["auc_window"]["test"].items()}}
     RES["training"] = tr
     RES["all_pass"] = all(v["pass"] for v in RES["checks"].values())
     json.dump(RES, open(os.path.join(wd, "bench_results.json"), "w"), indent=1, default=float)

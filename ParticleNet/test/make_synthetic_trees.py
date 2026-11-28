@@ -47,7 +47,8 @@ BKG = {
     "WWZ": ("vv", 300, 0.001, 0.0, 0.3, 1.0, 30., 1),  # not in any class
 }
 DATA = {"MuonEG_C": "1E2MU", "Muon0_C": "3MU"}
-DEF_POINTS = ["MHc130_MA15", "MHc130_MA30", "MHc130_MA55", "MHc130_MA65", "MHc130_MA90", "MHc130_MA120"]
+DEF_POINTS = ["MHc130_MA15", "MHc130_MA30", "MHc130_MA55", "MHc130_MA65", "MHc130_MA85", "MHc130_MA90",
+              "MHc130_MA105", "MHc130_MA120"]  # all three bands (belowZ, onZ, aboveZ)
 
 
 def p4(pt, eta, phi, m):

@@ -5,11 +5,13 @@ make_windows_config.py from the SignalRegionStudy binning). The A-candidate mass
 template pairing: 1E2MU mass1; 3MU "low" = mass1 (lower OS pair), "high" = mass2 (higher OS pair)
 (analyzer: mass1 <= mass2; np.minimum / np.maximum as SignalRegionStudy sample_reader.select_mass).
 
-Assignment (P3): a background (or data, or any scored) event enters with parameter mA_i for every
-window i of its channel whose window contains its A-candidate mass; a signal event of mass point j only
-with mA_j (and, with signal_in_window, only if it lies in window j).
-In-window position (P7): Delta_k = (m_k - x0_i) / sigma_eff_i for the two OS pairs k = 1, 2 (mass1,
-mass2), x0 and sigma_eff of the channel; Delta_2 is undefined (0, masked) for 1E2MU.
+Scoring (P9): an event is scored at grid point i iff window i of its channel contains its A-candidate
+mass (assign). Training membership of the band networks: python/bands.py (union of the band's windows).
+DisCo position (P7, user decision 2026-11-28): Delta_k = (m_k - mA) / sigma_eff(mA) for the two OS pairs
+k = 1, 2 (mass1, mass2) with the event's mA (signal: generated; background: the drawn mA), sigma_eff of the
+channel interpolated linearly in mA between the points of this Windows object (constant beyond the ends);
+Delta_2 is undefined (0, masked in the loss) for 1E2MU.
+A windows config may hold interpolated grid points (make_windows_config.py --grid).
 """
 import json
 
@@ -84,10 +86,14 @@ class Windows:
         assert len(ev) == 0 or ev.max() < n
         return ev[order].astype(np.int64), w[order]
 
-    def deltas(self, ch, win, mass1, mass2):
-        """Delta_1, Delta_2 (P7) of pairs with window indices `win` and masses mass1, mass2."""
-        c = self.ch[ch]
-        x0, sg = c["x0"][win], c["sigma"][win]
-        d1 = (mass1 - x0) / sg
-        d2 = (mass2 - x0) / sg if ch == "3MU" else np.zeros_like(d1)
+    def sigma_at(self, ch, mA):
+        """sigma_eff of channel ch at mA, linear in mA between the points (sorted by mA)."""
+        o = np.argsort(self.mA)
+        return np.interp(np.asarray(mA, np.float64), self.mA[o], self.ch[ch]["sigma"][o])
+
+    def deltas(self, ch, mA, mass1, mass2):
+        """Delta_1, Delta_2 (P7) of events with parameter mA and OS-pair masses mass1, mass2."""
+        sg = self.sigma_at(ch, mA)
+        d1 = (np.asarray(mass1, np.float64) - mA) / sg
+        d2 = (np.asarray(mass2, np.float64) - mA) / sg if ch == "3MU" else np.zeros_like(d1)
         return d1.astype(np.float32), d2.astype(np.float32)

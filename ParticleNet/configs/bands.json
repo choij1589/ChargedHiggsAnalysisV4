@@ -1,0 +1,9 @@
+{
+ "_doc": "mA bands of the three ParticleNet networks (user decision 2026-11-28): as SignalRegionStudy python/interpolation_config.py NORM_MA_BINS; a grid mA belongs to the band with lo <= mA < hi (the last band also includes hi). Each band network is trained on the signal points of its band (configs/windows.json) and scores every grid mA of its band. Background training entries: once per band whose mass range (union of the band's template windows, template pairing, per channel) contains the event; mA drawn per event (python/bands.py).",
+ "source": "SignalRegionStudy/python/interpolation_config.py NORM_MA_BINS",
+ "bands": [
+  {"name": "belowZ", "lo": 15.0, "hi": 80.0},
+  {"name": "onZ", "lo": 80.0, "hi": 100.0},
+  {"name": "aboveZ", "lo": 100.0, "hi": 155.0}
+ ]
+}
