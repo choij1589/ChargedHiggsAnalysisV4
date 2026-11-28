@@ -2,6 +2,13 @@
 
 Decisions and findings for the Template construction section of AN-26-267 (signal modelling, binning, templates, mu mu mu A-candidate choice). Newest entry first.
 
+## 2026-11-28 (findings from the interpolation plots)
+
+- **Plots:** `SignalRegion/python/plotInterpolation.py`, `plotTemplates.py` -> `SignalRegion/plots/AN/2024/{interpolation,templates}/` (parameters vs mA with the chosen polynomial and band, G and window yields, LOO closure; prefit stacks at MA30/60/90/110).
+- **`ndf` field of the polynomial / G records = number of points, not degrees of freedom** (`interpolation_config.fit_surface`, inherited from the previous code); the F-test uses `joint_surface.ndf_all` (correct). Cosmetic, to fix with the next SRS change.
+- **Poor polynomial fits:** SR3Mu_lowM alphaL (pol4) chi2 97/18 (max pull 3.9); SR3Mu_highM c1 46/18, fsig 39/18, alphaL (pol0) max pull 3.1. The SR3Mu_highM fits include mA 20-55, outside its production range (mA >= 60); the production-restricted LOO uncertainties (approved) are not affected by the out-of-range points, but a production-range-only fit for SR3Mu_highM is worth checking before the interp templates (after 11/30).
+- **LOO:** SR3Mu_highM belowZ norm on the 0.01 floor with 4 points; non-production-pairing residuals large (scale rms 0.075, norm 0.063), production ones small (0.029, floored 0.010); window-yield closure for SR3Mu_highM up to 21% at low mA (the other pairing).
+
 ## 2026-11-28 (user decisions: interpolation gate and port choices)
 
 - **Interpolation gate passed** (user): interp-signal templates after the KNU downtime (after 11/30 20:00).

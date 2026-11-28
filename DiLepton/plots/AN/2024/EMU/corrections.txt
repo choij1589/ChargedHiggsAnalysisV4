@@ -1,10 +1,10 @@
-# EMU (RunEMu_RunSyst_TrigDZ): total yield (first histogram of each set), data/MC
+# EMU (RunEMu_RunSyst_TrigDZ_HcToWABTagEff): total yield (first histogram of each set), data/MC
 set                                    data             MC  data/MC  MC/MC(Central)
-Central                            656987.0       686602.5    0.957           1.000
-NoBtagSF                           656987.0       703281.3    0.934           1.024
-NoEMuTrigSF                        656987.0       697941.9    0.941           1.017
-NoElectronIDSF                     656987.0       742152.1    0.885           1.081
-NoElectronRecoSF                   656987.0       754347.9    0.871           1.099
-NoMuonIDSF                         656987.0       719481.8    0.913           1.048
-NoPileupReweight                   656987.0       696805.3    0.943           1.015
-TopPtReweight_Applied              656987.0       677122.9    0.970           0.986
+Central                            656987.0       689183.3    0.953           1.000
+NoBtagSF                           656987.0       703281.3    0.934           1.020
+NoEMuTrigSF                        656987.0       700566.4    0.938           1.017
+NoElectronIDSF                     656987.0       744942.9    0.882           1.081
+NoElectronRecoSF                   656987.0       757184.3    0.868           1.099
+NoMuonIDSF                         656987.0       722186.7    0.910           1.048
+NoPileupReweight                   656987.0       699404.7    0.939           1.015
+TopPtReweight_Applied              656987.0       679656.3    0.967           0.986

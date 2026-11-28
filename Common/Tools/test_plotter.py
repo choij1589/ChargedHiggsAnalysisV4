@@ -39,6 +39,33 @@ for style in plotter.STYLES:
     for _ in range(20000):
         h2.Fill(rng.Gaus(0, 2), rng.Uniform(-3.2, 3.2))
     plotter.Map2DCanvas(h2, {"xTitle": "#eta", "yTitle": "#phi"}, style=style).draw().save(out / f"map_{style}.{ext}")
+    # GraphCanvas: expected-limit bands, a reference line and points with a pull pad
+    n = 12
+    g95, g68, gmed, gpts, gpull = (ROOT.TGraphAsymmErrors(n), ROOT.TGraphAsymmErrors(n), ROOT.TGraph(n),
+                                   ROOT.TGraphAsymmErrors(n), ROOT.TGraph(n))
+    for i in range(n):
+        x, y = 15. + 10. * i, 1e-6 * (1. + 0.02 * i)
+        for g in (g95, g68):
+            g.SetPoint(i, x, y)
+        g95.SetPointError(i, 0, 0, 0.5 * y, 1.1 * y)
+        g68.SetPointError(i, 0, 0, 0.3 * y, 0.5 * y)
+        gmed.SetPoint(i, x, y)
+        gpts.SetPoint(i, x, y * rng.Gaus(1., 0.05))
+        gpts.SetPointError(i, 0, 0, 0.05 * y, 0.05 * y)
+        gpull.SetPoint(i, x, rng.Gaus(0., 1.))
+    top = [{"obj": g95, "kind": "band", "color": plotter.LIMIT_95, "label": "95% expected"},
+           {"obj": g68, "kind": "band", "color": plotter.LIMIT_68, "label": "68% expected"},
+           {"obj": gmed, "kind": "line", "color": "#000000", "style": 2, "label": "Median expected"},
+           {"obj": gpts, "kind": "points", "color": "#bd1f01", "label": "Points"}]
+    plotter.GraphCanvas(top, {"xTitle": "m_{A} [GeV]", "yTitle": "Limit", "logy": True, "legend_order": [2, 1, 0, 3]},
+                        style=style).draw().save(out / f"graph_{style}.{ext}")
+    plotter.GraphCanvas(top[3:], {"xTitle": "m_{A} [GeV]", "yTitle": "Value", "rTitle": "Pull"}, style=style,
+                        has_data=False, bottom=[{"obj": gpull, "kind": "markers", "color": "#000000"}]
+                        ).draw().save(out / f"graph_pull_{style}.{ext}")
+    rows = [{"label": f"nuisance_{i}", "pull": 0., "err_lo": 1. - 0.03 * i, "err_hi": 1. - 0.03 * i,
+             "d_up": 0.1 / (i + 1), "d_dn": -0.09 / (i + 1)} for i in range(8)]
+    plotter.ImpactCanvas(rows, {"caption": "toy", "poi_text": "#hat{r} = 1.00^{+0.50}_{-0.40}"},
+                         style=style).draw().save(out / f"impacts_{style}.{ext}")
 
 import cmsstyle  # noqa: E402
 assert cmsstyle.cmsText == "CMS", cmsstyle.cmsText

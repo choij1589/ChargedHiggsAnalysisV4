@@ -11,7 +11,10 @@ histogram drawn or not); scripts never set label text. The cmsstyle globals are
 set for every canvas and restored afterwards, so nothing leaks between plots.
 
 Canvases: StackCanvas (data vs stacked prediction, band, ratio, optional signal
-lines), ShapeCanvas (overlaid shapes, optional ratio to the first), Map2DCanvas.
+lines), ShapeCanvas (overlaid shapes, optional ratio to the first), EffCanvas,
+GraphCanvas (bands, lines and points vs one variable, e.g. expected limits or
+fitted parameters vs mass, optional lower pad), ImpactCanvas (nuisance impacts on
+the POI), Map2DCanvas.
 
 Importing has no side effects; cmsstyle's style is applied when the first canvas
 is built. The layout constants follow the V3 standard (V3 CLAUDE.md, "Plotting
@@ -121,6 +124,18 @@ def draw_caption(lines, pos=CAPTION_POS, size=CAPTION_SIZE):
         CMS.drawText(text, posX=x, posY=y - i * 1.15 * size, font=font, align=13, size=size)
 
 
+TEXT_SIZE = 0.030
+
+
+def _draw_text(cfg):
+    """cfg['text']: free text lines (font 42) at cfg['textPos'] (NDC, top-left aligned), size cfg['textSize']."""
+    lines = cfg.get("text") or []
+    x, y = cfg.get("textPos", (0.60, 0.72))
+    size = cfg.get("textSize", TEXT_SIZE)
+    for i, t in enumerate(lines):
+        cms().drawText(t, posX=x, posY=y - i * 1.5 * size, font=42, align=13, size=size)
+
+
 # ---------------------------------------------------------------------------
 # Histogram helpers
 def prepare(hist, cfg):
@@ -226,7 +241,8 @@ class StackCanvas:
              the total uncertainty (contents ignored); default: the stack sum with
              its statistical errors
     signals: list of (label, TH1), drawn as lines
-    cfg:     xTitle, yTitle, xRange, rebin, rRange, logy, yRange, yHeadroom, eta,
+    cfg:     xTitle, yTitle, xRange, rebin, rRange, logy, yRange, yHeadroom, eta, vlines (x of dashed lines),
+             text, textPos, textSize (free text lines), signalLegend (box of the signal legend),
              caption (list of lines), overflow; optional dataLabel (legend label of the points,
              default "Data"), hasData (label choice, default: points drawn), rTitle (ratio axis)
     """
@@ -296,7 +312,7 @@ class StackCanvas:
         # stat (+) syst only when a systematic band was given; otherwise MC statistics
         CMS.addToLegend(self.leg, (self.total, cfg.get("bandLabel", BAND_LABEL if self.has_syst else "Stat."), "F"))
         if self.signals:
-            sleg = CMS.cmsLeg(*SIGNAL_LEGEND_BOX, textSize=SIGNAL_LEGEND_TEXT)
+            sleg = CMS.cmsLeg(*cfg.get("signalLegend", SIGNAL_LEGEND_BOX), textSize=SIGNAL_LEGEND_TEXT)
             if cfg.get("signalHeader"):
                 sleg.SetHeader(cfg["signalHeader"], "")
             for i, (lab, h) in enumerate(self.signals):
@@ -305,6 +321,12 @@ class StackCanvas:
             self._keep.append(sleg)
         if cfg.get("caption"):
             draw_caption(cfg["caption"])
+        # vlines: x positions of dashed vertical lines (e.g. template bin boundaries)
+        for x in cfg.get("vlines", []):
+            ln = ROOT.TLine(x, ymin, x, ymax)
+            CMS.cmsDrawLine(ln, lcolor=color("#717581"), lstyle=ROOT.kDashed, lwidth=2)
+            self._keep.append(ln)
+        _draw_text(cfg)
         self.pad.RedrawAxis()
 
         if with_ratio:
@@ -410,7 +432,9 @@ class EffCanvas:
     top, bottom: lists of (label, graph, hex colour, ROOT marker style).
     cfg: xTitle, yTitle ("Efficiency"), rTitle ("Data / MC"), xRange, yRange, rRange, logx,
     caption (list of lines), legend (x1, y1, x2, y2), legend_columns, legend_header, legend_text,
-    legend_order (indices into top, row by row, None = blank cell), no_rlegend (no legend in the lower pad).
+    legend_order (indices into top, row by row, None = blank cell), no_rlegend (no legend in the lower pad),
+    no_ratio (one pad, `bottom` ignored; e.g. MC-only efficiencies; yTitleOffset widens the left margin for
+    long y labels), show_lumi (default True).
     """
 
     def __init__(self, top, bottom, cfg, style="an", era="2024", has_data=True):
@@ -421,11 +445,17 @@ class EffCanvas:
         xmin, xmax = cfg["xRange"]
         ymin, ymax = cfg.get("yRange", (0., 1.2))
         rmin, rmax = cfg.get("rRange", (0.8, 1.2))
-        with _Label(self.style, self.era, self.has_data, show_lumi=True):
-            self.canv = CMS.cmsDiCanvas(f"c_{id(self)}", xmin, xmax, ymin, ymax, rmin, rmax,
-                                        cfg.get("xTitle", ""), cfg.get("yTitle", "Efficiency"),
-                                        cfg.get("rTitle", "Data / MC"), square=True, iPos=11)
-        pads = [self.canv.cd(1), self.canv.cd(2)]
+        single = cfg.get("no_ratio", False)
+        with _Label(self.style, self.era, self.has_data, show_lumi=cfg.get("show_lumi", True)):
+            if single:
+                self.canv = CMS.cmsCanvas(f"c_{id(self)}", xmin, xmax, ymin, ymax, cfg.get("xTitle", ""),
+                                          cfg.get("yTitle", "Efficiency"), square=True, iPos=11,
+                                          yTitOffset=cfg.get("yTitleOffset"))
+            else:
+                self.canv = CMS.cmsDiCanvas(f"c_{id(self)}", xmin, xmax, ymin, ymax, rmin, rmax,
+                                            cfg.get("xTitle", ""), cfg.get("yTitle", "Efficiency"),
+                                            cfg.get("rTitle", "Data / MC"), square=True, iPos=11)
+        pads = [self.canv.cd()] if single else [self.canv.cd(1), self.canv.cd(2)]
         if cfg.get("logx"):
             for p in pads:
                 p.SetLogx()
@@ -433,7 +463,7 @@ class EffCanvas:
                 frame.GetXaxis().SetMoreLogLabels()
                 frame.GetXaxis().SetNoExponent()
                 p.Update()
-        self.canv.cd(1)
+        pads[0].cd()
         x1, y1, x2, y2 = cfg.get("legend", (0.45, 0.62, 0.92, 0.88))
         self.leg = CMS.cmsLeg(x1, y1, x2, y2, textSize=cfg.get("legend_text", LEGEND_TEXT), columns=cfg.get("legend_columns", 1))
         if cfg.get("legend_header"):
@@ -458,6 +488,9 @@ class EffCanvas:
         if cfg.get("caption"):
             draw_caption(cfg["caption"], pos=cfg.get("captionPos", (0.17, 0.74)), size=0.035)
         pads[0].RedrawAxis()
+        if single:
+            self._keep = []
+            return self
         self.canv.cd(2)
         line = ROOT.TLine(xmin, 1., xmax, 1.)
         line.SetLineStyle(ROOT.kDotted)
@@ -480,6 +513,313 @@ class EffCanvas:
                 self.rleg.AddEntry(g, lab, "PE")
             self.rleg.Draw()
         pads[1].RedrawAxis()
+        return self
+
+    def save(self, path):
+        save(self.canv, path)
+
+
+LIMIT_68 = "#607641"   # CMS expected-limit bands (cmsstyle kLimit68 / kLimit95)
+LIMIT_95 = "#F5BB54"
+
+
+def _graph_points(g):
+    """(x, y, ey_lo, ey_hi) lists of a TGraph / TGraphErrors / TGraphAsymmErrors."""
+    out = []
+    for i in range(g.GetN()):
+        lo = g.GetErrorYlow(i) if hasattr(g, "GetErrorYlow") else 0.
+        hi = g.GetErrorYhigh(i) if hasattr(g, "GetErrorYhigh") else 0.
+        out.append((g.GetPointX(i), g.GetPointY(i), max(lo, 0.), max(hi, 0.)))
+    return out
+
+
+class GraphCanvas:
+    """Graphs vs one variable (limits vs mass, fitted parameters vs mass, residuals), with an
+    optional lower pad.
+
+    top, bottom: lists of items, dicts with
+      obj    TGraph / TGraphErrors / TGraphAsymmErrors
+      kind   'band' (filled area between the y errors), 'line', 'points' (markers with error bars),
+             'markers' (markers without error bars)
+      color  hex colour; label: legend text (None or missing: not in the legend)
+      optional: style (line style), width (line width), marker (ROOT marker), size (marker size),
+                alpha (fill alpha of a band)
+    Items are drawn in list order (bands first, lines on top); the legend follows `legend_order`
+    (indices into `top`) when given, else the list order.
+    cfg: xTitle, yTitle, xRange (default: span of the graphs), yRange, logy, yHeadroom (linear, 1.6),
+         rTitle, rRange (lower pad), legend (x1, y1, x2, y2), legend_text, legend_columns,
+         legend_header, legend_order, caption (lines), captionPos, captionSize, text (lines),
+         textPos, textSize, hlines / rlines (y of dotted horizontal lines in the upper / lower pad),
+         vlines (x of dotted vertical lines in both pads), show_lumi (default True)
+    has_data: label choice (True: "Work in progress", False: "Simulation Work in progress").
+    """
+
+    def __init__(self, top, cfg, style="an", era="2024", has_data=True, bottom=None):
+        self.top, self.bottom, self.cfg = top, bottom or [], cfg
+        self.style, self.era, self.has_data = style, era, has_data
+
+    def _ranges(self):
+        cfg = self.cfg
+        pts = [p for it in self.top for p in _graph_points(it["obj"])]
+        if cfg.get("xRange"):
+            xmin, xmax = cfg["xRange"]
+        else:
+            xs = [p[0] for p in pts]
+            xmin, xmax = min(xs), max(xs)
+        inx = [p for p in pts if xmin <= p[0] <= xmax] or pts
+        if cfg.get("yRange"):
+            ymin, ymax = cfg["yRange"]
+        elif cfg.get("logy"):
+            hmax = max(p[1] + p[3] for p in inx)
+            pos = [p[1] - p[2] for p in inx if p[1] - p[2] > 0] or [p[1] for p in inx if p[1] > 0]
+            ymin, ymax = _log_range(hmax, min(pos) if pos else 0., cfg)
+        else:
+            hi = max(p[1] + p[3] for p in inx)
+            lo = min(p[1] - p[2] for p in inx)
+            ymin = min(0., lo) if lo >= 0 else lo - 0.1 * (hi - lo)
+            ymax = ymin + (hi - ymin) * cfg.get("yHeadroom", HEADROOM)
+        return xmin, xmax, ymin, ymax
+
+    @staticmethod
+    def _draw_item(it):
+        g, c = it["obj"], color(it.get("color", "#000000"))
+        kind = it.get("kind", "line")
+        if kind == "band":
+            if it.get("alpha"):
+                g.SetFillColorAlpha(c, it["alpha"])
+            else:
+                g.SetFillColor(c)
+            g.SetFillStyle(it.get("fill", 1001))
+            g.SetLineColor(c)
+            g.SetLineWidth(0)
+            g.Draw("3 SAME")
+            return "F"
+        g.SetLineColor(c)
+        g.SetMarkerColor(c)
+        g.SetLineStyle(it.get("style", ROOT.kSolid))
+        g.SetLineWidth(it.get("width", 2))
+        if kind == "line":
+            g.Draw("LX SAME")
+            return "L"
+        g.SetMarkerStyle(it.get("marker", ROOT.kFullCircle))
+        g.SetMarkerSize(it.get("size", 1.0))
+        if kind == "markers":
+            g.Draw("PX SAME")
+            return "P"
+        g.Draw("PZ SAME")
+        return "PE"
+
+    def draw(self):
+        CMS, cfg = cms(), self.cfg
+        xmin, xmax, ymin, ymax = self._ranges()
+        with _Label(self.style, self.era, self.has_data, show_lumi=cfg.get("show_lumi", True)):
+            if self.bottom:
+                rmin, rmax = cfg.get("rRange", (-3., 3.))
+                self.canv = CMS.cmsDiCanvas(f"c_{id(self)}", xmin, xmax, ymin, ymax, rmin, rmax,
+                                            cfg.get("xTitle", ""), cfg.get("yTitle", ""),
+                                            cfg.get("rTitle", "Pull"), square=True, iPos=11)
+                self.pad = self.canv.cd(1)
+            else:
+                self.canv = CMS.cmsCanvas(f"c_{id(self)}", xmin, xmax, ymin, ymax,
+                                          cfg.get("xTitle", ""), cfg.get("yTitle", ""), square=True, iPos=11)
+                self.pad = self.canv.cd()
+        if cfg.get("logy"):
+            self.pad.SetLogy()
+        else:
+            CMS.GetCmsCanvasHist(self.pad).GetYaxis().SetMaxDigits(3)
+        self._keep = []
+        for y in cfg.get("hlines", []):
+            ln = ROOT.TLine(xmin, y, xmax, y)
+            CMS.cmsDrawLine(ln, lcolor=ROOT.kGray + 2, lstyle=ROOT.kDotted, lwidth=2)
+            self._keep.append(ln)
+        for x in cfg.get("vlines", []):
+            ln = ROOT.TLine(x, ymin, x, ymax)
+            CMS.cmsDrawLine(ln, lcolor=ROOT.kGray + 2, lstyle=ROOT.kDotted, lwidth=2)
+            self._keep.append(ln)
+        opts = [self._draw_item(it) for it in self.top]
+        x1, y1, x2, y2 = cfg.get("legend", (0.50, 0.70, 0.93, 0.89))
+        self.leg = CMS.cmsLeg(x1, y1, x2, y2, textSize=cfg.get("legend_text", LEGEND_TEXT),
+                              columns=cfg.get("legend_columns", 1))
+        if cfg.get("legend_header"):
+            self.leg.SetHeader(cfg["legend_header"], "")
+        for i in cfg.get("legend_order", range(len(self.top))):
+            it = self.top[i]
+            if it.get("label"):
+                self.leg.AddEntry(it["obj"], it["label"], opts[i])
+        if cfg.get("caption"):
+            draw_caption(cfg["caption"], pos=cfg.get("captionPos", (0.19, 0.86)),
+                         size=cfg.get("captionSize", 0.040))
+        _draw_text(cfg)
+        self.pad.RedrawAxis()
+        if self.bottom:
+            pad2 = self.canv.cd(2)
+            rmin, rmax = cfg.get("rRange", (-3., 3.))
+            for y in cfg.get("rlines", [0.]):
+                ln = ROOT.TLine(xmin, y, xmax, y)
+                CMS.cmsDrawLine(ln, lcolor=ROOT.kGray + 2, lstyle=ROOT.kDotted, lwidth=2)
+                self._keep.append(ln)
+            for x in cfg.get("vlines", []):
+                ln = ROOT.TLine(x, rmin, x, rmax)
+                CMS.cmsDrawLine(ln, lcolor=ROOT.kGray + 2, lstyle=ROOT.kDotted, lwidth=2)
+                self._keep.append(ln)
+            for it in self.bottom:
+                self._draw_item(it)
+            pad2.RedrawAxis()
+        return self
+
+    def save(self, path):
+        save(self.canv, path)
+
+
+class ImpactCanvas:
+    """Nuisance-parameter impacts on the POI (rows of a combineTool impacts.json), two panels:
+    left the post-fit value (theta_hat - theta_0) / Delta theta with its post-fit uncertainty (for
+    an Asimov fit the values are 0 and the bars show the constraint), right the impact Delta r of
+    the +1 sigma and -1 sigma post-fit shifts. Names are drawn as plain text (no TLatex).
+
+    rows: list of dicts {label, pull, err_lo, err_hi, d_up, d_dn}, drawn top to bottom.
+    cfg:  caption (one line above the left panel), poi_text (one line above the right panel),
+          pullRange (default 2), impactRange (symmetric half-width, default 1.15 x max |Delta r|),
+          pullTitle, impactTitle
+    """
+
+    W, ROW, TOP, HEAD, BOTTOM = 1000, 26, 42, 44, 120   # pixels
+    SPLIT, LEFT_M = 0.62, 0.60                           # left-pad width, its left margin (fractions)
+
+    def __init__(self, rows, cfg, style="an", era="2024", has_data=True):
+        self.rows, self.cfg, self.style, self.era, self.has_data = rows, cfg, style, era, has_data
+
+    def draw(self):
+        CMS, cfg, rows = cms(), self.cfg, self.rows
+        n = len(rows)
+        H = self.TOP + self.HEAD + n * self.ROW + self.BOTTOM
+        self.canv = ROOT.TCanvas(f"c_{id(self)}", "", self.W, H)
+        self.canv.SetFillColor(0)
+        tm, bm = (self.TOP + self.HEAD) / H, self.BOTTOM / H
+        self._keep = []
+        left = ROOT.TPad(f"pl_{id(self)}", "", 0., 0., self.SPLIT, 1.)
+        right = ROOT.TPad(f"pr_{id(self)}", "", self.SPLIT, 0., 1., 1.)
+        for p, lm, rm in ((left, self.LEFT_M, 0.02), (right, 0.07, 0.07)):
+            p.SetTopMargin(tm)
+            p.SetBottomMargin(bm)
+            p.SetLeftMargin(lm)
+            p.SetRightMargin(rm)
+            p.SetFillStyle(4000)
+            p.SetFrameFillStyle(4000)
+            self.canv.cd()
+            p.Draw()
+            self._keep.append(p)
+
+        def frame(pad, x0, x1, title):
+            pad.cd()
+            fr = pad.DrawFrame(x0, 0., x1, float(n))
+            ax, ay = fr.GetXaxis(), fr.GetYaxis()
+            ay.SetLabelSize(0)
+            ay.SetTickLength(0)
+            ay.SetNdivisions(0)
+            for a in (ax,):
+                a.SetLabelFont(43)
+                a.SetLabelSize(17)
+                a.SetTitleFont(43)
+                a.SetTitleSize(20)
+                a.SetTitleOffset(1.5)
+                a.CenterTitle()
+                a.SetNdivisions(505)
+                a.SetTickLength(10. / H)
+            ax.SetTitle(title)
+            return fr
+
+        # zebra rows across both panels
+        def zebra(x0, x1):
+            for i in range(0, n, 2):
+                b = ROOT.TBox(x0, n - i - 1, x1, n - i)
+                b.SetFillColorAlpha(ROOT.kGray, 0.35)
+                b.SetLineWidth(0)
+                b.Draw()
+                self._keep.append(b)
+
+        pr = cfg.get("pullRange", 2.)
+        frame(left, -pr, pr, cfg.get("pullTitle", "(#hat{#theta} - #theta_{0}) / #Delta#theta"))
+        zebra(-pr, pr)
+        for x in (-1., 0., 1.):
+            ln = ROOT.TLine(x, 0., x, float(n))
+            CMS.cmsDrawLine(ln, lcolor=ROOT.kGray + 2, lstyle=ROOT.kDotted if x else ROOT.kDashed, lwidth=2)
+            self._keep.append(ln)
+        g = ROOT.TGraphAsymmErrors(n)
+        for i, r in enumerate(rows):
+            y = n - i - 0.5
+            g.SetPoint(i, r["pull"], y)
+            g.SetPointError(i, r["err_lo"], r["err_hi"], 0., 0.)
+            t = ROOT.TText(-pr - 0.04 * 2 * pr, y, r["label"])
+            t.SetTextAlign(32)
+            t.SetTextFont(43)
+            t.SetTextSize(15)
+            t.Draw()
+            self._keep.append(t)
+        g.SetMarkerStyle(ROOT.kFullCircle)
+        g.SetMarkerSize(0.9)
+        g.SetLineWidth(2)
+        g.Draw("PZ SAME")
+        self._keep.append(g)
+        left.RedrawAxis()
+
+        dmax = max([abs(r["d_up"]) for r in rows] + [abs(r["d_dn"]) for r in rows] + [1e-6])
+        ir = cfg.get("impactRange", 1.15 * dmax)
+        frame(right, -ir, ir, cfg.get("impactTitle", "#Delta#hat{r}"))
+        zebra(-ir, ir)
+        ln = ROOT.TLine(0., 0., 0., float(n))
+        CMS.cmsDrawLine(ln, lcolor=ROOT.kGray + 2, lstyle=ROOT.kDashed, lwidth=2)
+        self._keep.append(ln)
+        up_c, dn_c = color(PALETTE_LONG[2]), color(PALETTE_LONG[0])
+        boxes = {}
+        for i, r in enumerate(rows):
+            y = n - i - 0.5
+            for key, c in (("d_up", up_c), ("d_dn", dn_c)):
+                b = ROOT.TBox(min(0., r[key]), y - 0.32, max(0., r[key]), y + 0.32)
+                b.SetFillColorAlpha(c, 0.80)
+                b.SetLineColor(c)
+                b.SetLineWidth(1)
+                b.Draw()
+                boxes.setdefault(key, b)
+                self._keep.append(b)
+        right.RedrawAxis()
+
+        # overlay for the CMS label, header, captions and legend
+        over = ROOT.TPad(f"po_{id(self)}", "", 0., 0., 1., 1.)
+        over.SetFillStyle(4000)
+        over.SetFrameFillStyle(4000)
+        over.SetFrameLineWidth(0)
+        over.SetTopMargin(self.TOP / H)
+        over.SetBottomMargin(bm)
+        over.SetLeftMargin(self.SPLIT * self.LEFT_M)
+        over.SetRightMargin((1 - self.SPLIT) * 0.07)
+        self.canv.cd()
+        over.Draw()
+        self._keep.append(over)
+        with _Label(self.style, self.era, self.has_data, show_lumi=cfg.get("show_lumi", True)):
+            CMS.CMS_lumi(over, iPosX=0)
+        over.cd()
+        yhead = 1. - (self.TOP + 0.45 * self.HEAD) / H
+        for text, x, align in ((cfg.get("caption", ""), self.SPLIT * self.LEFT_M, 12),
+                               (cfg.get("poi_text", ""), 1. - (1 - self.SPLIT) * 0.07, 32)):
+            if text:
+                lt = ROOT.TLatex(x, yhead, text)
+                lt.SetNDC()
+                lt.SetTextFont(43)
+                lt.SetTextSize(19)
+                lt.SetTextAlign(align)
+                lt.Draw()
+                self._keep.append(lt)
+        self.leg = ROOT.TLegend(0.35, 8. / H, 0.95, 40. / H)
+        self.leg.SetNColumns(3)
+        self.leg.SetBorderSize(0)
+        self.leg.SetFillStyle(0)
+        self.leg.SetTextFont(43)
+        self.leg.SetTextSize(18)
+        self.leg.AddEntry(g, "Post-fit #hat{#theta} #pm #sigma", "PE")
+        self.leg.AddEntry(boxes["d_up"], "+1#sigma impact", "F")
+        self.leg.AddEntry(boxes["d_dn"], "#minus1#sigma impact", "F")
+        self.leg.Draw()
         return self
 
     def save(self, path):

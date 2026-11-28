@@ -1,4 +1,4 @@
-# EMU (RunEMu_RunSyst_TrigDZ), MC lane BtagSF_NotImplemented
+# EMU (RunEMu_RunSyst_TrigDZ_HcToWABTagEff), MC lane BtagSF_NotImplemented
 muons/1/pt                   data       656987.0  MC       703281.3  data/MC 0.934
 muons/1/miniAODPt            data       657003.0  MC       703284.1  data/MC 0.934
 muons/1/eta                  data       657792.0  MC       704297.6  data/MC 0.934

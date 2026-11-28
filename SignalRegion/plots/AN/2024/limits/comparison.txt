@@ -1,0 +1,29 @@
+# Expected 95% CL upper limits on B_sig at mH+ = 130 GeV (median, Asimov).
+# 2024: Baseline, Combined (SignalRegionStudy/results/json/BR/2024/limits.2024.Asymptotic.Baseline.json),
+#       r converted with sigma(tt, 13.6 TeV) = 923.6 pb.
+# B2G-25-013: Run 2 + Run 3 published expected (All/limits.All.Asymptotic.{ParticleNet,Baseline}.interp-signal.json;
+#       ParticleNet for 82.5 <= mA <= 97.5 GeV, Baseline elsewhere). Values as stored, no rescaling.
+   mA    2024_exp  B2G25013_exp       method   ratio
+   15   9.641e-07     8.639e-07     Baseline   1.116
+   20   1.260e-06     1.014e-06     Baseline   1.242
+   25   1.638e-06     9.927e-07     Baseline   1.650
+   30   1.337e-06     1.127e-06     Baseline   1.187
+   35   1.570e-06     1.320e-06     Baseline   1.189
+   40   2.074e-06     1.299e-06     Baseline   1.597
+   45   1.996e-06     1.427e-06     Baseline   1.398
+   50   1.696e-06     1.535e-06     Baseline   1.105
+   55   1.899e-06     1.642e-06     Baseline   1.157
+   60   1.870e-06     1.427e-06     Baseline   1.310
+   65   1.754e-06     1.234e-06     Baseline   1.421
+   70   1.938e-06     1.395e-06     Baseline   1.389
+   75   1.957e-06     1.384e-06     Baseline   1.414
+   80   1.764e-06     1.481e-06     Baseline   1.191
+   85   2.267e-06     1.384e-06  ParticleNet   1.638
+   90   5.775e-06     3.198e-06  ParticleNet   1.806
+   95   3.391e-06     1.964e-06  ParticleNet   1.727
+  100   2.229e-06     1.674e-06     Baseline   1.331
+  105   2.035e-06     1.728e-06     Baseline   1.178
+  110   1.996e-06     1.578e-06     Baseline   1.265
+  115   2.112e-06     1.513e-06     Baseline   1.396
+  120   1.889e-06     1.782e-06     Baseline   1.061
+  125   1.957e-06     1.760e-06     Baseline   1.112

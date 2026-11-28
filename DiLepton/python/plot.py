@@ -18,6 +18,8 @@ Layout (user, 2026-11-26), DiLepton/plots/AN/2024/<channel>/:
 Each directory has yields.txt (data, MC, data/MC per histogram). --all-lanes finds the
 _NotImplemented and _Applied lanes in the production (reference MC file of the channel).
 PW style (--style pw) makes Central plots only, in DiLepton/plots/PW/2024/<channel>/.
+EMU uses the production with the HcToWA b-tag efficiency map since 2026-11-28 (PRODUCTION below);
+the plots with the previous map are in DiLepton/plots/AN/2024/EMU_OldBTagMap/.
 """
 import argparse
 import json
@@ -34,10 +36,15 @@ import plotter  # noqa: E402
 
 ERA = "2024"
 # Current production: all corrections in Central (lepton ID SFs and trigger SFs added 2026-11-26).
-# TrigSF and TrigDZ are MC only; their data files are links to the LepIDSF data (data histograms
-# unchanged). TrigDZ (2026-11-26, DIMU and EMU only) adds the DZ uncertainty to the trigger-SF lanes
-# and the closure subsets; ZEE stays on TrigSF.
-PRODUCTION = {"DIMU": "TrigDZ", "EMU": "TrigDZ", "ZEE": "TrigSF"}
+# TrigSF, TrigDZ and TrigDZ_HcToWABTagEff are MC only; their data files are links to the LepIDSF data
+# (data histograms unchanged). TrigDZ (2026-11-26, DIMU and EMU only) adds the DZ uncertainty to the
+# trigger-SF lanes and the closure subsets; ZEE stays on TrigSF.
+# EMU -> TrigDZ_HcToWABTagEff (2026-11-28): the same EMU MC (flags RunEMu,RunSyst,TrigDZ + label
+# HcToWABTagEff) with the b-tag SF weight computed from this analysis's own b-tag efficiency map
+# (BTagEff/results/2024/btaggingEff_HcToWA.json, TTLL); the TrigDZ map was another analysis's. MuonEG
+# files are links to RunEMu_RunSyst_LepIDSF, as in TrigDZ. The old-map EMU plots are kept in
+# DiLepton/plots/AN/2024/EMU_OldBTagMap/.
+PRODUCTION = {"DIMU": "TrigDZ", "EMU": "TrigDZ_HcToWABTagEff", "ZEE": "TrigSF"}
 CHANNELS = {
     "DIMU": {"flags": f"RunDiMu_RunSyst_{PRODUCTION['DIMU']}", "pds": ["Muon0", "Muon1"], "caption": ["#mu#mu"],
              "ref": "TTLL_powheg"},
