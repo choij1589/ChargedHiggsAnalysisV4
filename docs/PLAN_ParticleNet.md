@@ -86,8 +86,12 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
   not trained. Window composition (v2 templates, % of window background): nonprompt 37-73 everywhere;
   WZ+ZZ + ttZ + tZq ~ half at the Z (80-105); conversion up to 10-16 off-Z; ttW up to 13 at high mA
   (eμμ); others 2-6.
-- **P5 nonprompt sample:** (a) TTLL (+ TTLJ, DY) MC loose-not-tight with the 2024 fake rates
-  (previous); (b) data loose-not-tight sideband (the real background; small signal contamination).
+- **P5 nonprompt sample: decided (user, 2026-11-28): (a) MC loose-not-tight with the 2024 fake-rate
+  weights, with the (c) data check.** Sources TTLL + TTLJ + DY 2J (TrainTree lane, fake-rate weight from
+  the analyzer). The data sideband is too small for training (2024 SR loose-not-tight: 2529 eμμ / 2689
+  μμμ events, ~17% negative-weight, vs ~50k per class per fold before). Negative-weight events (two
+  loose-not-tight leptons) dropped from the training, kept in the check (default, as proposed).
+  Check after training: score distributions of MC vs data loose-not-tight per mA window.
 - **P6 diboson b-jet promotion:** re-derive the rank-promotion tables for 2024 (previous method) or use
   genuine b-tagged WZ / ZZ only (low statistics).
 - **P7 mass decorrelation:** keep DisCo lambda = 0.1 on the A-candidate mass(es) without a lambda scan,
