@@ -1,0 +1,582 @@
+{
+ "checks": {
+  "C1_inputs": {
+   "pass": true,
+   "n_events_vs_reference": {
+    "TTToHcToWAToMuMu-MHc130_MA15": [
+     1085,
+     1085
+    ],
+    "TTToHcToWAToMuMu-MHc130_MA30": [
+     1031,
+     1031
+    ],
+    "TTToHcToWAToMuMu-MHc130_MA55": [
+     881,
+     881
+    ],
+    "TTToHcToWAToMuMu-MHc130_MA65": [
+     845,
+     845
+    ],
+    "TTToHcToWAToMuMu-MHc130_MA90": [
+     944,
+     944
+    ],
+    "TTToHcToWAToMuMu-MHc130_MA120": [
+     1015,
+     1015
+    ],
+    "TTLL_powheg": [
+     834,
+     834
+    ],
+    "TTLJ_powheg": [
+     279,
+     279
+    ],
+    "DYto2E_2J_MLL10to50": [
+     87,
+     87
+    ],
+    "DYto2Mu_2J_MLL50toInf": [
+     156,
+     156
+    ],
+    "WZto3LNu": [
+     1177,
+     1177
+    ],
+    "ZZto4L": [
+     737,
+     737
+    ],
+    "ttZtoLL_MLL50toInf": [
+     830,
+     830
+    ],
+    "ttWtoLNu": [
+     448,
+     448
+    ],
+    "ttHtoNonbb_M125": [
+     278,
+     278
+    ],
+    "tZq": [
+     306,
+     306
+    ]
+   },
+   "fold_rule": true,
+   "nonprompt_weights_positive": true,
+   "ttree_sample": true
+  },
+  "C2_nodes": {
+   "pass": true,
+   "first_layer_deltaR_knn": true,
+   "max_rel_diff_p4": 1.7751962479452104e-07,
+   "max_rel_diff_pair_mass": 9.909548674394006e-05
+  },
+  "C3_windows": {
+   "pass": true,
+   "pairs_in_window": true,
+   "background_complete": true,
+   "signal_own_window": true,
+   "no_duplicate_pairs": true,
+   "deltas": true,
+   "delta2_zero_for_1e2mu": true,
+   "pairs_per_window": {
+    "MHc130_MA15": 1514,
+    "MHc130_MA30": 1665,
+    "MHc130_MA55": 1598,
+    "MHc130_MA65": 1480,
+    "MHc130_MA90": 3359,
+    "MHc130_MA120": 2038
+   },
+   "replication": {
+    "signal": 1.0,
+    "nonprompt": 1.1526548672566372,
+    "diboson": 1.1405433646812957,
+    "ttX": 1.131578947368421
+   }
+  },
+  "C4_weights": {
+   "pass": true,
+   "net0_train": {
+    "target": 291.2916666666667,
+    "n_cells": 24,
+    "n_pairs": 6991,
+    "min_cell": 291.29166666666663,
+    "max_cell": 291.29166666666686
+   },
+   "net0_es": {
+    "target": 97.375,
+    "n_cells": 24,
+    "n_pairs": 2337,
+    "min_cell": 97.37499999999997,
+    "max_cell": 97.37500000000001
+   },
+   "net0_test": {
+    "target": 96.91666666666667,
+    "n_cells": 24,
+    "n_pairs": 2326,
+    "min_cell": 96.91666666666666,
+    "max_cell": 96.91666666666669
+   }
+  },
+  "C5_disco_mask": {
+   "pass": true,
+   "dcor2": 0.32959216833114624,
+   "dcor2_emm_noise": 0.32959216833114624,
+   "dcor2_numpy_3mu_bkg_only": 0.329592159765243,
+   "dcor1": 0.13399598002433777,
+   "dcor1_signal_noise": 0.13399598002433777,
+   "dcor1_numpy_bkg_only": 0.13399596456660234,
+   "max_grad_emm_logits": 0.0,
+   "max_grad_3mu_logits": 0.10820580273866653,
+   "n_emm": 259,
+   "n_3mu_bkg": 146
+  },
+  "C6_compile": {
+   "pass": true,
+   "max_abs_logit_diff_eager_vs_compiled": 2.5480985641479492e-06,
+   "graph_breaks_compiled": {
+    "Skip calling `torch.compiler.disable()`d function\n  Explanation: Skip calling function `<function dropout_given_edges at 0x7f8e7504c880>` since it was wrapped with `torch.compiler.disable` (reason: None)\n  Hint: Remove the `torch.compiler.disable` call\n\n  Developer debug context: <function dropout_given_edges at 0x7f8e7504c880>\n\n For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html": 4,
+    "Skip calling `torch.compiler.disable()`d function\n  Explanation: Skip calling function `<function knn_dropout_edges at 0x7f8e75b9b3d0>` since it was wrapped with `torch.compiler.disable` (reason: None)\n  Hint: Remove the `torch.compiler.disable` call\n\n  Developer debug context: <function knn_dropout_edges at 0x7f8e75b9b3d0>\n\n For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html": 6
+   }
+  },
+  "C7a_scores_own_fold_heldout": {
+   "pass": true,
+   "max_abs_diff_vs_training_heldout": 6.854534149169922e-07,
+   "pairs_compared": 11654,
+   "n_pairs": 11654,
+   "all_from_test_split": true,
+   "rows_aligned_with_input_entries": true,
+   "signal_entries_vs_distinct_keys": {
+    "MHc130_MA15_1E2MU": [
+     675,
+     163
+    ],
+    "MHc130_MA15_3MU": [
+     825,
+     202
+    ],
+    "MHc130_MA30_1E2MU": [
+     675,
+     165
+    ],
+    "MHc130_MA30_3MU": [
+     825,
+     203
+    ],
+    "MHc130_MA55_1E2MU": [
+     675,
+     163
+    ],
+    "MHc130_MA55_3MU": [
+     825,
+     203
+    ],
+    "MHc130_MA65_1E2MU": [
+     675,
+     163
+    ],
+    "MHc130_MA65_3MU": [
+     825,
+     202
+    ],
+    "MHc130_MA90_1E2MU": [
+     675,
+     165
+    ],
+    "MHc130_MA90_3MU": [
+     825,
+     203
+    ],
+    "MHc130_MA120_1E2MU": [
+     675,
+     165
+    ],
+    "MHc130_MA120_3MU": [
+     825,
+     201
+    ]
+   }
+  },
+  "C7b_scores_sr_lanes": {
+   "pass": true,
+   "rows_and_order": true,
+   "score_mA_equals_windows": true,
+   "own_fold_network_matches": true,
+   "max_abs_diff_own_network": 3.2782554626464844e-07,
+   "min_abs_diff_other_networks": 0.00759926438331604,
+   "median_abs_diff_other_networks": 0.05304717272520065,
+   "n_events_other_network_within_2em6": 0,
+   "events_rescored": 2514,
+   "data_nonprompt_scored": [
+    "Skim_TriLep_Muon0_C.root",
+    "Skim_TriLep_MuonEG_C.root"
+   ]
+  }
+ },
+ "times_s": {
+  "make_trees": 1.63392972946167,
+  "build": 1.0195670127868652,
+  "train_5nets": 29.70262575149536,
+  "score": 10.560581684112549
+ },
+ "dataset": {
+  "signal": {
+   "events": 5801,
+   "pairs": 5801,
+   "replication": 1.0,
+   "sumw": 0.5797818710707361
+  },
+  "nonprompt": {
+   "events": 1356,
+   "pairs": 1563,
+   "replication": 1.1526548672566372,
+   "sumw": 17.727457487029696
+  },
+  "diboson": {
+   "events": 1914,
+   "pairs": 2183,
+   "replication": 1.1405433646812957,
+   "sumw": 6.193075183779001
+  },
+  "ttX": {
+   "events": 1862,
+   "pairs": 2107,
+   "replication": 1.131578947368421,
+   "sumw": 1.4119357489107642
+  }
+ },
+ "timing": {
+  "batch_size": 512,
+  "steps": 200,
+  "eager": {
+   "t_first_step_s": 0.2990736961364746,
+   "t_train_step_ms": 21.868326663970947,
+   "t_eval_step_ms": 10.142558813095093,
+   "max_mem_MB": 402.3115234375,
+   "graph_breaks": {}
+  },
+  "compiled": {
+   "t_first_step_s": 7.413135051727295,
+   "t_train_step_ms": 20.264569520950317,
+   "t_eval_step_ms": 8.648109436035156,
+   "max_mem_MB": 301.76611328125,
+   "graph_breaks": {
+    "Skip calling `torch.compiler.disable()`d function\n  Explanation: Skip calling function `<function dropout_given_edges at 0x7f8e7504c880>` since it was wrapped with `torch.compiler.disable` (reason: None)\n  Hint: Remove the `torch.compiler.disable` call\n\n  Developer debug context: <function dropout_given_edges at 0x7f8e7504c880>\n\n For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html": 4,
+    "Skip calling `torch.compiler.disable()`d function\n  Explanation: Skip calling function `<function knn_dropout_edges at 0x7f8e75b9b3d0>` since it was wrapped with `torch.compiler.disable` (reason: None)\n  Hint: Remove the `torch.compiler.disable` call\n\n  Developer debug context: <function knn_dropout_edges at 0x7f8e75b9b3d0>\n\n For more details about this graph break, please visit: https://meta-pytorch.github.io/compile-graph-break-site/gb/gb0098.html": 6
+   }
+  },
+  "bench_store_MB": 3.5916671752929688,
+  "mean_nodes_per_graph": 7.82895819994512,
+  "num_hidden": 256
+ },
+ "training": [
+  {
+   "net": 0,
+   "epochs": 5,
+   "t_epoch_train_s": 1.952818250656128,
+   "t_epoch_es_s": 0.9466236114501954,
+   "max_mem_MB": 888.3349609375,
+   "n_pairs_split": [
+    6991,
+    2337,
+    2326
+   ],
+   "auc_test_all": 0.5857639766331663,
+   "auc_test_per_window": {
+    "MHc130_MA15": 0.6361258018799197,
+    "MHc130_MA30": 0.5292032564417404,
+    "MHc130_MA55": 0.5928319734332953,
+    "MHc130_MA65": 0.6555709493670624,
+    "MHc130_MA90": 0.5551752465603972,
+    "MHc130_MA120": 0.559671762535659,
+    "all": 0.5857639766331663
+   },
+   "dcor_es": {
+    "MHc130_MA15": {
+     "delta1": 0.33797563073329817,
+     "delta2_3mu": 0.38652862469055144,
+     "n_bkg": 86,
+     "n_bkg_3mu": 53
+    },
+    "MHc130_MA30": {
+     "delta1": 0.1287263893173686,
+     "delta2_3mu": 0.31948723258892586,
+     "n_bkg": 127,
+     "n_bkg_3mu": 91
+    },
+    "MHc130_MA55": {
+     "delta1": 0.14788396148609473,
+     "delta2_3mu": 0.2150072969171978,
+     "n_bkg": 160,
+     "n_bkg_3mu": 99
+    },
+    "MHc130_MA65": {
+     "delta1": 0.5120939704538582,
+     "delta2_3mu": 0.22119898066751625,
+     "n_bkg": 127,
+     "n_bkg_3mu": 74
+    },
+    "MHc130_MA90": {
+     "delta1": 0.5708315654087134,
+     "delta2_3mu": 0.1663551624452201,
+     "n_bkg": 447,
+     "n_bkg_3mu": 232
+    },
+    "MHc130_MA120": {
+     "delta1": 0.4082602143676376,
+     "delta2_3mu": 0.2023344329456273,
+     "n_bkg": 209,
+     "n_bkg_3mu": 140
+    }
+   }
+  },
+  {
+   "net": 1,
+   "epochs": 5,
+   "t_epoch_train_s": 0.24771742820739745,
+   "t_epoch_es_s": 0.04752182960510254,
+   "max_mem_MB": 889.31640625,
+   "n_pairs_split": [
+    6999,
+    2318,
+    2337
+   ],
+   "auc_test_all": 0.4385378777273522,
+   "auc_test_per_window": {
+    "MHc130_MA15": 0.4380420758895237,
+    "MHc130_MA30": 0.5055491341296817,
+    "MHc130_MA55": 0.4834776472618616,
+    "MHc130_MA65": 0.4736668787817514,
+    "MHc130_MA90": 0.44125111924710025,
+    "MHc130_MA120": 0.4894481014637502,
+    "all": 0.4385378777273522
+   },
+   "dcor_es": {
+    "MHc130_MA15": {
+     "delta1": 0.16858529548373333,
+     "delta2_3mu": 0.35231467989275295,
+     "n_bkg": 102,
+     "n_bkg_3mu": 61
+    },
+    "MHc130_MA30": {
+     "delta1": 0.15736243038872796,
+     "delta2_3mu": 0.1845488860510247,
+     "n_bkg": 122,
+     "n_bkg_3mu": 87
+    },
+    "MHc130_MA55": {
+     "delta1": 0.13032536616608556,
+     "delta2_3mu": 0.16634867412035906,
+     "n_bkg": 137,
+     "n_bkg_3mu": 99
+    },
+    "MHc130_MA65": {
+     "delta1": 0.10637645153825383,
+     "delta2_3mu": 0.24247739025170867,
+     "n_bkg": 129,
+     "n_bkg_3mu": 88
+    },
+    "MHc130_MA90": {
+     "delta1": 0.11004648256020313,
+     "delta2_3mu": 0.13736202310390377,
+     "n_bkg": 471,
+     "n_bkg_3mu": 252
+    },
+    "MHc130_MA120": {
+     "delta1": 0.16228782928622196,
+     "delta2_3mu": 0.2292579261307123,
+     "n_bkg": 197,
+     "n_bkg_3mu": 135
+    }
+   }
+  },
+  {
+   "net": 2,
+   "epochs": 5,
+   "t_epoch_train_s": 0.2400207042694092,
+   "t_epoch_es_s": 0.041835355758666995,
+   "max_mem_MB": 889.31640625,
+   "n_pairs_split": [
+    7016,
+    2320,
+    2318
+   ],
+   "auc_test_all": 0.5628991530542551,
+   "auc_test_per_window": {
+    "MHc130_MA15": 0.5507355338572729,
+    "MHc130_MA30": 0.607726753864666,
+    "MHc130_MA55": 0.5821485762929668,
+    "MHc130_MA65": 0.6062874407866669,
+    "MHc130_MA90": 0.5350669484799908,
+    "MHc130_MA120": 0.5614960670915237,
+    "all": 0.5628991530542551
+   },
+   "dcor_es": {
+    "MHc130_MA15": {
+     "delta1": 0.17308052708127644,
+     "delta2_3mu": 0.20072721476472163,
+     "n_bkg": 80,
+     "n_bkg_3mu": 54
+    },
+    "MHc130_MA30": {
+     "delta1": 0.10541739753157696,
+     "delta2_3mu": 0.1580433020889265,
+     "n_bkg": 128,
+     "n_bkg_3mu": 85
+    },
+    "MHc130_MA55": {
+     "delta1": 0.17204662768009804,
+     "delta2_3mu": 0.1725750013136728,
+     "n_bkg": 118,
+     "n_bkg_3mu": 75
+    },
+    "MHc130_MA65": {
+     "delta1": 0.3947673711693806,
+     "delta2_3mu": 0.19160312725604195,
+     "n_bkg": 116,
+     "n_bkg_3mu": 81
+    },
+    "MHc130_MA90": {
+     "delta1": 0.49768725497050686,
+     "delta2_3mu": 0.1348371898342678,
+     "n_bkg": 472,
+     "n_bkg_3mu": 242
+    },
+    "MHc130_MA120": {
+     "delta1": 0.3957755964042545,
+     "delta2_3mu": 0.19319594719850927,
+     "n_bkg": 225,
+     "n_bkg_3mu": 159
+    }
+   }
+  },
+  {
+   "net": 3,
+   "epochs": 5,
+   "t_epoch_train_s": 0.26072325706481936,
+   "t_epoch_es_s": 0.048422050476074216,
+   "max_mem_MB": 889.31640625,
+   "n_pairs_split": [
+    6981,
+    2353,
+    2320
+   ],
+   "auc_test_all": 0.5591815706337707,
+   "auc_test_per_window": {
+    "MHc130_MA15": 0.4995043821465807,
+    "MHc130_MA30": 0.5741462939581459,
+    "MHc130_MA55": 0.6371938889414976,
+    "MHc130_MA65": 0.6769841971560793,
+    "MHc130_MA90": 0.5748521258289209,
+    "MHc130_MA120": 0.546308406747911,
+    "all": 0.5591815706337707
+   },
+   "dcor_es": {
+    "MHc130_MA15": {
+     "delta1": 0.26592174518448547,
+     "delta2_3mu": 0.24815750957131535,
+     "n_bkg": 80,
+     "n_bkg_3mu": 49
+    },
+    "MHc130_MA30": {
+     "delta1": 0.2011267931382022,
+     "delta2_3mu": 0.2480091091534153,
+     "n_bkg": 140,
+     "n_bkg_3mu": 105
+    },
+    "MHc130_MA55": {
+     "delta1": 0.1141467663217437,
+     "delta2_3mu": 0.3083588048571105,
+     "n_bkg": 155,
+     "n_bkg_3mu": 111
+    },
+    "MHc130_MA65": {
+     "delta1": 0.42322602091975886,
+     "delta2_3mu": 0.16145679472003233,
+     "n_bkg": 130,
+     "n_bkg_3mu": 87
+    },
+    "MHc130_MA90": {
+     "delta1": 0.5019782265280022,
+     "delta2_3mu": 0.2099305359931956,
+     "n_bkg": 532,
+     "n_bkg_3mu": 287
+    },
+    "MHc130_MA120": {
+     "delta1": 0.46469801315267906,
+     "delta2_3mu": 0.1298685178134004,
+     "n_bkg": 205,
+     "n_bkg_3mu": 136
+    }
+   }
+  },
+  {
+   "net": 4,
+   "epochs": 5,
+   "t_epoch_train_s": 0.2610019683837891,
+   "t_epoch_es_s": 0.04593353271484375,
+   "max_mem_MB": 889.31591796875,
+   "n_pairs_split": [
+    6975,
+    2326,
+    2353
+   ],
+   "auc_test_all": 0.590227703397443,
+   "auc_test_per_window": {
+    "MHc130_MA15": 0.5890533478707455,
+    "MHc130_MA30": 0.6218643815468826,
+    "MHc130_MA55": 0.6139356897196866,
+    "MHc130_MA65": 0.5975174726199496,
+    "MHc130_MA90": 0.5335802960875473,
+    "MHc130_MA120": 0.5871350547688953,
+    "all": 0.590227703397443
+   },
+   "dcor_es": {
+    "MHc130_MA15": {
+     "delta1": 0.19685809986432684,
+     "delta2_3mu": 0.3673735240106897,
+     "n_bkg": 81,
+     "n_bkg_3mu": 51
+    },
+    "MHc130_MA30": {
+     "delta1": 0.22513822098675773,
+     "delta2_3mu": 0.19479119045044108,
+     "n_bkg": 117,
+     "n_bkg_3mu": 80
+    },
+    "MHc130_MA55": {
+     "delta1": 0.11941226631436641,
+     "delta2_3mu": 0.22259028685021492,
+     "n_bkg": 147,
+     "n_bkg_3mu": 106
+    },
+    "MHc130_MA65": {
+     "delta1": 0.41034168249810227,
+     "delta2_3mu": 0.17880134863894723,
+     "n_bkg": 133,
+     "n_bkg_3mu": 85
+    },
+    "MHc130_MA90": {
+     "delta1": 0.4667058828268818,
+     "delta2_3mu": 0.10934963901239679,
+     "n_bkg": 493,
+     "n_bkg_3mu": 261
+    },
+    "MHc130_MA120": {
+     "delta1": 0.31163455560163617,
+     "delta2_3mu": 0.1544970217821001,
+     "n_bkg": 187,
+     "n_bkg_3mu": 138
+    }
+   }
+  }
+ ],
+ "all_pass": true
+}

@@ -18,7 +18,7 @@ import plotter  # noqa: E402
 ERA = "2024"
 MHC = 130
 GRID_MA = list(range(15, 130, 5))   # configs/masspoints.json: MHc130_MA15-125, 5 GeV
-TEMPLATES = REPO / "SKNanoOutput" / "SignalRegionStudy" / ERA / "HcToWABTagEff_v1" / "templates"
+TEMPLATES = REPO / "SKNanoOutput" / "SignalRegionStudy" / ERA / "HcToWABTagEff_v2" / "templates"   # v2 = v1 with lumi_2024 1.016 (shapes identical)
 PREV = REPO / "docs" / "previous_analysis" / "ChargedHiggsAnalysisV3" / "SignalRegionStudyV4"
 
 CH_LABEL = {"Combined": "e#mu#mu + #mu#mu#mu", "SR1E2Mu": "e#mu#mu", "SR3Mu": "#mu#mu#mu",

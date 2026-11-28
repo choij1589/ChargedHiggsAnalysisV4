@@ -1,0 +1,29 @@
+{
+ "_doc": "Fixed hyperparameters of the 2024 parametric ParticleNet (docs/PLAN_ParticleNet.md P7, P8, P10, P11): the previous best model at MHc130_MA90 (AN-25-154 tab:BestModel: 256 nodes, Adam, initLR 1e-4, weight decay 3e-5, ReduceLROnPlateau; dropout 0.4, lambda 0.1) with the ParticleNetMD architecture (GraphNorm, 3 dynamic EdgeConv k = 4 with residual shortcut, BN and dropout, edge dropout = dropout as the previous default, mean pooling, 2 dense layers) and its training settings (batch 512, <= 120 epochs, patience 10 on the early-stopping loss, ReduceLROnPlateau factor 0.5 patience 5 stepped on the training loss, phi rotation augmentation). Read by python/train.py.",
+ "model": {
+  "num_node_features": 9,
+  "num_graph_features": 1,
+  "num_classes": 4,
+  "num_hidden": 256,
+  "dropout_p": 0.4,
+  "edge_dropout_p": 0.4,
+  "k": 4,
+  "mA_scale": 100.0
+ },
+ "optimizer": {"name": "Adam", "initLR": 0.0001, "weight_decay": 3e-05},
+ "scheduler": {"name": "ReduceLROnPlateau", "factor": 0.5, "patience": 5, "monitor": "train_loss"},
+ "training": {
+  "n_folds": 5,
+  "batch_size": 512,
+  "eval_batch_size": 512,
+  "max_epochs": 120,
+  "patience": 10,
+  "augment_phi_rotation": true,
+  "disco_lambda": 0.1,
+  "compile": true,
+  "seed": 42,
+  "drop_last": true,
+  "monitor_dcor_max_events": 4096
+ },
+ "classes": ["signal", "nonprompt", "diboson", "ttX"]
+}

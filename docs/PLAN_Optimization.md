@@ -79,6 +79,31 @@ to the framework version; one shared copy), the staged Central-result reuse, Run
 Validation: reference build bcb270f vs f45096c on the same files, bisect by commit on any difference
 (checklist in the agent report, `LOG_Computing.md`).
 
+## Validation tooling and findings (2026-11-28 evening, local)
+
+Tools in `scripts/validation/` (`compare_outputs.py`, `compare_production.py`, `set_train_prescale.py`, `README.md`
+with the KNU procedure; tested locally on the final TriLepton / DiLepton outputs and perturbed copies). Findings:
+- **The SKNano merge undoes O2.** `scripts/sknano_merge.py` runs `hadd -fk404` and checks that the result is LZ4-4
+  (lines 290, 368, 559): every merged RNTuple is rewritten as LZ4-4 (the published SR files are LZ4-4 although the
+  jobs wrote LZ4-1). The ZSTD-5 gain appears only with `--no-hadd` / index-mode outputs. **User decision:** keep
+  LZ4-4 for merged outputs (O2 without effect), or patch the merge to keep the input compression (`-fk`, with the
+  404 check relaxed) for the analysis RNTuples.
+- **QuantObj outputs do not merge** with ROOT 6.40.02: hadd aborts (`R__unzip_header: error in header`, "Could NOT
+  merge RNTuples") when it recompresses a 16-bit quantized column (scalar and vector, LZ4 and ZSTD inputs); half-
+  precision columns merge. **User decision** for the O1 comparison: run QuantObj with `--no-hadd`, or keep only the
+  half-precision columns, or write at 404 so hadd does not recompress (to be tested).
+- Half-precision masses differ by up to 4.9e-4 relative (eta / phi 16-bit: <= 4.8e-5 absolute), not 1e-4 as above.
+- No field or histogram renamed between bcb270f and f45096c: a straight comparison should differ only in
+  `Train_*:prescale`, the MeasFakeRate MET rounding (which also moves events across the QCD / W region cuts: whole
+  region histograms can differ) and the QuantObj option.
+- **(run, lumi, event) is not unique in the signal samples** (run = lumi = 1, event numbers repeat across generation
+  files; MA90 SR_3MU_Central 42,379 entries, 4,999 keys): the comparison matches by key + rank; ParticleNet score
+  files are row-aligned with the SR RNTuples instead of joined on the event key (PLAN_ParticleNet P9).
+- Builds: SKNano.py copies the install and a source snapshot into each run directory, so REF and NEW runs can be
+  generated sequentially (build bcb270f, generate, build f45096c, generate) and queued together.
+- Stand-in prescales (SR trees, all tight) reproduce the P11 preview (diboson WZ 1 / ZZ 3, 125k kept; ttX 1/2/2/6/3,
+  287k; signal 1, 1.39M); a `--min-n 100` guard keeps tiny samples at N = 1 and out of the class reference.
+
 ## Validation (on KNU after 11/30)
 
 Entry-by-entry comparison of every SR_* RNTuple and bin-by-bin histograms against the previous

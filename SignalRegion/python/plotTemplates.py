@@ -2,7 +2,7 @@
 
   python SignalRegion/python/plotTemplates.py [--style an|pw] [--points 30,60,90,110]
 
-Input: SKNanoOutput/SignalRegionStudy/2024/HcToWABTagEff_v1/templates/MHc130_MA<mA>/Baseline/mc-signal/2024/
+Input: SKNanoOutput/SignalRegionStudy/2024/HcToWABTagEff_v2/templates/MHc130_MA<mA>/Baseline/mc-signal/2024/
 <SR1E2Mu|SR3Mu>/ (local copy of the /pnfs products): shapes.root (directory <channel>_2024, histograms
 <process>_2024 and <process>_2024_<syst>Up/Down), datacard.txt (lnN rates), binning.json (window, core bins,
 pairing). data_obs is the Asimov background sum (SR blinded): it is only checked against the stack sum,
