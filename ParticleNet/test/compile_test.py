@@ -1,7 +1,7 @@
 """Environment check for the 2024 ParticleNet (docs/PLAN_ParticleNet.md P10, 2026-11-28): a 3-layer dynamic edge-convolution
 network (k-NN in feature space with torch_cluster + PyG EdgeConv; PyG DynamicEdgeConv needs pyg-lib >= 0.6, not available
 for py314 + torch 2.14), FP32 training steps on the GPU, eager vs torch.compile (k-NN excluded from tracing: no fake-tensor
-kernel for torch_cluster.knn). Run: micromamba run -n NanoV15 python ParticleNet/test/compile_test.py
+kernel for torch_cluster.knn). Run: micromamba run -n PNet python ParticleNet/test/compile_test.py
 Result 2026-11-28 (RTX 2070 SUPER): eager 50 steps 0.41 s, compiled 0.32 s (x1.28), first compiled step 14 s, 221 MB."""
 import os, time, torch, torch_cluster
 from torch import nn

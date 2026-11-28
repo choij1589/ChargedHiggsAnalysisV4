@@ -117,20 +117,20 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
   writes a score RNTuple per sample and lane (event key, list of (mA, 4 class scores)), joined by event
   key in SignalRegionStudy `sample_reader`. Score files go to our SKNanoOutput on /pnfs for the KNU
   chain (or the chain runs locally in the el9 container). No PyG in SKNano's environments.
-- **P10 environment: decided (user, 2026-11-28): (b) PyTorch + PyG in `NanoV15`, latest versions;
-  installed locally 2026-11-28:** pytorch 2.14.1 (cuda134_mkl), pytorch_geometric 2.8.1,
-  pytorch_cluster 1.6.3 (CUDA 13.4 build), triton 3.7.1, cuda-cudart-dev 13.5 (headers for triton);
-  driver 620.70 (CUDA 13.5). Lock `config/env/NanoV15_local_explicit.txt` (before: scratch copy).
-  - Side effects: triton needs gcc < 16, so the compiler / C++ headers go 16.2 -> 15.3 (runtime
-    libgcc/libstdcxx stay 16.2; ROOT 6.40.02 unchanged): ROOT's interpreter now prints "cannot
-    extract standard library include paths" and uses its fallback; RDataFrame JIT, gInterpreter.Declare,
-    test_plotter.py and plotLimits.py all work (to watch). BLAS openblas -> MKL.
+- **P10 environment: decided (user, 2026-11-28): a separate env `PNet`** (first tried in `NanoV15`,
+  reverted: triton needs gcc < 16, which forced NanoV15's compiler / C++ headers 16.2 -> 15.3 and broke
+  ROOT's interpreter include-path detection). `PNet` (local, `config/env/PNet_local_explicit.txt`):
+  python 3.14, pytorch 2.14.1 (cuda134_mkl), pytorch_geometric 2.8.1, pytorch_cluster 1.6.3 (CUDA 13.4),
+  triton 3.7.1, cuda-cudart-dev 13.5, uproot 5.7.8, awkward, numpy, scikit-learn, pyyaml; **no ROOT**
+  (RNTuples read with uproot, checked on the SR RNTuples incl. vector / uint64 fields). Training,
+  scoring in PNet; plots in NanoV15 with plotter.py from the JSON / npz outputs. NanoV15 recreated from
+  its morning lock (307/307 packages, ROOT clean). Driver 620.70 (CUDA 13.5).
   - PyG 2.8 `DynamicEdgeConv` needs pyg-lib >= 0.6 (py314 builds only up to torch 2.12): the layer is
-    built as `torch_cluster.knn_graph` + PyG `EdgeConv` (same operation).
+    `torch_cluster.knn_graph` + PyG `EdgeConv` (same operation).
   - `torch.compile` works with the k-NN call excluded from tracing (`torch.compiler.disable`; no
     fake-tensor kernel for torch_cluster.knn) and GraphNorm / pooling given the batch size: eager 50 FP32
-    steps 0.41 s, compiled 0.32 s (x1.28), first step 14 s, 221 MB (`ParticleNet/test/compile_test.py`).
-  - KNU NanoV15: same packages to add later (CPU use only there; CLAUDE.md: same env on both sides).
+    steps 0.40 s, compiled 0.32 s (x1.26), first step 14 s, 221 MB (`ParticleNet/test/compile_test.py`,
+    `micromamba run -n PNet`).
 - **Hardware (user, 2026-11-28):** local RTX 2070 SUPER (8 GB). gamsa (RTX 3090, code under ~/Sync) is a
   possible fallback but heavily used by another user: train on the local host.
 
