@@ -2,6 +2,19 @@
 
 Decisions and findings for the Systematic uncertainties section of AN-26-267: the nuisance parameters of the datacards, their sources, sizes, correlation naming and impacts. Newest entry first.
 
+
+## 2026-11-28 night (AN SystUnc updated, an-writer)
+
+- **Luminosity** (`Sections/SystUnc.tex`, `tab:SystUncSummary` row and the "Integrated luminosity" paragraph of `ssec:ExpSyst`): 1.6%, `lumi_2024` lnN 1.016 on all simulated processes (`configs/systematics.2024.json#SR1E2Mu/SR3Mu.lumi_2024`; 828 entries 1.016 in the 69 v2 datacards), LUM POG preliminary, CERN-CMS-DP-2026-003; 109.82 /fb from PPD kept. The S6 user-decision TODO is replaced by a bibliography TODO (DP note) and a later-phase TODO (lumi_1/2/3 split for the combination, PLAN 6.2; brilcalc check of 109.82 vs 110.11 /fb).
+- **Impact ranking fixed** (`ssec:SystImpacts`): nonprompt mu first at MA60/90/110 (0.072, 0.18, 0.058); at MA30 the tt cross-section placeholder first (0.0437 vs 0.0405, `impacts_asimov/mc-signal/MHc130_MA30.Combined.impacts.json`). Stated that the impacts are from the v1 datacards (lumi 2.0%); TODO to rerun on v2.
+- **Post-fit constraints from FitDiagnostics** (new paragraph in `ssec:SystImpacts`, from `results/json/fitdiag/mc-signal/*.fitdiag.json#s+b`, v2): nonprompt_mu 0.57-0.77 (0.775 / 0.717 / 0.570 / 0.592), nonprompt_el 0.74-0.93 at MA60-110 and 0.99 at MA30, all other non-MC-stat >= 0.90 (min 0.905, pileup at MA60). The constraint statement previously taken from the impact fits is replaced by these numbers. Refers to `tab:app-FitDiagConstraints`.
+- **Interpolation status** (`ssec:InterpUncSummary`, table caption): stale "interpolated templates not yet produced / not yet used" replaced: the fine-grid limits (376 points, 88 groups of v2 interp-signal datacards with `CMS_interp_norm` lnN and `CMS_interp_{res,scale}` shape? on the signal, e.g. MA56) use them; the 23 simulated points do not.
+- Section builds (rc 0).
+- **Open:**
+  - PLAN 6.1: impacts on the v2 datacards; CMS-DP-2026-003 bib entry.
+  - user decision, PLAN 6.1: tt cross-section reference and uncertainty (placeholder 1.044).
+  - The summary-table yield changes (`tab:SystUncSummary`) are still from the v1 templates (`HcToWABTagEff_v1`); v2 is documented as a lumi-only change (S6 entry below); the template-derived values were not re-read from the v2 `shapes_original.root` (to check, PLAN 6.1).
+
 ## 2026-11-28 (S6 decided)
 
 - **S6 (user):** `lumi_2024` lnN 1.016 (LUM 2024 preliminary 1.6%, CERN-CMS-DP-2026-003); the luminosity stays 109.82 /fb from PPD (the B2G/LUM page may not be up to date). `configs/systematics.2024.json` (SRS aafed83); limits rerun with output tag `HcToWABTagEff_v2` (cluster 2256095, 14:55).

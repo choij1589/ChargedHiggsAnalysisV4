@@ -2,6 +2,19 @@
 
 Decisions and findings for the Background estimation section of AN-26-267. Newest entry first.
 
+
+## 2026-11-28 (ttZ CR as the final validation region, user; AN by an-writer)
+
+- **Decided (user, 2026-11-28):** "We forgot tt+Z control region - it should be noted also in Background estimation section as a final validation region"; "ttZ region do not have to be blinded". Supersedes the 2026-11-27 entry below that stated the ttZ CR of the previous AN as not part of the study.
+- **Definition** (AN-25-154 `Sections/EventSel.tex:12`, `tab:RegionComparison_ttZ` :72-95, `Sections/BkgEst.tex:4-11`, `ssec:TTZCR` :1093-1100; old `PromptAnalyzer.py:489-490, 596-627`): exactly 2 OS electrons + 1 muon tight, no additional loose lepton; pT(e) > 15 (10) GeV tight (loose), pT(mu) > 10 GeV; EMu triggers with trigger-safe pT; 60 < m(ee) < 120 GeV; N_j >= 2, N_b >= 1; no MET cut. Signal-depleted (A -> ee suppressed by (m_e/m_mu)^2 ~ 2e-5), composition similar to the SR, orthogonal to e mu mu / mu mu mu, not blinded.
+- **Implementation checked against the code:** SKNano `HcToWA_Run3` commit 6b1a017 (local clone, 2026-11-28 21:20; compile check local, not yet on KNU): TriLepton channel `2E1MU`, region `TTZ`, flag `Run2E1Mu`; `HcToWABase::PassEEMuPlateau` (mu > 25 and e1, e2 > 15, or (e1 > 25 or e2 > 25) and mu > 10 GeV, raw pT); `SelectLane` is2E1Mu (1 loose muon, exactly 2 veto electrons, both loose with pT > 15); OS electrons and the m(ee) window on pT_corr four-vectors; `inReg[kTTZ]` = N_j >= 2, N_b >= 1; data tight filled (not blinded); nonprompt lanes with both flavours of fake rates; MC weights as e mu mu (EMu trigger SF over all three leptons); histograms only (no SR / Train RNTuple). The selection agrees with the AN-25-154 definition. The ConvSF is not applied in TriLepton (it is applied downstream, per channel e mu mu / mu mu mu).
+- **AN** (`docs/AN-26-267/Sections/BkgEst.tex`): section intro (four CRs, ttZ CR item), `tab:TriLepRegions` (e e mu column and the ttZ CR row), new subsection `ssec:BkgEst_TTZCR` (definition, role, three properties, the chi2 procedure of AN-25-154 as the planned test, proposed measurement region of the B2G blinded GoF, not decided), implementation status (6b1a017, next production). Most of the text was written by the interrupted an-writer run (21:17); this run updated the stale "being implemented / not yet checked" statements and the TODO phase tags. Section builds (rc 0).
+- **Open:**
+  - next production (after 2026-11-30), PLAN 3: ttZ CR yields per process, data/prediction, data/MC distributions with chi2/ndf and p-value (TODO in `ssec:BkgEst_TTZCR`).
+  - user decision, PLAN 3.4 / 3.6: uncertainties of the nonprompt and conversion estimates in the ttZ CR test (30% / 20% of AN-25-154, or the 2024 nuisances) and which ConvSF applies to e e mu (only e mu mu and mu mu mu measured).
+  - user decision, PLAN 6.1: ttZ CR as the measurement region of the blinded GoF (proposed; also in `LOG_Result.md`).
+  - later phase, PLAN 5.3: ParticleNet scores in the ttZ CR.
+
 ## 2026-11-28 (DY vs DYG overlap)
 
 - **DY 2J vs DYGto2LG overlap**: moved to the next iteration of the analysis (user), together with the eps_p treatment, the prompt subtraction of the fake rates and the DYGto2LG comparison. The SR prediction and the b-tag cross-check use DY 2J without DYGto2LG for now.

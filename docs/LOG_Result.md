@@ -2,6 +2,24 @@
 
 Decisions and findings for the Results section of AN-26-267 (expected limits, Combine diagnostics). Newest entry first.
 
+
+## 2026-11-28 night (impacts and Asimov GoF on v2)
+
+- Impacts (`runImpacts.sh`) and the saturated Asimov GoF (500 toys) rerun locally on the v2 datacards (lumi 1.016) at MA30/60/90/110 (~3 min per point; SRS results/json/{impacts_asimov,gof}). Leading impacts change by <= 1.1% vs v1 and the ranking is unchanged (MA30: tt cross section 0.0437 first, nonprompt_mu 0.0407; MA60/90/110: nonprompt_mu 0.072 / 0.182 / 0.059 first); GoF statistic 0, p = 1 (Asimov, technical). Impact plots regenerated (`SignalRegion/plots/AN/2024/impacts/`). The AN statement "impacts from the v1 datacards" is now outdated.
+
+## 2026-11-28 night (AN Results updated, an-writer)
+
+- **Interrupted run:** the previous an-writer run had rewritten `Sections/Result.tex` and `Appendix/Result.tex` (21:20-21:21) but not the logs. The appendix had shell-expansion damage (zsh unquoted heredoc: `$r`, `$(r - r_inj)`, `$+1` -> `0`, `$+0` -> `1`, `\\` -> `\`): the b-only pull column of `tab:app-FitDiagConstraints` showed 0.38 / 1.52 / 0.24 / 1.61 / 1.54 / 1.31 / 1.82 / 1.80 instead of +1.38 / +0.52 / +1.24 / +0.61 / +0.54 / +0.31 / +0.82 / +0.80, and several `$r ...$` were missing. Repaired from the fitdiag JSONs; all table numbers re-read.
+- **Verified against the files (python3, 2026-11-28):** `tab:ExpLimits` = `limits.2024[.SR1E2Mu|.SR3Mu].Asymptotic.Baseline.json` (v2, lumi 1.016) at all 23 points; v2 vs v1 (`git show 186d5bd`): exp0 identical, edges <= 0.75 / 0.52 / 0.56 / 1.01%; fine grid 376 keys, interp/mc closure 0.949-1.051, median 0.992; fitdiag s+b status 0 / covQual 3, constraints nonprompt_mu 0.775 / 0.717 / 0.570 / 0.592, nonprompt_el 0.994 / 0.935 / 0.742 / 0.817, others >= 0.905 (pileup at MA60), mcstat < 0.9 11/39, 22/28, 13/34, 10/34; b-only pulls as above; injection: all 20 rows of `tab:app-Injection` match `tests.*.{r_inj,n_ok,r_minus_rinj_gauss,pull_gauss}`.
+- **Edited this run:** `ssec:Limits` low-mA unevenness: cause stated (background-template fluctuations in the 0.4-0.6 GeV core bins; MA25 SR3Mu nonprompt 6.73 +- 2.21 in the peak bin vs 3.83 / 1.91; MA30 SR1E2Mu nonprompt 0.00 / 0.99 +- 0.74 under the peak vs 3.85 / 4.36, conversion 4.64 +- 4.61 from one event; read from v2 `shapes.root`), no smoothing in this round (user, `LOG_TmpCnstrct.md` 2026-11-28 evening), expected to shrink with 2025; the "not yet investigated" statement and TODO replaced by a later-phase smoothing TODO. `ssec:LimitsFineGrid`: same cause for the fine-grid wiggles. Appendix: table and caption repairs, `\resizebox` on `tab:app-Injection`, `\allowbreak` in the plot path.
+- **Kept from the interrupted run (checked):** lumi 1.6% text, `ssec:LimitsFineGrid` with `fig:ExpLimitsFineGrid`, `ssec:Impacts` (impacts, pulls/constraints, injection, +-1 sigma templates, GoF with the ttZ CR proposed, F-test), appendix `ssec:appendix_pulls`, `ssec:appendix_injection`, `ssec:appendix_syst_templates` (5 template figures, 6 injection figures in `Figures/Result/2024/{injection,systematics}/`). No "FitDiagnostics pending" statement is left. Section and appendix build (rc 0; only cross-file references undefined; overfull 3 pt and 16 pt in the appendix).
+- **Open:**
+  - PLAN 6.1: impacts (and the Asimov GoF) are still from the v1 datacards (lumi 1.020; files 11:55-12:01); rerun on v2 (TODO in `ssec:Impacts` and `ssec:SystImpacts`).
+  - user decision, PLAN 6.1: measurement region of the blinded GoF (proposal: ttZ CR, e e mu; needs its datacard and observable).
+  - PLAN 6.1: bibliography entry for CMS-DP-2026-003 (not in `AN-26-267.bib`; the text cites the LumiRecommendationsRun3 TWiki).
+  - PLAN 6.1: tZq SR1E2Mu MA60 pileup-down template (one bin x30) and low-statistics shape templates; F-test confirmation with the Combine contact.
+  - later phase: smoothing of background templates after the 2025 extension (user); HybridNew; uncertainty breakdown (6.3).
+
 ## 2026-11-28 evening (B2G statistics tests, run locally during the KNU downtime)
 
 User: "Do your work locally." Combine runs on the local host in the el9 container (`SignalRegionStudy/scripts/cmssw_local.sh`, CMSSW_16_0_0 + Combine v11.1.0) on the local copy of the v2 templates (`SKNanoOutput/SignalRegionStudy/2024/HcToWABTagEff_v2/`, lumi 1.016). Products in `SignalRegionStudy/results/json/{fitdiag,injection,injection_bkgx10}/mc-signal/` (SRS bc0d4f3); ROOT outputs under each point's `combine_output/` in the local copy (not on /pnfs).
