@@ -92,8 +92,10 @@ Research summary 2026-11-28 (paths under `docs/previous_analysis/`):
   μμμ events, ~17% negative-weight, vs ~50k per class per fold before). Negative-weight events (two
   loose-not-tight leptons) dropped from the training, kept in the check (default, as proposed).
   Check after training: score distributions of MC vs data loose-not-tight per mA window.
-- **P6 diboson b-jet promotion:** re-derive the rank-promotion tables for 2024 (previous method) or use
-  genuine b-tagged WZ / ZZ only (low statistics).
+- **P6 diboson: decided (user, 2026-11-28): (a) genuine b-tagged WZ + ZZ only, no rank promotion.**
+  2024 SR (all tight, N_b >= 1) raw / weighted: WZ 36256 / 77.0 (eμμ), 48222 / 107.6 (μμμ); ZZ 59624 /
+  43.2, 63264 / 47.9 (final production, 2026-11-28) - about 200k genuine events, above the previous
+  per-class cap; promotion only if a window turns out short of diboson events.
 - **P7 mass decorrelation:** keep DisCo lambda = 0.1 on the A-candidate mass(es) without a lambda scan,
   or drop it (with window-based parametrization the score shape on the mass matters less).
 - **P8 splits:** (a) event-number based folds (train / valid / test), templates from all events as
